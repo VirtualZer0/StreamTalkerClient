@@ -1,4 +1,4 @@
-name: Release Build
+name: Release
 
 on:
   push:
@@ -7,7 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-and-release:
+  release:
+    name: Build and Release
     runs-on: ubuntu-latest
 
     steps:
@@ -75,7 +76,6 @@ jobs:
             -c Release \
             -r win-x64 \
             --no-self-contained \
-            -p:PublishSingleFile=true \
             -p:PublishReadyToRun=true \
             -p:Version=${{ steps.extract_version.outputs.version }} \
             -o ./publish/win-x64-native
@@ -87,7 +87,6 @@ jobs:
             -c Release \
             -r linux-x64 \
             --no-self-contained \
-            -p:PublishSingleFile=true \
             -p:PublishReadyToRun=true \
             -p:Version=${{ steps.extract_version.outputs.version }} \
             -o ./publish/linux-x64-native
