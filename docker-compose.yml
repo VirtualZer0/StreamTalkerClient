@@ -2,7 +2,7 @@ name: stream-talker-server
 
 services:
   stream-talker-server:
-    image: virtualzer0/stream-talker-server:1.0.0-full
+    image: virtualzer0/stream-talker-server:v1.0.0
     container_name: stream-talker-server
     ports:
       - "7860:7860"

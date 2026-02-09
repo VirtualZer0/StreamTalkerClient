@@ -197,10 +197,8 @@ public class WizardPlatformService
                 FileName = "docker",
                 Arguments = "compose up -d",
                 WorkingDirectory = workingDirectory,
-                RedirectStandardOutput = true,
-                RedirectStandardError = true,
                 UseShellExecute = false,
-                CreateNoWindow = true
+                CreateNoWindow = false
             };
 
             using var process = Process.Start(psi);
@@ -209,33 +207,15 @@ public class WizardPlatformService
                 return (false, "Failed to start Docker Compose process.");
             }
 
-            var output = new System.Text.StringBuilder();
-
-            process.OutputDataReceived += (_, e) =>
-            {
-                if (!string.IsNullOrEmpty(e.Data))
-                {
-                    output.AppendLine(e.Data);
-                    progress.Report(e.Data);
-                }
-            };
-
-            process.ErrorDataReceived += (_, e) =>
-            {
-                if (!string.IsNullOrEmpty(e.Data))
-                {
-                    output.AppendLine(e.Data);
-                    progress.Report(e.Data);
-                }
-            };
-
-            process.BeginOutputReadLine();
-            process.BeginErrorReadLine();
-
+            progress.Report("Docker Compose is running...");
             await process.WaitForExitAsync();
 
             var success = process.ExitCode == 0;
-            return (success, output.ToString());
+            var message = success
+                ? "Docker Compose finished."
+                : $"Docker Compose exited with code {process.ExitCode}.";
+            progress.Report(message);
+            return (success, message);
         }
         catch (Exception ex)
         {

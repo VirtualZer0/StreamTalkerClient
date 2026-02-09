@@ -95,9 +95,7 @@ public partial class ServerUpdateDialogViewModel : ViewModelBase
                     FileName = "cmd.exe",
                     Arguments = $"/c docker compose -f \"{composePath}\" up -d --pull always",
                     UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true
+                    CreateNoWindow = false
                 };
             }
             else
@@ -107,9 +105,7 @@ public partial class ServerUpdateDialogViewModel : ViewModelBase
                     FileName = "/bin/bash",
                     Arguments = $"-c \"docker compose -f '{composePath}' up -d --pull always\"",
                     UseShellExecute = false,
-                    RedirectStandardOutput = true,
-                    RedirectStandardError = true,
-                    CreateNoWindow = true
+                    CreateNoWindow = false
                 };
             }
 
@@ -122,17 +118,7 @@ public partial class ServerUpdateDialogViewModel : ViewModelBase
                 return;
             }
 
-            var stdoutTask = process.StandardOutput.ReadToEndAsync();
-            var stderrTask = process.StandardError.ReadToEndAsync();
             await process.WaitForExitAsync();
-            var stdout = await stdoutTask;
-            var stderr = await stderrTask;
-
-            var output = stdout;
-            if (!string.IsNullOrWhiteSpace(stderr))
-                output = string.IsNullOrWhiteSpace(output) ? stderr : $"{output}\n{stderr}";
-
-            UpdateOutputText = output;
 
             if (process.ExitCode == 0)
             {
