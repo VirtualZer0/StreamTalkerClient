@@ -76,6 +76,8 @@ jobs:
             -c Release \
             -r win-x64 \
             --no-self-contained \
+            -p:PublishSingleFile=false \
+            -p:EnableCompressionInSingleFile=false \
             -p:PublishReadyToRun=true \
             -p:Version=${{ steps.extract_version.outputs.version }} \
             -o ./publish/win-x64-native
@@ -87,6 +89,8 @@ jobs:
             -c Release \
             -r linux-x64 \
             --no-self-contained \
+            -p:PublishSingleFile=false \
+            -p:EnableCompressionInSingleFile=false \
             -p:PublishReadyToRun=true \
             -p:Version=${{ steps.extract_version.outputs.version }} \
             -o ./publish/linux-x64-native
