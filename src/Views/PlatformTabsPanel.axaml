@@ -1,0 +1,135 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:StreamTalkerClient.ViewModels"
+             x:Class="StreamTalkerClient.Views.PlatformTabsPanel"
+             x:DataType="vm:MainWindowViewModel"
+             x:CompileBindings="True">
+
+    <TabControl Theme="{StaticResource CardTabControl}"
+                SelectedIndex="{Binding ActiveServiceTabIndex}">
+
+        <!-- Twitch Tab -->
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal" Spacing="6"
+                            ToolTip.Tip="{Binding TwitchTabTooltip}">
+                    <Ellipse Width="8" Height="8"
+                             Fill="{Binding TwitchConnectionState,
+                                 Converter={StaticResource ConnectionStateToColorConverter}}"
+                             VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding TwitchTabHeader}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </TabItem.Header>
+            <StackPanel Spacing="8" Margin="8">
+
+                <!-- Channel + Connect/Disconnect Button -->
+                <Grid ColumnDefinitions="Auto,8,*,8,Auto">
+                    <TextBlock Grid.Column="0"
+                               Text="{DynamicResource ChannelLabel}"
+                               Classes="FieldLabel"
+                               MinWidth="65" />
+                    <TextBox Grid.Column="2"
+                             Text="{Binding Channel}"
+                             Watermark="{DynamicResource EnterChannelName}" />
+                    <Button Grid.Column="4"
+                            Command="{Binding ConnectTwitchCommand}"
+                            Content="{Binding TwitchConnectButtonText}"
+                            MinWidth="120" />
+                </Grid>
+
+                <!-- Reward Selection -->
+                <Grid ColumnDefinitions="Auto,8,*,8,Auto">
+                    <TextBlock Grid.Column="0"
+                               Text="{DynamicResource RewardLabel}"
+                               Classes="FieldLabel"
+                               MinWidth="65" />
+                    <ComboBox Grid.Column="2"
+                              ItemsSource="{Binding Rewards}"
+                              SelectedIndex="{Binding SelectedRewardIndex}"
+                              HorizontalAlignment="Stretch" />
+                    <Button Grid.Column="4"
+                            Content="{DynamicResource RefreshButton}"
+                            Command="{Binding RefreshRewardsCommand}"
+                            MinWidth="120" />
+                </Grid>
+
+                <!-- Toggles -->
+                <StackPanel Orientation="Vertical" Spacing="4">
+                    <ToggleSwitch IsChecked="{Binding ReadAllMessages}"
+                                  OnContent="{DynamicResource ReadAllMessages}"
+                                  OffContent="{DynamicResource ReadAllMessages}"
+                                  HorizontalAlignment="Left" />
+                    <ToggleSwitch IsChecked="{Binding RequireVoice}"
+                                  OnContent="{DynamicResource RequireVoice}"
+                                  OffContent="{DynamicResource RequireVoice}"
+                                  HorizontalAlignment="Left" />
+                </StackPanel>
+
+            </StackPanel>
+        </TabItem>
+
+        <!-- VK Play Tab -->
+        <TabItem>
+            <TabItem.Header>
+                <StackPanel Orientation="Horizontal" Spacing="6"
+                            ToolTip.Tip="{Binding VkTabTooltip}">
+                    <Ellipse Width="8" Height="8"
+                             Fill="{Binding VkConnectionState,
+                                 Converter={StaticResource ConnectionStateToColorConverter}}"
+                             VerticalAlignment="Center" />
+                    <TextBlock Text="{Binding VkTabHeader}"
+                               VerticalAlignment="Center" />
+                </StackPanel>
+            </TabItem.Header>
+            <StackPanel Spacing="8" Margin="8">
+
+                <!-- Channel + Connect/Disconnect Button -->
+                <Grid ColumnDefinitions="Auto,8,*,8,Auto">
+                    <TextBlock Grid.Column="0"
+                               Text="{DynamicResource ChannelLabel}"
+                               Classes="FieldLabel"
+                               MinWidth="65" />
+                    <TextBox Grid.Column="2"
+                             Text="{Binding VkChannel}"
+                             Watermark="{DynamicResource EnterVKChannelName}" />
+                    <Button Grid.Column="4"
+                            Command="{Binding ConnectVkPlayCommand}"
+                            Content="{Binding VkConnectButtonText}"
+                            MinWidth="120" />
+                </Grid>
+
+                <!-- Reward Selection -->
+                <Grid ColumnDefinitions="Auto,8,*,8,Auto">
+                    <TextBlock Grid.Column="0"
+                               Text="{DynamicResource RewardLabel}"
+                               Classes="FieldLabel"
+                               MinWidth="65" />
+                    <ComboBox Grid.Column="2"
+                              ItemsSource="{Binding VkRewards}"
+                              SelectedIndex="{Binding SelectedVkRewardIndex}"
+                              HorizontalAlignment="Stretch" />
+                    <Button Grid.Column="4"
+                            Content="{DynamicResource RefreshButton}"
+                            Command="{Binding RefreshVkRewardsCommand}"
+                            MinWidth="120" />
+                </Grid>
+
+                <!-- Toggles -->
+                <StackPanel Orientation="Vertical" Spacing="4">
+                    <ToggleSwitch IsChecked="{Binding VkReadAllMessages}"
+                                  OnContent="{DynamicResource ReadAllMessages}"
+                                  OffContent="{DynamicResource ReadAllMessages}"
+                                  HorizontalAlignment="Left" />
+                    <ToggleSwitch IsChecked="{Binding VkRequireVoice}"
+                                  OnContent="{DynamicResource RequireVoice}"
+                                  OffContent="{DynamicResource RequireVoice}"
+                                  HorizontalAlignment="Left" />
+                </StackPanel>
+
+            </StackPanel>
+        </TabItem>
+
+    </TabControl>
+
+</UserControl>

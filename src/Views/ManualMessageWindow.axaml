@@ -1,0 +1,169 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:StreamTalkerClient.ViewModels"
+        xmlns:components="using:StreamTalkerClient.Components"
+        x:Class="StreamTalkerClient.Views.ManualMessageWindow"
+        x:DataType="vm:ManualMessageViewModel"
+        Title="{DynamicResource ManualMessageTitle}"
+        Icon="avares://StreamTalkerClient/Assets/icon.ico"
+        Width="600" Height="650"
+        MinWidth="500" MinHeight="550"
+        WindowStartupLocation="CenterOwner"
+        CanResize="True"
+        ShowInTaskbar="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="36"
+        SystemDecorations="BorderOnly">
+
+    <Window.Styles>
+        <Style Selector="TextBlock.section-label">
+            <Setter Property="Margin" Value="0,8,0,4"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="FontSize" Value="12"/>
+        </Style>
+        <Style Selector="NumericUpDown">
+            <Setter Property="FormatString" Value="F2"/>
+            <Setter Property="Margin" Value="0,0,0,12"/>
+        </Style>
+    </Window.Styles>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Row 0: Custom title bar -->
+        <components:CustomTitleBar Grid.Row="0" />
+
+        <!-- Row 1: Main content -->
+        <Grid Grid.Row="1" Margin="16" RowDefinitions="Auto,*,Auto">
+            <!-- Message Text -->
+            <StackPanel Grid.Row="0">
+                <TextBlock Classes="section-label" Text="{DynamicResource ManualMessageTextLabel}"/>
+                <TextBox Text="{Binding MessageText}"
+                         Watermark="{DynamicResource ManualMessageTextWatermark}"
+                         AcceptsReturn="True"
+                         TextWrapping="Wrap"
+                         Height="120"
+                         VerticalContentAlignment="Top"
+                         Margin="0,0,0,12"/>
+            </StackPanel>
+
+            <!-- Parameters Panel -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <Grid ColumnDefinitions="140,*"
+                      RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto">
+
+                    <!-- Voice Selection -->
+                    <TextBlock Grid.Row="0" Grid.Column="0"
+                               Text="{DynamicResource VoiceLabel}"
+                               Classes="FieldLabel"
+                               Margin="0,0,0,12"/>
+                    <ComboBox Grid.Row="0" Grid.Column="1"
+                              ItemsSource="{Binding AvailableVoices}"
+                              SelectedItem="{Binding SelectedVoice}"
+                              Margin="0,0,0,12">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <!-- Language Selection -->
+                    <TextBlock Grid.Row="1" Grid.Column="0"
+                               Text="{DynamicResource LanguageLabel}"
+                               Classes="FieldLabel"
+                               Margin="0,0,0,12"/>
+                    <ComboBox Grid.Row="1" Grid.Column="1"
+                              ItemsSource="{Binding AvailableLanguages}"
+                              SelectedItem="{Binding SelectedLanguage}"
+                              Margin="0,0,0,12"/>
+
+                    <!-- Speed -->
+                    <TextBlock Grid.Row="2" Grid.Column="0"
+                               Text="{DynamicResource SpeedLabel}"
+                               Classes="FieldLabel"
+                               Margin="0,0,0,12"/>
+                    <NumericUpDown Grid.Row="2" Grid.Column="1"
+                                   Value="{Binding Speed}"
+                                   Minimum="0.5"
+                                   Maximum="2.0"
+                                   Increment="0.1"
+                                   FormatString="F2"
+                                   Margin="0,0,0,12"/>
+
+                    <!-- Temperature -->
+                    <TextBlock Grid.Row="3" Grid.Column="0"
+                               Text="{DynamicResource TemperatureLabel}"
+                               Classes="FieldLabel"
+                               Margin="0,0,0,12"/>
+                    <NumericUpDown Grid.Row="3" Grid.Column="1"
+                                   Value="{Binding Temperature}"
+                                   Minimum="0.1"
+                                   Maximum="2.0"
+                                   Increment="0.1"
+                                   FormatString="F2"
+                                   Margin="0,0,0,12"/>
+
+                    <!-- Max New Tokens -->
+                    <TextBlock Grid.Row="4" Grid.Column="0"
+                               Text="{DynamicResource MaxNewTokensLabel}"
+                               Classes="FieldLabel"
+                               Margin="0,0,0,12"/>
+                    <NumericUpDown Grid.Row="4" Grid.Column="1"
+                                   Value="{Binding MaxNewTokens}"
+                                   Minimum="256"
+                                   Maximum="8192"
+                                   Increment="128"
+                                   FormatString="F0"
+                                   Margin="0,0,0,12"/>
+
+                    <!-- Repetition Penalty -->
+                    <TextBlock Grid.Row="5" Grid.Column="0"
+                               Text="{DynamicResource RepetitionPenaltyLabel}"
+                               Classes="FieldLabel"
+                               Margin="0,0,0,12"/>
+                    <NumericUpDown Grid.Row="5" Grid.Column="1"
+                                   Value="{Binding RepetitionPenalty}"
+                                   Minimum="1.0"
+                                   Maximum="2.0"
+                                   Increment="0.05"
+                                   FormatString="F2"
+                                   Margin="0,0,0,12"/>
+
+                    <!-- Do Sample -->
+                    <CheckBox Grid.Row="6" Grid.Column="1"
+                              Content="{DynamicResource DoSampleLabel}"
+                              IsChecked="{Binding DoSample}"
+                              Margin="0,0,0,8"/>
+                </Grid>
+            </ScrollViewer>
+
+            <!-- Action Buttons -->
+            <Grid Grid.Row="2" ColumnDefinitions="*,*" Margin="0,12,0,0">
+                <Button Grid.Column="0"
+                        Content="{DynamicResource ResetToDefaultsButton}"
+                        Command="{Binding ResetToDefaultsCommand}"
+                        HorizontalAlignment="Left"
+                        MinWidth="80"/>
+                <StackPanel Grid.Column="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Spacing="8">
+                    <Button Content="{DynamicResource AddToQueueButton}"
+                            Command="{Binding AddMessageCommand}"
+                            IsEnabled="{Binding CanAdd}"
+                            Classes="accent"
+                            MinWidth="100"/>
+                    <Button Content="{DynamicResource CancelButton}"
+                            Command="{Binding CancelCommand}"
+                            MinWidth="100"/>
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+    </Grid>
+</Window>

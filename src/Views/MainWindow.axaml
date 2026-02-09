@@ -1,0 +1,237 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:StreamTalkerClient.ViewModels"
+        xmlns:views="using:StreamTalkerClient.Views"
+        xmlns:components="using:StreamTalkerClient.Components"
+        x:Class="StreamTalkerClient.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        x:CompileBindings="True"
+        Title="{DynamicResource AppTitle}"
+        Icon="avares://StreamTalkerClient/Assets/icon.ico"
+        MinWidth="460" MinHeight="500"
+        Width="520" Height="620"
+        CanResize="True"
+        WindowStartupLocation="CenterScreen"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="36"
+        SystemDecorations="BorderOnly">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Window.Styles>
+        <!-- Loading spinner rotation animation -->
+        <Style Selector="PathIcon.spinning">
+            <Style.Animations>
+                <Animation Duration="0:0:1" IterationCount="INFINITE">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="RotateTransform.Angle" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="RotateTransform.Angle" Value="360" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+
+        <!-- Queue toggle tab styles extracted to separate resource -->
+        <StyleInclude Source="avares://StreamTalkerClient/Styles/QueueToggleStyles.axaml" />
+    </Window.Styles>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Row 0: Custom title bar -->
+        <components:CustomTitleBar Grid.Row="0" />
+
+        <!-- Row 1: Main content -->
+        <Grid x:Name="RootGrid" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+        <!-- Column 0: Main content -->
+        <Panel Grid.Column="0">
+
+            <DockPanel>
+                <!-- Bottom bar (fixed, non-scrolling) -->
+                <Border DockPanel.Dock="Bottom"
+                        BorderBrush="{StaticResource ColorBorderSubtle}"
+                        BorderThickness="0,1,0,0"
+                        Padding="{StaticResource ThicknessLG},6">
+                    <StackPanel Orientation="Horizontal"
+                                Spacing="6"
+                                HorizontalAlignment="Right">
+                        <ToggleSwitch IsChecked="{Binding AutoUnload}"
+                                      OnContent="{DynamicResource AutoUnloadLabel}"
+                                      OffContent="{DynamicResource AutoUnloadLabel}"
+                                      VerticalAlignment="Center" />
+                        <NumericUpDown Value="{Binding AutoUnloadMinutes}"
+                                       Minimum="1" Maximum="1440"
+                                       Increment="5" FormatString="0"
+                                       Width="70"
+                                       VerticalAlignment="Center" />
+                        <TextBlock Text="{DynamicResource MinutesLabel}"
+                                   VerticalAlignment="Center"
+                                   FontSize="12" />
+                    </StackPanel>
+                </Border>
+
+                <!-- Scrollable content (fills remaining area) -->
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <StackPanel Margin="16,8,16,16"
+                                VerticalAlignment="Top"
+                                Spacing="12">
+
+                        <!-- Neural Indicator -->
+                        <components:NeuralIndicator State="{Binding IndicatorState}"
+                                                    StatusText="{Binding ModelStatusText}"
+                                                    IndicatorSize="180"
+                                                    VramUsagePercent="{Binding GpuUsagePercent}"
+                                                    VramLimitPercent="{Binding VramLimitPercent}"
+                                                    VramShowLimit="{Binding HasVramLimit}"
+                                                    VramTooltip="{Binding VramTooltipText}"
+                                                    HorizontalAlignment="Center" />
+
+                        <!-- Power button + Model switcher row -->
+                        <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Center"
+                                    Spacing="12"
+                                    Margin="0,0,0,8">
+
+                            <!-- Power button -->
+                            <Button Command="{Binding TogglePowerCommand}"
+                                    IsEnabled="{Binding !IsModelOperationInProgress}"
+                                    Width="44" Height="44"
+                                    Padding="0"
+                                    HorizontalContentAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    ToolTip.Tip="{Binding IsModelLoaded,
+                                        Converter={StaticResource BoolToStringConverter},
+                                        ConverterParameter=PowerUnloadTooltip|PowerLoadTooltip}">
+                                <Panel>
+                                    <!-- Loading spinner shown during model operations -->
+                                    <PathIcon Data="{StaticResource SemiIconLoading}"
+                                              Width="22" Height="22"
+                                              IsVisible="{Binding IsModelOperationInProgress}"
+                                              Classes="spinning"
+                                              Foreground="Orange"
+                                              RenderTransformOrigin="50%,50%">
+                                        <PathIcon.RenderTransform>
+                                            <RotateTransform />
+                                        </PathIcon.RenderTransform>
+                                    </PathIcon>
+                                    <!-- Power icon shown when not loading -->
+                                    <PathIcon Data="{StaticResource SemiIconQuit}"
+                                              Width="22" Height="22"
+                                              IsVisible="{Binding !IsModelOperationInProgress}"
+                                              Foreground="{Binding IsModelLoaded,
+                                                  Converter={StaticResource PowerButtonColorConverter}}" />
+                                </Panel>
+                            </Button>
+
+                            <!-- Model switcher -->
+                            <Border Theme="{StaticResource RadioButtonGroupBorder}">
+                                <ListBox ItemsSource="{Binding Models}"
+                                         SelectedItem="{Binding SelectedModel}"
+                                         IsEnabled="{Binding !IsModelOperationInProgress}"
+                                         Theme="{DynamicResource ButtonRadioGroupListBox}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}"
+                                                       FontSize="14"
+                                                       FontWeight="DemiBold"
+                                                       VerticalAlignment="Center" />
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Border>
+
+                        </StackPanel>
+
+                        <!-- Notifications -->
+                        <components:NotificationHost />
+
+                        <!-- Platform Tabs -->
+                        <views:PlatformTabsPanel />
+
+                    </StackPanel>
+                </ScrollViewer>
+            </DockPanel>
+
+            <!-- Settings gear button (overlaid top-right, doesn't take layout space) -->
+            <Button Command="{Binding OpenSettingsWindowCommand}"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="0,8,8,0"
+                    Padding="8"
+                    Classes="Borderless"
+                    ToolTip.Tip="{DynamicResource SettingsWindowTitle}">
+                <PathIcon Data="{StaticResource SemiIconSetting}"
+                          Width="20" Height="20" />
+            </Button>
+
+            <!-- Manual message button (overlaid top-right, below settings) -->
+            <Button Click="OnAddManualMessageClick"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="0,48,8,0"
+                    Padding="8"
+                    Classes="Borderless"
+                    ToolTip.Tip="{DynamicResource AddManualMessageTooltip}">
+                <PathIcon Data="{StaticResource SemiIconComment}"
+                          Width="20" Height="20" />
+            </Button>
+
+            <!-- Voice management button (overlaid top-right, below manual message) -->
+            <Button Click="OnManageVoicesClick"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="0,88,8,0"
+                    Padding="8"
+                    Classes="Borderless"
+                    ToolTip.Tip="{DynamicResource ManageButton}">
+                <PathIcon Data="{StaticResource SemiIconVolume2}"
+                          Width="20" Height="20" />
+            </Button>
+
+        </Panel>
+
+        <!-- Column 1: Queue toggle tab (always visible) -->
+        <ToggleButton Grid.Column="1"
+                      IsChecked="{Binding IsQueuePanelOpen}"
+                      VerticalAlignment="Stretch"
+                      MinWidth="24"
+                      Padding="4,0"
+                      CornerRadius="0"
+                      Classes="queue-tab">
+            <LayoutTransformControl>
+                <LayoutTransformControl.LayoutTransform>
+                    <RotateTransform Angle="-90" />
+                </LayoutTransformControl.LayoutTransform>
+                <TextBlock Text="{DynamicResource QueueTabLabel}"
+                           FontSize="12"
+                           FontWeight="SemiBold" />
+            </LayoutTransformControl>
+        </ToggleButton>
+
+        <!-- Column 2: Queue content panel -->
+        <Border Grid.Column="2"
+                IsVisible="{Binding IsQueuePanelOpen}"
+                BorderBrush="{StaticResource ColorBorderSubtle}"
+                BorderThickness="1,0,0,0">
+            <views:QueuePanel />
+        </Border>
+
+        </Grid>
+
+    </Grid>
+</Window>

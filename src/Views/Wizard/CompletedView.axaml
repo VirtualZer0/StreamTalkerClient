@@ -1,0 +1,38 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:StreamTalkerClient.ViewModels.Wizard"
+             x:Class="StreamTalkerClient.Views.Wizard.CompletedView"
+             x:DataType="vm:FirstLaunchWizardViewModel">
+    <StackPanel Spacing="32" MaxWidth="480" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40">
+        <!-- Success Icon -->
+        <PathIcon Data="{StaticResource SemiIconCheckCircleStroked}"
+                  Width="96" Height="96"
+                  HorizontalAlignment="Center"
+                  Foreground="{DynamicResource SemiSuccessBrush}" />
+
+        <!-- Success Title -->
+        <TextBlock Text="{DynamicResource WizardCompletedTitle}"
+                   FontSize="24"
+                   FontWeight="SemiBold"
+                   TextAlignment="Center" />
+
+        <!-- Success Message -->
+        <TextBlock Text="{DynamicResource WizardCompletedMessage}"
+                   TextWrapping="Wrap"
+                   FontSize="15"
+                   TextAlignment="Center"
+                   LineHeight="22"
+                   Foreground="{DynamicResource SemiTextSecondaryBrush}" />
+
+        <!-- Start Button -->
+        <Button HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Click="OnStartButtonClick"
+                Height="48">
+            <StackPanel Orientation="Horizontal" Spacing="12">
+                <PathIcon Data="{StaticResource SemiIconPlay}" Width="24" Height="24" />
+                <TextBlock Text="{DynamicResource WizardStartButton}" VerticalAlignment="Center" FontSize="16" />
+            </StackPanel>
+        </Button>
+    </StackPanel>
+</UserControl>

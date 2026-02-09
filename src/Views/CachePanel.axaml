@@ -1,0 +1,45 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:StreamTalkerClient.ViewModels"
+             x:Class="StreamTalkerClient.Views.CachePanel"
+             x:DataType="vm:MainWindowViewModel"
+             x:CompileBindings="True">
+
+    <StackPanel Spacing="8">
+
+        <!-- Cache Size Text -->
+        <TextBlock Text="{Binding CacheSizeText}"
+                   FontSize="12" />
+
+        <!-- Cache Progress Bar (0-100 percent) -->
+        <ProgressBar Minimum="0" Maximum="100"
+                     Value="{Binding CacheProgress}"
+                     Height="14" />
+
+        <!-- Compress + Clear + Cache Limit -->
+        <Grid ColumnDefinitions="Auto,8,Auto,*,Auto,8,Auto,8,Auto">
+            <Button Grid.Column="0"
+                    Content="{DynamicResource CompressButton}"
+                    Command="{Binding CompressCacheCommand}"
+                    MinWidth="80" />
+            <Button Grid.Column="2"
+                    Content="{DynamicResource ClearButton}"
+                    Command="{Binding ClearCacheCommand}"
+                    MinWidth="80" />
+            <TextBlock Grid.Column="4"
+                       Text="{DynamicResource CacheLimitLabel}"
+                       Classes="FieldLabel" />
+            <NumericUpDown Grid.Column="6"
+                           Value="{Binding CacheLimitMB}"
+                           Minimum="10" Maximum="10000"
+                           Increment="10" FormatString="0"
+                           Width="90"
+                           VerticalAlignment="Center" />
+            <TextBlock Grid.Column="8"
+                       Text="{DynamicResource MBLabel}"
+                       VerticalAlignment="Center" />
+        </Grid>
+
+    </StackPanel>
+
+</UserControl>

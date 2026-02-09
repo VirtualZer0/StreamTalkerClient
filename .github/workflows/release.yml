@@ -1,0 +1,191 @@
+name: Release Build
+
+on:
+  push:
+    branches:
+      - 'release/**'
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout code
+      - uses: actions/checkout@v4
+
+      # 2. Setup .NET SDK
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            10.0.x
+            9.0.x
+            8.0.x
+
+      # 3. Extract version from branch name
+      - name: Extract version from branch
+        id: extract_version
+        run: |
+          BRANCH_NAME="${{ github.ref }}"
+          VERSION=$(echo $BRANCH_NAME | sed 's|refs/heads/release/||')
+
+          # Validate version format (X.Y.Z)
+          if ! echo "$VERSION" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "Error: Invalid version format '$VERSION'. Expected X.Y.Z"
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "version_tag=v$VERSION" >> $GITHUB_OUTPUT
+          echo "Building version: $VERSION"
+
+      # 4. Restore dependencies
+      - name: Restore dependencies
+        run: dotnet restore src/StreamTalkerClient.csproj
+
+      # 5. Build Windows Self-Contained
+      - name: Build Windows x64 (self-contained)
+        run: |
+          dotnet publish src/StreamTalkerClient.csproj \
+            -c Release \
+            -r win-x64 \
+            --self-contained \
+            -p:PublishSingleFile=true \
+            -p:PublishReadyToRun=true \
+            -p:Version=${{ steps.extract_version.outputs.version }} \
+            -o ./publish/win-x64-sc
+
+      # 6. Build Linux Self-Contained
+      - name: Build Linux x64 (self-contained)
+        run: |
+          dotnet publish src/StreamTalkerClient.csproj \
+            -c Release \
+            -r linux-x64 \
+            --self-contained \
+            -p:PublishSingleFile=true \
+            -p:PublishReadyToRun=true \
+            -p:Version=${{ steps.extract_version.outputs.version }} \
+            -o ./publish/linux-x64-sc
+
+      # 7. Build Windows Native
+      - name: Build Windows x64 (native)
+        run: |
+          dotnet publish src/StreamTalkerClient.csproj \
+            -c Release \
+            -r win-x64 \
+            --no-self-contained \
+            -p:PublishSingleFile=true \
+            -p:PublishReadyToRun=true \
+            -p:Version=${{ steps.extract_version.outputs.version }} \
+            -o ./publish/win-x64-native
+
+      # 8. Build Linux Native
+      - name: Build Linux x64 (native)
+        run: |
+          dotnet publish src/StreamTalkerClient.csproj \
+            -c Release \
+            -r linux-x64 \
+            --no-self-contained \
+            -p:PublishSingleFile=true \
+            -p:PublishReadyToRun=true \
+            -p:Version=${{ steps.extract_version.outputs.version }} \
+            -o ./publish/linux-x64-native
+
+      # 9. Set executable permissions
+      - name: Set Linux permissions
+        run: |
+          chmod +x ./publish/linux-x64-sc/StreamTalkerClient
+          chmod +x ./publish/linux-x64-native/StreamTalkerClient
+
+      # 10. Package Windows Self-Contained (default, no suffix)
+      - name: Package Windows Self-Contained
+        run: |
+          cd ./publish/win-x64-sc
+          FILE_COUNT=$(ls -1 | wc -l)
+          if [ $FILE_COUNT -eq 1 ]; then
+            cp StreamTalkerClient.exe ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64.exe
+            echo "win_sc_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64.exe" >> $GITHUB_ENV
+          else
+            zip -r ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64.zip .
+            echo "win_sc_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64.zip" >> $GITHUB_ENV
+          fi
+
+      # 11. Package Linux Self-Contained (default, no suffix)
+      - name: Package Linux Self-Contained
+        run: |
+          cd ./publish/linux-x64-sc
+          FILE_COUNT=$(ls -1 | wc -l)
+          if [ $FILE_COUNT -eq 1 ]; then
+            cp StreamTalkerClient ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64
+            chmod +x ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64
+            echo "linux_sc_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64" >> $GITHUB_ENV
+          else
+            tar -czf ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64.tar.gz .
+            echo "linux_sc_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64.tar.gz" >> $GITHUB_ENV
+          fi
+
+      # 12. Package Windows Native (-native suffix)
+      - name: Package Windows Native
+        run: |
+          cd ./publish/win-x64-native
+          FILE_COUNT=$(ls -1 | wc -l)
+          if [ $FILE_COUNT -eq 1 ]; then
+            cp StreamTalkerClient.exe ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64-native.exe
+            echo "win_native_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64-native.exe" >> $GITHUB_ENV
+          else
+            zip -r ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64-native.zip .
+            echo "win_native_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64-native.zip" >> $GITHUB_ENV
+          fi
+
+      # 13. Package Linux Native (-native suffix)
+      - name: Package Linux Native
+        run: |
+          cd ./publish/linux-x64-native
+          FILE_COUNT=$(ls -1 | wc -l)
+          if [ $FILE_COUNT -eq 1 ]; then
+            cp StreamTalkerClient ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64-native
+            chmod +x ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64-native
+            echo "linux_native_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64-native" >> $GITHUB_ENV
+          else
+            tar -czf ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64-native.tar.gz .
+            echo "linux_native_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64-native.tar.gz" >> $GITHUB_ENV
+          fi
+
+      # 14. Extract changelog
+      - name: Extract changelog for version
+        id: changelog
+        run: |
+          VERSION="${{ steps.extract_version.outputs.version }}"
+
+          if [ -f CHANGELOG.md ]; then
+            # Extract section for this version
+            awk -v ver="$VERSION" '
+              /^## \['"$VERSION"'\]/ { flag=1; next }
+              /^## \[/ && flag { exit }
+              flag { print }
+            ' CHANGELOG.md > release-notes.md
+
+            # Check if we got any content
+            if [ ! -s release-notes.md ]; then
+              echo "Warning: Version $VERSION not found in CHANGELOG.md"
+              echo "Release v$VERSION of StreamTalkerClient." > release-notes.md
+              echo "" >> release-notes.md
+              echo "See [CHANGELOG.md](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md) for details." >> release-notes.md
+            fi
+          else
+            echo "Error: CHANGELOG.md not found"
+            echo "Release v$VERSION of StreamTalkerClient." > release-notes.md
+          fi
+
+      # 15. Create GitHub Release with all 4 builds
+      - name: Create GitHub Release
+        run: |
+          gh release create ${{ steps.extract_version.outputs.version_tag }} \
+            --title "Stream Talker Client [v${{ steps.extract_version.outputs.version }}]" \
+            --notes-file release-notes.md \
+            ${{ env.win_sc_asset }} \
+            ${{ env.linux_sc_asset }} \
+            ${{ env.win_native_asset }} \
+            ${{ env.linux_native_asset }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

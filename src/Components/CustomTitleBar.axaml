@@ -1,0 +1,66 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:components="using:StreamTalkerClient.Components"
+             x:Class="StreamTalkerClient.Components.CustomTitleBar">
+
+    <UserControl.Styles>
+        <StyleInclude Source="/Styles/CustomTitleBarStyles.axaml" />
+    </UserControl.Styles>
+
+    <Border Classes="custom-titlebar">
+        <Grid ColumnDefinitions="Auto,*,Auto">
+
+            <!-- Left section: App icon + title -->
+            <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                <Image x:Name="TitleIcon"
+                       Classes="title-icon"
+                       Source="avares://StreamTalkerClient/Assets/Icons/icon-16.png" />
+                <TextBlock x:Name="TitleText"
+                           Classes="title-text"
+                           Text="{Binding $parent[Window].Title}" />
+            </StackPanel>
+
+            <!-- Center: Transparent drag region -->
+            <Border Grid.Column="1"
+                    x:Name="DragRegion"
+                    Background="Transparent"
+                    PointerPressed="OnDragRegionPointerPressed"
+                    DoubleTapped="OnDragRegionDoubleTapped" />
+
+            <!-- Right section: Window control buttons -->
+            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="0">
+
+                <!-- Minimize button -->
+                <Button x:Name="MinimizeButton"
+                        Classes="title-button"
+                        Click="OnMinimizeClick"
+                        ToolTip.Tip="{DynamicResource WindowMinimizeTooltip}">
+                    <PathIcon Data="{StaticResource WindowMinimizeIcon}"
+                              Width="10" Height="10" />
+                </Button>
+
+                <!-- Maximize/Restore button -->
+                <Button x:Name="MaximizeRestoreButton"
+                        Classes="title-button"
+                        Click="OnMaximizeRestoreClick"
+                        ToolTip.Tip="{DynamicResource WindowMaximizeTooltip}">
+                    <PathIcon x:Name="MaximizeRestoreIcon"
+                              Data="{StaticResource WindowMaximizeIcon}"
+                              Width="10" Height="10" />
+                </Button>
+
+                <!-- Close button -->
+                <Button x:Name="CloseButton"
+                        Classes="title-button title-button-close"
+                        Click="OnCloseClick"
+                        ToolTip.Tip="{DynamicResource WindowCloseTooltip}">
+                    <PathIcon Data="{StaticResource WindowCloseIcon}"
+                              Width="10" Height="10" />
+                </Button>
+
+            </StackPanel>
+
+        </Grid>
+    </Border>
+
+</UserControl>

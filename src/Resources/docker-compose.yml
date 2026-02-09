@@ -1,0 +1,35 @@
+name: stream-talker-server
+
+services:
+  stream-talker-server:
+    image: virtualzer0/stream-talker-server:1.0.0-full
+    container_name: stream-talker-server
+    ports:
+      - "7860:7860"
+    volumes:
+      - stream-talker-server-data:/data
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+    deploy:
+      resources:
+        limits:
+          cpus: '0.70' # limit
+          memory: 4G
+        reservations:
+          cpus: '0.25'
+          memory: 1024M
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:7860/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+volumes:
+  stream-talker-server-data:
+    name: stream-talker-server-data

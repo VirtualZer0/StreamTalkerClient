@@ -1,0 +1,51 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:models="using:StreamTalkerClient.Models"
+             xmlns:vm="using:StreamTalkerClient.ViewModels"
+             x:Class="StreamTalkerClient.Components.NotificationHost"
+             x:DataType="vm:MainWindowViewModel">
+
+    <UserControl.Styles>
+        <StyleInclude Source="avares://StreamTalkerClient/Styles/NotificationStyles.axaml" />
+    </UserControl.Styles>
+
+    <ItemsControl ItemsSource="{Binding Notifications}"
+                  x:CompileBindings="False">
+        <ItemsControl.ItemTemplate>
+            <DataTemplate DataType="models:NotificationItem">
+                <Border Classes.notification-item="{Binding !IsRemoving}"
+                        Classes.notification-removing="{Binding IsRemoving}"
+                        Background="{Binding Severity, Converter={StaticResource SeverityToBgBrush}}"
+                        BorderBrush="{Binding Severity, Converter={StaticResource SeverityToAccentBrush}}"
+                        BorderThickness="4,0,0,0"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,6">
+                    <Border.RenderTransform>
+                        <TranslateTransform />
+                    </Border.RenderTransform>
+                    <Grid ColumnDefinitions="*,Auto">
+                        <TextBlock Grid.Column="0"
+                                   Text="{Binding Message}"
+                                   TextWrapping="Wrap"
+                                   VerticalAlignment="Center"
+                                   FontSize="13" />
+                        <Button Grid.Column="1"
+                                IsVisible="{Binding IsCloseable}"
+                                Command="{Binding DataContext.DismissNotificationCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                CommandParameter="{Binding Id}"
+                                Classes="Borderless"
+                                Padding="4"
+                                Margin="8,0,0,0"
+                                VerticalAlignment="Center">
+                            <PathIcon Data="{StaticResource SemiIconClear}"
+                                      Width="12" Height="12"
+                                      Foreground="{Binding Severity, Converter={StaticResource SeverityToAccentBrush}}" />
+                        </Button>
+                    </Grid>
+                </Border>
+            </DataTemplate>
+        </ItemsControl.ItemTemplate>
+    </ItemsControl>
+
+</UserControl>

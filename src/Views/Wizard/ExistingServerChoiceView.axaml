@@ -1,0 +1,82 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:StreamTalkerClient.ViewModels.Wizard"
+             xmlns:models="using:StreamTalkerClient.Models"
+             x:Class="StreamTalkerClient.Views.Wizard.ExistingServerChoiceView"
+             x:DataType="vm:FirstLaunchWizardViewModel">
+    <StackPanel Spacing="32" MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40">
+        <!-- Title -->
+        <TextBlock Text="{DynamicResource WizardExistingServerTitle}"
+                   TextWrapping="Wrap"
+                   FontSize="18"
+                   FontWeight="SemiBold"
+                   TextAlignment="Center" />
+
+        <!-- Choice Cards -->
+        <StackPanel Spacing="16">
+            <!-- Local Server Card -->
+            <Border BorderBrush="{DynamicResource SemiBorderBrush2}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="20"
+                    Background="{DynamicResource SemiCardBackground}">
+                <StackPanel Spacing="12">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource SemiIconServer}" Width="24" Height="24" Foreground="{DynamicResource SemiPrimaryBrush}" />
+                        <TextBlock Text="{DynamicResource WizardOnThisComputer}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Text="{DynamicResource WizardOnThisComputerHint}"
+                               TextWrapping="Wrap"
+                               Foreground="{DynamicResource SemiTextSecondaryBrush}"
+                               FontSize="14" />
+                    <Button HorizontalAlignment="Right"
+                            Command="{Binding GoToStepCommand}"
+                            CommandParameter="{x:Static models:WizardStep.LocalCheck}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="{DynamicResource WizardNextButton}" VerticalAlignment="Center" />
+                            <PathIcon Data="{StaticResource SemiIconArrowRight}" Width="16" Height="16" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+
+            <!-- Remote Server Card -->
+            <Border BorderBrush="{DynamicResource SemiBorderBrush2}"
+                    BorderThickness="1"
+                    CornerRadius="8"
+                    Padding="20"
+                    Background="{DynamicResource SemiCardBackground}">
+                <StackPanel Spacing="12">
+                    <StackPanel Orientation="Horizontal" Spacing="12">
+                        <PathIcon Data="{StaticResource SemiIconCloudStroked}" Width="24" Height="24" Foreground="{DynamicResource SemiPrimaryBrush}" />
+                        <TextBlock Text="{DynamicResource WizardOnAnotherComputer}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <TextBlock Text="{DynamicResource WizardOnAnotherComputerHint}"
+                               TextWrapping="Wrap"
+                               Foreground="{DynamicResource SemiTextSecondaryBrush}"
+                               FontSize="14" />
+                    <Button HorizontalAlignment="Right"
+                            Command="{Binding GoToStepCommand}"
+                            CommandParameter="{x:Static models:WizardStep.RemoteServerInput}">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <TextBlock Text="{DynamicResource WizardNextButton}" VerticalAlignment="Center" />
+                            <PathIcon Data="{StaticResource SemiIconArrowRight}" Width="16" Height="16" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+
+        <!-- Back Button -->
+        <Button HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Command="{Binding GoToStepCommand}"
+                CommandParameter="{x:Static models:WizardStep.Welcome}"
+                Height="44">
+            <StackPanel Orientation="Horizontal" Spacing="10">
+                <PathIcon Data="{StaticResource SemiIconArrowLeft}" Width="20" Height="20" />
+                <TextBlock Text="{DynamicResource WizardBackButton}" VerticalAlignment="Center" />
+            </StackPanel>
+        </Button>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,128 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:StreamTalkerClient.ViewModels"
+        xmlns:components="using:StreamTalkerClient.Components"
+        x:Class="StreamTalkerClient.Views.UpdateDialogWindow"
+        x:DataType="vm:UpdateDialogViewModel"
+        x:CompileBindings="True"
+        Title="{DynamicResource UpdateAvailableTitle}"
+        Icon="avares://StreamTalkerClient/Assets/icon.ico"
+        Width="500" Height="420"
+        MinWidth="400" MinHeight="350"
+        CanResize="True"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="36"
+        SystemDecorations="BorderOnly">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Row 0: Custom title bar -->
+        <components:CustomTitleBar Grid.Row="0" />
+
+        <!-- Row 1: Content -->
+        <Grid Grid.Row="1" Margin="12" RowDefinitions="Auto,*,Auto,Auto,Auto,Auto">
+
+            <!-- Version info -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8"
+                        HorizontalAlignment="Center" Margin="0,0,0,12">
+                <TextBlock Text="{Binding CurrentVersion}"
+                           FontSize="16" Opacity="0.6" />
+                <TextBlock Text="→" FontSize="16"
+                           VerticalAlignment="Center" />
+                <TextBlock Text="{Binding NewVersion}"
+                           FontSize="16" FontWeight="Bold"
+                           Foreground="#10B981" />
+            </StackPanel>
+
+            <!-- Changelog -->
+            <Border Grid.Row="1"
+                    BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Margin="0,0,0,12">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <TextBlock Text="{Binding Changelog}"
+                               TextWrapping="Wrap"
+                               Margin="12,8"
+                               FontSize="13" />
+                </ScrollViewer>
+            </Border>
+
+            <!-- Progress bar -->
+            <ProgressBar Grid.Row="2"
+                         Value="{Binding DownloadProgress}"
+                         Maximum="100"
+                         IsVisible="{Binding IsDownloading}"
+                         Height="6"
+                         Margin="0,0,0,8" />
+
+            <!-- Error message -->
+            <TextBlock Grid.Row="3"
+                       Text="{Binding ErrorMessage}"
+                       Foreground="#EF4444"
+                       TextWrapping="Wrap"
+                       IsVisible="{Binding HasError}"
+                       Margin="0,0,0,8"
+                       FontSize="12" />
+
+            <!-- Asset info -->
+            <TextBlock Grid.Row="4"
+                       Text="{Binding AssetName}"
+                       Opacity="0.5"
+                       FontSize="11"
+                       HorizontalAlignment="Center"
+                       Margin="0,0,0,4" />
+
+            <!-- Buttons -->
+            <StackPanel Grid.Row="5" Orientation="Horizontal"
+                        HorizontalAlignment="Center" Spacing="8">
+                <!-- Update button -->
+                <Button Command="{Binding UpdateCommand}"
+                        MinWidth="100"
+                        IsVisible="{Binding !IsDownloading}"
+                        IsEnabled="{Binding !IsInstalling}"
+                        Content="{DynamicResource UpdateButton}" />
+
+                <!-- Cancel button (during download) -->
+                <Button Command="{Binding CancelCommand}"
+                        MinWidth="80"
+                        IsVisible="{Binding IsDownloading}"
+                        Content="{DynamicResource UpdateCancelButton}" />
+
+                <!-- Skip This Version -->
+                <Button Command="{Binding SkipThisVersionCommand}"
+                        MinWidth="100"
+                        Classes="Tertiary"
+                        IsVisible="{Binding !IsDownloading}"
+                        IsEnabled="{Binding !IsInstalling}"
+                        Content="{DynamicResource SkipThisVersionButton}" />
+
+                <!-- Release Page -->
+                <Button Command="{Binding OpenReleasePageCommand}"
+                        MinWidth="100"
+                        Classes="Tertiary"
+                        IsVisible="{Binding !IsDownloading}"
+                        IsEnabled="{Binding !IsInstalling}"
+                        Content="{DynamicResource UpdateReleasePageButton}" />
+
+                <!-- Later -->
+                <Button Command="{Binding CancelCommand}"
+                        MinWidth="80"
+                        Classes="Tertiary"
+                        IsVisible="{Binding !IsDownloading}"
+                        IsEnabled="{Binding !IsInstalling}"
+                        Content="{DynamicResource UpdateLaterButton}" />
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+
+</Window>

@@ -1,0 +1,94 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:StreamTalkerClient.ViewModels.Wizard"
+             xmlns:models="using:StreamTalkerClient.Models"
+             x:Class="StreamTalkerClient.Views.Wizard.WslInstallView"
+             x:DataType="vm:FirstLaunchWizardViewModel">
+    <StackPanel Spacing="28" MaxWidth="520" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40">
+        <!-- Icons -->
+        <Panel Width="64" Height="64" HorizontalAlignment="Center">
+            <!-- Download icon (when not loading) -->
+            <PathIcon Data="{StaticResource SemiIconDownload}"
+                      Width="64" Height="64"
+                      Foreground="{DynamicResource SemiPrimaryBrush}"
+                      IsVisible="{Binding !IsLoading}" />
+
+            <!-- Loading spinner -->
+            <PathIcon Data="{StaticResource SemiIconLoading}"
+                      Width="64" Height="64"
+                      Foreground="{DynamicResource SemiPrimaryBrush}"
+                      Classes="spinning"
+                      IsVisible="{Binding IsLoading}" />
+        </Panel>
+
+        <!-- Instructions -->
+        <TextBlock Text="{DynamicResource WizardWslRequired}"
+                   TextWrapping="Wrap"
+                   FontSize="15"
+                   TextAlignment="Center"
+                   LineHeight="22"
+                   IsVisible="{Binding !IsLoading}" />
+
+        <!-- Status Message (during installation) -->
+        <Border BorderBrush="#4080C0"
+                BorderThickness="2"
+                CornerRadius="8"
+                Padding="16"
+                Background="#1A3050"
+                IsVisible="{Binding IsLoading}">
+            <TextBlock Text="{Binding StatusMessage}"
+                       TextWrapping="Wrap"
+                       FontSize="14"
+                       TextAlignment="Center"
+                       LineHeight="20" />
+        </Border>
+
+        <!-- Error Message -->
+        <Border BorderBrush="#E04040"
+                BorderThickness="2"
+                CornerRadius="8"
+                Padding="16"
+                Background="#3A1010"
+                IsVisible="{Binding ErrorMessage, Converter={x:Static StringConverters.IsNotNullOrEmpty}}">
+            <Grid ColumnDefinitions="Auto,*">
+                <PathIcon Grid.Column="0"
+                          Data="{StaticResource SemiIconClose}"
+                          Width="20" Height="20"
+                          Foreground="#E06060"
+                          VerticalAlignment="Top"
+                          Margin="0,2,8,0" />
+                <TextBlock Grid.Column="1"
+                           Text="{Binding ErrorMessage}"
+                           TextWrapping="Wrap"
+                           Foreground="#FFB0B0"
+                           LineHeight="20" />
+            </Grid>
+        </Border>
+
+        <!-- Action Buttons -->
+        <StackPanel Spacing="12">
+            <Button HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding InstallWslCommand}"
+                    IsEnabled="{Binding !IsLoading}"
+                    Height="44">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <PathIcon Data="{StaticResource SemiIconDownload}" Width="20" Height="20" />
+                    <TextBlock Text="{DynamicResource WizardInstallWsl}" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+
+            <Button HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding GoToStepCommand}"
+                    CommandParameter="{x:Static models:WizardStep.Welcome}"
+                    IsEnabled="{Binding !IsLoading}"
+                    Height="44">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <PathIcon Data="{StaticResource SemiIconArrowLeft}" Width="20" Height="20" />
+                    <TextBlock Text="{DynamicResource WizardBackButton}" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

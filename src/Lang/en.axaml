@@ -1,0 +1,377 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="using:System">
+
+    <!-- App -->
+    <sys:String x:Key="AppTitle">Stream Talker Client</sys:String>
+
+    <!-- Platform Tabs -->
+    <sys:String x:Key="TwitchTab">Twitch</sys:String>
+    <sys:String x:Key="VKPlayTab">VK Play</sys:String>
+    <sys:String x:Key="TwitchConnectionGroup">Twitch Connection</sys:String>
+    <sys:String x:Key="VKPlayConnectionGroup">VK Play Live Connection</sys:String>
+
+    <!-- Connection Controls -->
+    <sys:String x:Key="ChannelLabel">Channel:</sys:String>
+    <sys:String x:Key="ConnectButton">Connect</sys:String>
+    <sys:String x:Key="DisconnectButton">Disconnect</sys:String>
+    <sys:String x:Key="StatusLabel">Status:</sys:String>
+    <sys:String x:Key="DisconnectedStatus">Disconnected</sys:String>
+    <sys:String x:Key="ConnectingStatus">Connecting...</sys:String>
+    <sys:String x:Key="ConnectedStatus">Connected</sys:String>
+    <sys:String x:Key="JoinedStatus">In channel</sys:String>
+    <sys:String x:Key="ErrorStatus">Error</sys:String>
+    <sys:String x:Key="JoiningChannelStatus">Connected, joining channel...</sys:String>
+    <sys:String x:Key="SubscribingStatus">Connected, subscribing...</sys:String>
+    <sys:String x:Key="ReconnectButton">Reconnect</sys:String>
+    <sys:String x:Key="JoinedFormat">Joined: {0}</sys:String>
+    <sys:String x:Key="ConnectionError">Connection error</sys:String>
+    <sys:String x:Key="ServerUnavailable">Unavailable</sys:String>
+    <sys:String x:Key="RewardLabel">Reward:</sys:String>
+    <sys:String x:Key="NoneReward">(None)</sys:String>
+    <sys:String x:Key="RefreshButton">Refresh</sys:String>
+    <sys:String x:Key="ReadAllMessages">Read all messages</sys:String>
+    <sys:String x:Key="RequireVoice">Require voice</sys:String>
+
+    <!-- Voice Settings -->
+    <sys:String x:Key="VoiceSettingsGroup">Voice Settings</sys:String>
+    <sys:String x:Key="DefaultVoiceLabel">Default voice:</sys:String>
+    <sys:String x:Key="ManageButton">Manage</sys:String>
+    <sys:String x:Key="SyntaxLabel">Syntax:</sys:String>
+    <sys:String x:Key="SyntaxBracket">[voice] text</sys:String>
+    <sys:String x:Key="SyntaxFirstWord">voice text (first word)</sys:String>
+    <sys:String x:Key="VoiceBindingsButton">Voice Bindings</sys:String>
+
+    <!-- Model Control -->
+    <sys:String x:Key="ModelControlGroup">Model Control</sys:String>
+    <sys:String x:Key="ModelLabel">Model:</sys:String>
+    <sys:String x:Key="AttentionLabel">Attention:</sys:String>
+    <sys:String x:Key="QuantLabel">Quantization:</sys:String>
+    <sys:String x:Key="WarmupLabel">Warmup:</sys:String>
+    <sys:String x:Key="ForceCpuLabel">Force CPU</sys:String>
+    <sys:String x:Key="SamplingLabel">Sampling</sys:String>
+    <sys:String x:Key="ModelStatusLabel">Status:</sys:String>
+    <sys:String x:Key="ModelUnloaded">Unloaded</sys:String>
+    <sys:String x:Key="ModelLoading">Loading...</sys:String>
+    <sys:String x:Key="ModelLoaded">Loaded</sys:String>
+    <sys:String x:Key="ModelLoadError">Load error</sys:String>
+    <sys:String x:Key="ModelWarmingUp">Warming up...</sys:String>
+    <sys:String x:Key="ModelSynthesizing">Synthesizing...</sys:String>
+    <sys:String x:Key="ModelUnknown">Unknown</sys:String>
+    <sys:String x:Key="ModelNotFound">Not found</sys:String>
+    <sys:String x:Key="AutoUnloadFormat">Loaded (auto-unload: {0}m)</sys:String>
+    <sys:String x:Key="UnknownStatus">Unknown</sys:String>
+    <sys:String x:Key="ConnectAction">Connect</sys:String>
+    <sys:String x:Key="LoadButton">Load</sys:String>
+    <sys:String x:Key="UnloadButton">Unload</sys:String>
+    <sys:String x:Key="AutoUnloadLabel">Auto-unload</sys:String>
+    <sys:String x:Key="MinutesLabel">min</sys:String>
+    <sys:String x:Key="GpuLabel">GPU:</sys:String>
+    <sys:String x:Key="VramLimitLabel">Limit:</sys:String>
+    <sys:String x:Key="GpuPlaceholder">-- / -- Gb</sys:String>
+    <sys:String x:Key="VramPlaceholder">-- Gb</sys:String>
+    <sys:String x:Key="GpuUsageFormat">GPU: {0:F0} / {1:F0} MB ({2}%)</sys:String>
+    <sys:String x:Key="MaxVramFormat">Max VRAM: {0:F0} MB</sys:String>
+    <sys:String x:Key="MaxVramDetailFormat">Max VRAM: {0:F0} / {1:F0} MB</sys:String>
+
+    <!-- Queue -->
+    <sys:String x:Key="QueueGroup">Queue</sys:String>
+    <sys:String x:Key="QueueItemsFormat">Queue ({0} items)</sys:String>
+    <sys:String x:Key="SkipButton">Skip</sys:String>
+    <sys:String x:Key="ClearButton">Clear</sys:String>
+    <sys:String x:Key="VolumeLabel">Volume:</sys:String>
+    <sys:String x:Key="HotkeysFormat">Hotkeys: {0} - skip, {1} - clear all</sys:String>
+    <sys:String x:Key="TimeoutLabel">Timeout:</sys:String>
+    <sys:String x:Key="SecondsLabel">sec</sys:String>
+    <sys:String x:Key="ApplyButton">Apply</sys:String>
+
+    <!-- Cache -->
+    <sys:String x:Key="CacheGroup">Cache</sys:String>
+    <sys:String x:Key="CacheSizeFormat">Size: {0:F1} MB / {1:F0} MB   Items: {2}</sys:String>
+    <sys:String x:Key="CacheSizeDetailFormat">{0:F1} / {1:F0} MB ({2} items)</sys:String>
+    <sys:String x:Key="CompressButton">Compress</sys:String>
+
+    <!-- Services -->
+    <sys:String x:Key="ServicesGroup">Services</sys:String>
+
+    <!-- Server -->
+    <sys:String x:Key="ServerGroup">Server</sys:String>
+    <sys:String x:Key="TtsServerLabel">TTS server:</sys:String>
+    <sys:String x:Key="DelayLabel">Delay:</sys:String>
+    <sys:String x:Key="CacheLimitLabel">Cache limit:</sys:String>
+    <sys:String x:Key="MBLabel">MB</sys:String>
+    <sys:String x:Key="TtsLanguageLabel">TTS Language:</sys:String>
+    <sys:String x:Key="LanguageLabel">Language:</sys:String>
+
+    <!-- Status -->
+    <sys:String x:Key="ReadyStatus">Ready</sys:String>
+    <sys:String x:Key="ErrorPrefix">Error: </sys:String>
+    <sys:String x:Key="InvalidServerUrl">Invalid server URL</sys:String>
+    <sys:String x:Key="ServerUrlUpdated">Server URL updated</sys:String>
+
+    <!-- Tray -->
+    <sys:String x:Key="ShowButton">Show</sys:String>
+    <sys:String x:Key="ExitButton">Exit</sys:String>
+    <sys:String x:Key="TrayMinimized">Minimized to system tray</sys:String>
+
+    <!-- Voice Binding Dialog -->
+    <sys:String x:Key="VoiceBindingTitle">Voice Bindings</sys:String>
+    <sys:String x:Key="BindingsGroup">Bindings</sys:String>
+    <sys:String x:Key="BindingsCountFormat">Bindings ({0} items)</sys:String>
+    <sys:String x:Key="UsernameColumn">Username</sys:String>
+    <sys:String x:Key="VoiceColumn">Voice</sys:String>
+    <sys:String x:Key="StatusColumn">Status</sys:String>
+    <sys:String x:Key="EnabledStatus">Enabled</sys:String>
+    <sys:String x:Key="DisabledStatus">Disabled</sys:String>
+    <sys:String x:Key="ChangeVoiceButton">Change Voice</sys:String>
+    <sys:String x:Key="DeleteButton">Delete</sys:String>
+    <sys:String x:Key="AddBindingGroup">Add Binding</sys:String>
+    <sys:String x:Key="UsernameLabel">Username:</sys:String>
+    <sys:String x:Key="VoiceLabel">Voice:</sys:String>
+    <sys:String x:Key="AddButton">Add</sys:String>
+    <sys:String x:Key="CloseButton">Close</sys:String>
+
+    <!-- Voice Management Dialog -->
+    <sys:String x:Key="VoiceManagementTitle">Voice Management</sys:String>
+    <sys:String x:Key="AvailableVoicesGroup">Available Voices</sys:String>
+    <sys:String x:Key="NameColumn">Name</sys:String>
+    <sys:String x:Key="TranscriptionColumn">Transcription</sys:String>
+    <sys:String x:Key="CreatedAtColumn">Created</sys:String>
+    <sys:String x:Key="VolumeColumn">Volume</sys:String>
+    <sys:String x:Key="RenameButton">Rename</sys:String>
+    <sys:String x:Key="AddVoiceGroup">Add New Voice</sys:String>
+    <sys:String x:Key="VoiceNameLabel">Voice name:</sys:String>
+    <sys:String x:Key="AudioFileLabel">Audio file:</sys:String>
+    <sys:String x:Key="FileNotSelected">(not selected)</sys:String>
+    <sys:String x:Key="BrowseButton">Browse...</sys:String>
+    <sys:String x:Key="FileHint">(wav, mp3, flac, ogg)</sys:String>
+    <sys:String x:Key="TranscriptionLabel">Transcription (optional):</sys:String>
+    <sys:String x:Key="OverwriteVoiceLabel">Overwrite if exists</sys:String>
+    <sys:String x:Key="DisableTranscriptionLabel">Skip transcription</sys:String>
+    <sys:String x:Key="CachedLabel">Cached</sys:String>
+    <sys:String x:Key="CreatingButton">Creating...</sys:String>
+
+    <!-- Dialogs -->
+    <sys:String x:Key="ConfirmTitle">Confirmation</sys:String>
+    <sys:String x:Key="ErrorTitle">Error</sys:String>
+    <sys:String x:Key="SuccessTitle">Success</sys:String>
+    <sys:String x:Key="ConfirmDeleteBinding">Delete binding for user "{0}"?</sys:String>
+    <sys:String x:Key="ConfirmReplaceBinding">Binding for user "{0}" already exists.\nReplace voice with "{1}"?</sys:String>
+    <sys:String x:Key="EnterUsername">Enter username</sys:String>
+    <sys:String x:Key="SelectVoice">Select a voice</sys:String>
+    <sys:String x:Key="ChangeVoiceTitle">Change Voice</sys:String>
+    <sys:String x:Key="SelectVoiceLabel">Select voice:</sys:String>
+    <sys:String x:Key="OkButton">OK</sys:String>
+    <sys:String x:Key="CancelButton">Cancel</sys:String>
+    <sys:String x:Key="ConfirmDeleteVoice">Are you sure you want to delete voice "{0}"?</sys:String>
+    <sys:String x:Key="ConfirmDeleteTitle">Confirm Delete</sys:String>
+    <sys:String x:Key="ConfirmClearVoiceCache">Clear prompt cache for voice "{0}"? This will remove cached model prompts.</sys:String>
+    <sys:String x:Key="ConfirmClearAllVoiceCache">Clear prompt cache for all voices? This will remove all cached model prompts.</sys:String>
+    <sys:String x:Key="ClearCacheButton">Clear Cache</sys:String>
+    <sys:String x:Key="ClearAllCacheButton">Clear All Cache</sys:String>
+    <sys:String x:Key="EnterVoiceName">Enter voice name</sys:String>
+    <sys:String x:Key="SelectAudioFile">Select an audio file</sys:String>
+    <sys:String x:Key="InvalidVoiceName">Voice name contains invalid characters</sys:String>
+    <sys:String x:Key="RenameVoiceTitle">Rename Voice</sys:String>
+    <sys:String x:Key="NewNameLabel">New name:</sys:String>
+    <sys:String x:Key="InvalidName">Name contains invalid characters</sys:String>
+    <sys:String x:Key="FailedToLoadData">Failed to load data</sys:String>
+    <sys:String x:Key="FailedToLoadVoices">Failed to load voice list</sys:String>
+    <sys:String x:Key="TtsServerUnavailable">TTS server unavailable</sys:String>
+    <sys:String x:Key="EnterChannelName">Enter channel name</sys:String>
+    <sys:String x:Key="EnterVKChannelName">Enter VK Play channel name</sys:String>
+    <sys:String x:Key="ConfirmClearCache">Are you sure you want to clear the audio cache?</sys:String>
+    <sys:String x:Key="ClearCacheTitle">Clear Cache</sys:String>
+    <sys:String x:Key="CompressCacheTitle">Compress Cache</sys:String>
+    <sys:String x:Key="NoUnusedItems">No items to compress.\nAll cache items have been used.</sys:String>
+    <sys:String x:Key="CompressConfirmFormat">{0} items ({1:F1} MB) will be removed\nthat were never used.\n\nContinue?</sys:String>
+    <sys:String x:Key="TtsServerRestored">TTS server restored, loading data...</sys:String>
+    <sys:String x:Key="TtsServerLost">TTS server unavailable</sys:String>
+    <sys:String x:Key="TimeoutSetFormat">Generation timeout set: {0} sec</sys:String>
+    <sys:String x:Key="TimeoutSetError">Error setting timeout</sys:String>
+    <sys:String x:Key="VramLimitSetFormat">VRAM limit set: {0:F2} Gb</sys:String>
+    <sys:String x:Key="VramLimitSetError">Error setting VRAM limit</sys:String>
+    <sys:String x:Key="VoiceNotFoundFormat">Voice '{0}' not found (from {1})</sys:String>
+    <sys:String x:Key="MessageRemovedFormat">Message removed after errors: {0}</sys:String>
+    <sys:String x:Key="YesButton">Yes</sys:String>
+    <sys:String x:Key="NoButton">No</sys:String>
+
+    <!-- Status Bar Messages -->
+    <sys:String x:Key="TwitchDisconnected">Twitch disconnected</sys:String>
+    <sys:String x:Key="VKPlayDisconnected">VK Play disconnected</sys:String>
+    <sys:String x:Key="ConnectingToFormat">Connecting to {0} channel: {1}...</sys:String>
+    <sys:String x:Key="ConnectionErrorFormat">{0} connection error: {1}</sys:String>
+    <sys:String x:Key="LoadingRewardsFormat">Loading {0} rewards...</sys:String>
+    <sys:String x:Key="ReadAllMessagesOption">(Read all messages)</sys:String>
+    <sys:String x:Key="UnnamedReward">(unnamed)</sys:String>
+    <sys:String x:Key="LoadedRewardsFormat">Loaded {0} {1} rewards</sys:String>
+    <sys:String x:Key="FailedLoadRewardsFormat">Failed to load rewards: {0}</sys:String>
+    <sys:String x:Key="RefreshingVoices">Refreshing voices...</sys:String>
+    <sys:String x:Key="LoadedVoicesFormat">Loaded {0} voices</sys:String>
+    <sys:String x:Key="FailedRefreshVoicesFormat">Failed to refresh voices: {0}</sys:String>
+    <sys:String x:Key="SkippedMessage">Skipped current message</sys:String>
+    <sys:String x:Key="QueueCleared">Queue cleared</sys:String>
+    <sys:String x:Key="QueueCountFormat">Queue ({0})</sys:String>
+    <sys:String x:Key="CacheCompressedFormat">Cache compressed: removed {0} entries, freed {1:F1} MB</sys:String>
+    <sys:String x:Key="CacheCleared">Cache cleared</sys:String>
+    <sys:String x:Key="ErrorWithMessageFormat">Error: {0}</sys:String>
+    <sys:String x:Key="InvalidVoiceFormat">Invalid voice '{0}' from {1}</sys:String>
+    <sys:String x:Key="QueueMoreFormat">... and {0} more</sys:String>
+    <sys:String x:Key="RewardPointsFormat">{0} ({1} pts)</sys:String>
+
+    <!-- Settings Window -->
+    <sys:String x:Key="SettingsWindowTitle">Settings</sys:String>
+    <sys:String x:Key="OptimizationsGroup">Optimizations</sys:String>
+    <sys:String x:Key="TweaksGroup">Tweaks</sys:String>
+    <sys:String x:Key="ActionsColumn">Actions</sys:String>
+    <sys:String x:Key="EnableOptimizationsLabel">Enable Optimizations</sys:String>
+    <sys:String x:Key="TorchCompileLabel">Torch Compile</sys:String>
+    <sys:String x:Key="CudaGraphsLabel">CUDA Graphs</sys:String>
+    <sys:String x:Key="CompileCodebookLabel">Compile Codebook</sys:String>
+    <sys:String x:Key="FastCodebookLabel">Fast Codebook</sys:String>
+    <sys:String x:Key="WarmupLangLabel">Warmup Language:</sys:String>
+    <sys:String x:Key="WarmupVoiceLabel">Warmup Voice:</sys:String>
+    <sys:String x:Key="WarmupTimeoutLabel">Warmup Timeout:</sys:String>
+    <sys:String x:Key="InferenceGroup">Inference Parameters</sys:String>
+    <sys:String x:Key="SpeedLabel">Speed:</sys:String>
+    <sys:String x:Key="TemperatureLabel">Temperature:</sys:String>
+    <sys:String x:Key="MaxTokensLabel">Max Tokens:</sys:String>
+    <sys:String x:Key="RepPenaltyLabel">Repetition Penalty:</sys:String>
+    <sys:String x:Key="PowerLoadTooltip">Load model</sys:String>
+    <sys:String x:Key="PowerUnloadTooltip">Unload model</sys:String>
+    <sys:String x:Key="QueueTabLabel">Queue</sys:String>
+    <sys:String x:Key="QueueEmpty">Queue is empty</sys:String>
+
+    <!-- Application Section -->
+    <sys:String x:Key="ApplicationGroup">Application</sys:String>
+    <sys:String x:Key="ExportSettingsButton">Export Settings</sys:String>
+    <sys:String x:Key="ImportSettingsButton">Import Settings</sys:String>
+    <sys:String x:Key="ExportSuccessNotification">Settings exported successfully</sys:String>
+    <sys:String x:Key="ExportFailedNotification">Export failed: {0}</sys:String>
+    <sys:String x:Key="ImportSuccessNotification">Settings imported successfully</sys:String>
+    <sys:String x:Key="ImportFailedNotification">Import failed: {0}</sys:String>
+    <sys:String x:Key="InvalidSettingsFile">Invalid settings file</sys:String>
+
+    <!-- Voice Edit Dialog -->
+    <sys:String x:Key="SaveButton">Save</sys:String>
+    <sys:String x:Key="CopyButton">Copy</sys:String>
+    <sys:String x:Key="CopiedText">Copied!</sys:String>
+    <sys:String x:Key="EditButton">Edit</sys:String>
+
+    <!-- Notifications -->
+    <sys:String x:Key="VramLimitExceededNotification">VRAM usage exceeds the configured limit! Generated results may be cut off.</sys:String>
+    <sys:String x:Key="VramHighUsageNotification">VRAM usage is above 70% of total capacity!</sys:String>
+
+    <!-- First-Launch Wizard -->
+    <sys:String x:Key="WizardTitle">Stream Talker Setup</sys:String>
+    <sys:String x:Key="WizardNextButton">Next</sys:String>
+    <sys:String x:Key="WizardBackButton">Go Back</sys:String>
+    <sys:String x:Key="WizardRetryButton">Try Again</sys:String>
+    <sys:String x:Key="WizardStartButton">Start</sys:String>
+    <sys:String x:Key="WizardCancelButton">Cancel</sys:String>
+
+    <!-- Step 1: Welcome -->
+    <sys:String x:Key="WizardWelcomeMessage">To work, this application needs Stream Talker Server — a speech engine that turns text into voice. You can set it up now or connect to one that's already running.</sys:String>
+    <sys:String x:Key="WizardAlreadyInstalled">Already Installed</sys:String>
+    <sys:String x:Key="WizardInstallNow">Install Now</sys:String>
+
+    <!-- Step 2: Existing Server Choice -->
+    <sys:String x:Key="WizardExistingServerTitle">Where is Stream Talker Server running?</sys:String>
+    <sys:String x:Key="WizardOnThisComputer">On This Computer</sys:String>
+    <sys:String x:Key="WizardOnThisComputerHint">The server is running right here, on the same machine.</sys:String>
+    <sys:String x:Key="WizardOnAnotherComputer">On Another Computer</sys:String>
+    <sys:String x:Key="WizardOnAnotherComputerHint">The server is running on a different machine in my network.</sys:String>
+
+    <!-- Step 2.1: Local Check -->
+    <sys:String x:Key="WizardLocalCheckPrompt">Checking if Stream Talker Server is running on this computer (localhost:7860)…</sys:String>
+    <sys:String x:Key="WizardCheckingConnection">Checking connection…</sys:String>
+    <sys:String x:Key="WizardLocalServerFound">Everything is ready! Stream Talker Server is running.</sys:String>
+    <sys:String x:Key="WizardLocalServerNotFound">Could not connect to the server on this computer. Please make sure Stream Talker Server is running and try again.</sys:String>
+
+    <!-- Step 2.2: Remote Server -->
+    <sys:String x:Key="WizardRemoteServerPrompt">Enter the address of the computer where Stream Talker Server is running (for example: http://192.168.1.50:7860).</sys:String>
+    <sys:String x:Key="WizardConnectButton">Connect</sys:String>
+    <sys:String x:Key="WizardConnecting">Connecting…</sys:String>
+    <sys:String x:Key="WizardRemoteServerNotReachable">Could not reach the server at the address you entered. Please double-check the address and make sure the server is running on the remote computer.</sys:String>
+    <sys:String x:Key="WizardInvalidUrl">Invalid URL format</sys:String>
+
+    <!-- Step 3.0: WSL Install (Windows) -->
+    <sys:String x:Key="WizardWslRequired">Before we continue, your computer needs a small add-on called WSL (Windows Subsystem for Linux). It allows your PC to run the tools required by Stream Talker Server. This is a one-time setup provided by Microsoft.</sys:String>
+    <sys:String x:Key="WizardInstallWsl">Install WSL</sys:String>
+    <sys:String x:Key="WizardInstallingWsl">Installing WSL… This may take a few minutes. Your computer might ask you to restart.</sys:String>
+    <sys:String x:Key="WizardWslInstalled">WSL has been installed. Please restart your computer and open this application again to continue the setup.</sys:String>
+    <sys:String x:Key="WizardWslAlreadyInstalled">WSL is already installed on your computer.</sys:String>
+    <sys:String x:Key="WizardWslInstallFailed">WSL installation failed</sys:String>
+
+    <!-- Step 3.1: Docker Install -->
+    <sys:String x:Key="WizardDockerRequired">Stream Talker Server runs inside a special container managed by a free program called Docker. Please install Docker Desktop to continue.</sys:String>
+    <sys:String x:Key="WizardGetDockerButton">Get Docker Desktop</sys:String>
+    <sys:String x:Key="WizardDockerInstruction">Download and install Docker Desktop from the page that just opened. Once the installation is complete, come back here and click the button below.</sys:String>
+    <sys:String x:Key="WizardDockerInstalledButton">I've Installed Docker</sys:String>
+    <sys:String x:Key="WizardVerifyingDocker">Verifying Docker installation…</sys:String>
+    <sys:String x:Key="WizardDockerNotFound">Docker doesn't seem to be installed yet, or it hasn't finished setting up. Please make sure Docker Desktop is fully installed and running, then try again.</sys:String>
+
+    <!-- Step 4.1: Resource Config -->
+    <sys:String x:Key="WizardResourceConfigTitle">Almost there! Choose how much of your computer's resources to dedicate to the speech engine. The default values work well for most computers.</sys:String>
+    <sys:String x:Key="WizardMemoryLabel">Memory (RAM)</sys:String>
+    <sys:String x:Key="WizardMemoryDescription">How much memory the server can use</sys:String>
+    <sys:String x:Key="WizardCpuLabel">Processor (CPU)</sys:String>
+    <sys:String x:Key="WizardCpuDescription">How much processor power the server can use</sys:String>
+    <sys:String x:Key="WizardResourceTip">Tip: If you experience slowdowns in other applications while Stream Talker is running, try lowering these values.</sys:String>
+    <sys:String x:Key="WizardStartServerButton">Start Server</sys:String>
+
+    <!-- Step 4.2: Server Launch -->
+    <sys:String x:Key="WizardLaunchingServer">Setting up the server… This may take several minutes on the first run as the speech model is being downloaded.</sys:String>
+    <sys:String x:Key="WizardWaitingForServer">Waiting for server to start…</sys:String>
+    <sys:String x:Key="WizardServerStarted">Stream Talker Server is up and running!</sys:String>
+    <sys:String x:Key="WizardServerStartTimeout">The server is taking longer than expected to start. You can keep waiting or check the console window for details.</sys:String>
+    <sys:String x:Key="WizardKeepWaitingButton">Keep Waiting</sys:String>
+    <sys:String x:Key="WizardDockerLaunchFailed">Failed to start Docker Compose. Please check the error below:</sys:String>
+
+    <!-- Success -->
+    <sys:String x:Key="WizardCompletedTitle">Setup Complete!</sys:String>
+    <sys:String x:Key="WizardCompletedMessage">Stream Talker Server is connected and ready. Click Start to begin using the application.</sys:String>
+
+    <!-- Window Controls -->
+    <sys:String x:Key="WindowMinimizeTooltip">Minimize</sys:String>
+    <sys:String x:Key="WindowMaximizeTooltip">Maximize</sys:String>
+    <sys:String x:Key="WindowRestoreTooltip">Restore Down</sys:String>
+    <sys:String x:Key="WindowCloseTooltip">Close</sys:String>
+
+    <!-- Manual Message Dialog -->
+    <sys:String x:Key="ManualMessageTitle">Add Manual Message</sys:String>
+    <sys:String x:Key="ManualMessageTextLabel">Message Text:</sys:String>
+    <sys:String x:Key="ManualMessageTextWatermark">Enter text to synthesize...</sys:String>
+    <sys:String x:Key="MaxNewTokensLabel">Max New Tokens:</sys:String>
+    <sys:String x:Key="RepetitionPenaltyLabel">Repetition Penalty:</sys:String>
+    <sys:String x:Key="DoSampleLabel">Do Sample</sys:String>
+    <sys:String x:Key="AddToQueueButton">Add to Queue</sys:String>
+    <sys:String x:Key="ResetToDefaultsButton">Reset</sys:String>
+    <sys:String x:Key="AddManualMessageButton">Add Manual Message</sys:String>
+    <sys:String x:Key="AddManualMessageTooltip">Add message</sys:String>
+
+    <!-- Updates -->
+    <sys:String x:Key="CheckForUpdatesButton">Check for Updates</sys:String>
+    <sys:String x:Key="CheckingForUpdates">Checking for updates...</sys:String>
+    <sys:String x:Key="NoUpdatesAvailable">You're running the latest version</sys:String>
+    <sys:String x:Key="UpdateCheckFailed">Failed to check for updates</sys:String>
+    <sys:String x:Key="UpdateAvailableTitle">Update Available</sys:String>
+    <sys:String x:Key="UpdateButton">Update</sys:String>
+    <sys:String x:Key="UpdateLaterButton">Later</sys:String>
+    <sys:String x:Key="UpdateReleasePageButton">Release Page</sys:String>
+    <sys:String x:Key="UpdateDownloading">Downloading update...</sys:String>
+    <sys:String x:Key="UpdateInstalling">Installing update...</sys:String>
+    <sys:String x:Key="UpdateDownloadFailed">Download failed or was cancelled</sys:String>
+    <sys:String x:Key="UpdateNoAssetFound">No matching update file found for your platform</sys:String>
+    <sys:String x:Key="UpdateCancelButton">Cancel</sys:String>
+    <sys:String x:Key="VersionLabel">Version</sys:String>
+    <sys:String x:Key="SkipThisVersionButton">Skip This Version</sys:String>
+    <sys:String x:Key="ServerUpdateAvailableTitle">Server Update Available</sys:String>
+    <sys:String x:Key="ServerUpdateDockerHint">Run the following command to update the server:</sys:String>
+    <sys:String x:Key="ServerUpdateNowButton">Update Now</sys:String>
+    <sys:String x:Key="ServerUpdating">Updating server...</sys:String>
+    <sys:String x:Key="ServerUpdateComplete">Server updated successfully. It may take a moment to restart.</sys:String>
+    <sys:String x:Key="ServerUpdateFailed">Server update failed</sys:String>
+    <sys:String x:Key="ServerVersionLabel">Server</sys:String>
+
+</ResourceDictionary>

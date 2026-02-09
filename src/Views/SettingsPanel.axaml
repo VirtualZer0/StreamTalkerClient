@@ -1,0 +1,26 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:StreamTalkerClient.ViewModels"
+             x:Class="StreamTalkerClient.Views.SettingsPanel"
+             x:DataType="vm:MainWindowViewModel"
+             x:CompileBindings="True">
+
+    <StackPanel Spacing="8">
+
+        <!-- TTS Server URL -->
+        <Grid ColumnDefinitions="Auto,8,*,8,Auto">
+            <TextBlock Grid.Column="0"
+                       Text="{DynamicResource TtsServerLabel}"
+                       Classes="FieldLabel"
+                       MinWidth="105" />
+            <TextBox Grid.Column="2"
+                     Text="{Binding TtsServerUrlEdit}" />
+            <Button Grid.Column="4"
+                    Content="{DynamicResource ApplyButton}"
+                    Command="{Binding ApplyTtsServerUrlCommand}"
+                    MinWidth="80" />
+        </Grid>
+
+    </StackPanel>
+
+</UserControl>

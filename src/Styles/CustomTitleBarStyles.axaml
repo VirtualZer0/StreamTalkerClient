@@ -1,0 +1,62 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Custom title bar styles matching Semi Dark theme -->
+
+    <!-- Title bar container -->
+    <Style Selector="Border.custom-titlebar">
+        <Setter Property="Background" Value="#1E1E1E" />
+        <Setter Property="BorderBrush" Value="#30808080" />
+        <Setter Property="BorderThickness" Value="0,0,0,1" />
+        <Setter Property="Height" Value="36" />
+    </Style>
+
+    <!-- Window control buttons base style -->
+    <Style Selector="Button.title-button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Width" Value="46" />
+        <Setter Property="Height" Value="36" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <!-- Window control buttons hover state -->
+    <Style Selector="Button.title-button:pointerover">
+        <Setter Property="Background" Value="#15FFFFFF" />
+    </Style>
+
+    <!-- Window control buttons pressed state -->
+    <Style Selector="Button.title-button:pressed">
+        <Setter Property="Background" Value="#10FFFFFF" />
+    </Style>
+
+    <!-- Close button specific hover state (Windows red) -->
+    <Style Selector="Button.title-button-close:pointerover">
+        <Setter Property="Background" Value="#E81123" />
+    </Style>
+
+    <!-- Close button pressed state -->
+    <Style Selector="Button.title-button-close:pressed">
+        <Setter Property="Background" Value="#C5000B" />
+    </Style>
+
+    <!-- Title text -->
+    <Style Selector="TextBlock.title-text">
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="8,0,0,0" />
+    </Style>
+
+    <!-- App icon in title bar -->
+    <Style Selector="Image.title-icon">
+        <Setter Property="Width" Value="16" />
+        <Setter Property="Height" Value="16" />
+        <Setter Property="Margin" Value="8,0,0,0" />
+    </Style>
+
+</Styles>

@@ -1,0 +1,154 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:StreamTalkerClient.ViewModels"
+        xmlns:views="using:StreamTalkerClient.Views"
+        xmlns:components="using:StreamTalkerClient.Components"
+        x:Class="StreamTalkerClient.Views.SettingsWindow"
+        x:DataType="vm:MainWindowViewModel"
+        x:CompileBindings="True"
+        Title="{DynamicResource SettingsWindowTitle}"
+        Icon="avares://StreamTalkerClient/Assets/icon.ico"
+        MinWidth="480" MinHeight="500"
+        Width="560" Height="700"
+        CanResize="True"
+        WindowStartupLocation="CenterOwner"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="36"
+        SystemDecorations="BorderOnly">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Row 0: Custom title bar -->
+        <components:CustomTitleBar Grid.Row="0" />
+
+        <!-- Row 1: Main content -->
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+        <StackPanel Margin="12" Spacing="8">
+
+            <!-- Voice Settings -->
+            <Expander IsExpanded="{Binding VoiceSettingsExpanded}">
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <PathIcon Data="{StaticResource SemiIconVolume2}" Width="16" Height="16" />
+                        <TextBlock Text="{DynamicResource VoiceSettingsGroup}"
+                                   VerticalAlignment="Center"
+                                   FontWeight="SemiBold" />
+                    </StackPanel>
+                </Expander.Header>
+                <views:VoiceSettingsPanel Margin="0,8,0,0" />
+            </Expander>
+
+            <!-- Model Control -->
+            <Expander IsExpanded="{Binding ModelControlExpanded}">
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <PathIcon Data="{StaticResource SemiIconAIFilled}" Width="16" Height="16" />
+                        <TextBlock Text="{DynamicResource ModelControlGroup}"
+                                   VerticalAlignment="Center"
+                                   FontWeight="SemiBold" />
+                    </StackPanel>
+                </Expander.Header>
+                <views:ModelControlPanel Margin="0,8,0,0" />
+            </Expander>
+
+            <!-- Cache -->
+            <Expander IsExpanded="{Binding CacheExpanded}">
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <PathIcon Data="{StaticResource SemiIconSave}" Width="16" Height="16" />
+                        <TextBlock Text="{DynamicResource CacheGroup}"
+                                   VerticalAlignment="Center"
+                                   FontWeight="SemiBold" />
+                    </StackPanel>
+                </Expander.Header>
+                <views:CachePanel Margin="0,8,0,0" />
+            </Expander>
+
+            <!-- Server -->
+            <Expander IsExpanded="{Binding SettingsExpanded}">
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <PathIcon Data="{StaticResource SemiIconCloud}" Width="16" Height="16" />
+                        <TextBlock Text="{DynamicResource ServerGroup}"
+                                   VerticalAlignment="Center"
+                                   FontWeight="SemiBold" />
+                        <Label Theme="{StaticResource TagLabel}"
+                               Content="{Binding ServerStatusText}"
+                               Classes.Green="{Binding ServerState, Converter={StaticResource StateEquals}, ConverterParameter=available}"
+                               Classes.Red="{Binding ServerState, Converter={StaticResource StateEquals}, ConverterParameter=unavailable}"
+                               Classes="Ghost" />
+                    </StackPanel>
+                </Expander.Header>
+                <views:SettingsPanel Margin="0,8,0,0" />
+            </Expander>
+
+            <!-- Application -->
+            <Expander IsExpanded="True">
+                <Expander.Header>
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <PathIcon Data="{StaticResource SemiIconSetting}" Width="16" Height="16" />
+                        <TextBlock Text="{DynamicResource ApplicationGroup}"
+                                   VerticalAlignment="Center"
+                                   FontWeight="SemiBold" />
+                    </StackPanel>
+                </Expander.Header>
+                <StackPanel Spacing="8" Margin="0,8,0,0">
+                    <!-- UI Language -->
+                    <Grid ColumnDefinitions="Auto,8,Auto">
+                        <TextBlock Grid.Column="0"
+                                   Text="{DynamicResource LanguageLabel}"
+                                   Classes="FieldLabel"
+                                   MinWidth="105" />
+                        <ComboBox Grid.Column="2"
+                                  ItemsSource="{x:Static vm:MainWindowViewModel.LanguageOptions}"
+                                  SelectedIndex="{Binding SelectedLanguageIndex}"
+                                  Width="140" />
+                    </Grid>
+
+                    <!-- Export / Import -->
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Content="{DynamicResource ExportSettingsButton}"
+                                Click="OnExportSettingsClick"
+                                MinWidth="120" />
+                        <Button Content="{DynamicResource ImportSettingsButton}"
+                                Click="OnImportSettingsClick"
+                                MinWidth="120" />
+                    </StackPanel>
+
+                    <!-- Updates -->
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <Button Command="{Binding CheckForUpdateCommand}"
+                                Content="{DynamicResource CheckForUpdatesButton}"
+                                MinWidth="160" />
+                        <TextBlock Text="{Binding AppVersionText}"
+                                   VerticalAlignment="Center"
+                                   Opacity="0.5"
+                                   FontSize="12" />
+                    </StackPanel>
+
+                    <!-- Debug: Test update dialogs -->
+                    <StackPanel Orientation="Horizontal" Spacing="8"
+                                IsVisible="{Binding IsDebugBuild}">
+                        <Button Command="{Binding TestClientUpdateDialogCommand}"
+                                Content="Test Client Dialog"
+                                MinWidth="140" />
+                        <Button Command="{Binding TestServerUpdateDialogCommand}"
+                                Content="Test Server Dialog"
+                                MinWidth="140" />
+                    </StackPanel>
+                </StackPanel>
+            </Expander>
+
+        </StackPanel>
+        </ScrollViewer>
+
+    </Grid>
+
+</Window>

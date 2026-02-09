@@ -1,0 +1,159 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:StreamTalkerClient.ViewModels"
+        xmlns:components="using:StreamTalkerClient.Components"
+        mc:Ignorable="d"
+        d:DesignWidth="584" d:DesignHeight="401"
+        x:Class="StreamTalkerClient.Views.VoiceBindingWindow"
+        x:DataType="vm:VoiceBindingViewModel"
+        x:CompileBindings="True"
+        Title="{DynamicResource VoiceBindingTitle}"
+        Icon="avares://StreamTalkerClient/Assets/icon.ico"
+        Width="584" Height="437"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        ShowInTaskbar="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="36"
+        SystemDecorations="None">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Row 0: Custom title bar -->
+        <components:CustomTitleBar Grid.Row="0" />
+
+        <!-- Row 1: Main content -->
+        <Grid Grid.Row="1" Margin="10" RowDefinitions="*,Auto,Auto">
+
+        <!-- Bindings GroupBox -->
+        <HeaderedContentControl Grid.Row="0" Margin="0,0,0,8">
+            <HeaderedContentControl.Header>
+                <TextBlock Text="{Binding BindingsGroupText}" FontWeight="SemiBold" />
+            </HeaderedContentControl.Header>
+
+            <Grid RowDefinitions="*,Auto" Margin="0,5,0,0">
+                <!-- DataGrid showing bindings -->
+                <DataGrid Grid.Row="0"
+                          ItemsSource="{Binding Bindings}"
+                          SelectedItem="{Binding SelectedBinding}"
+                          SelectedIndex="{Binding SelectedBindingIndex}"
+                          AutoGenerateColumns="False"
+                          CanUserReorderColumns="False"
+                          CanUserResizeColumns="True"
+                          CanUserSortColumns="True"
+                          IsReadOnly="True"
+                          SelectionMode="Single"
+                          GridLinesVisibility="Horizontal"
+                          BorderThickness="1"
+                          BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                          MinHeight="120">
+                    <DataGrid.Columns>
+                        <DataGridTemplateColumn Width="30">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="vm:BindingDisplayItem">
+                                    <CheckBox IsChecked="{Binding IsEnabled}"
+                                              HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"
+                                              Command="{Binding $parent[DataGrid].((vm:VoiceBindingViewModel)DataContext).ToggleBindingCommand}"
+                                              CommandParameter="{Binding}" />
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTextColumn Header="{DynamicResource UsernameColumn}"
+                                            Binding="{Binding Username}"
+                                            Width="*" />
+                        <DataGridTextColumn Header="{DynamicResource VoiceColumn}"
+                                            Binding="{Binding VoiceName}"
+                                            Width="*" />
+                        <DataGridTemplateColumn Header="{DynamicResource StatusColumn}" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate x:DataType="vm:BindingDisplayItem">
+                                    <Panel>
+                                        <TextBlock Text="{DynamicResource EnabledStatus}"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center"
+                                                   Foreground="LimeGreen"
+                                                   IsVisible="{Binding IsEnabled}" />
+                                        <TextBlock Text="{DynamicResource DisabledStatus}"
+                                                   VerticalAlignment="Center"
+                                                   HorizontalAlignment="Center"
+                                                   Foreground="Gray"
+                                                   IsVisible="{Binding !IsEnabled}" />
+                                    </Panel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <!-- Change Voice + Delete buttons -->
+                <StackPanel Grid.Row="1"
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right"
+                            Margin="0,6,0,0"
+                            Spacing="6">
+                    <Button Content="{DynamicResource ChangeVoiceButton}"
+                            Command="{Binding ChangeVoiceCommand}"
+                            IsEnabled="{Binding CanChangeVoice}"
+                            MinWidth="100" />
+                    <Button Content="{DynamicResource DeleteButton}"
+                            Command="{Binding DeleteBindingCommand}"
+                            IsEnabled="{Binding CanDelete}"
+                            MinWidth="80" />
+                </StackPanel>
+            </Grid>
+        </HeaderedContentControl>
+
+        <!-- Add Binding GroupBox -->
+        <HeaderedContentControl Grid.Row="1" Margin="0,0,0,8">
+            <HeaderedContentControl.Header>
+                <TextBlock Text="{DynamicResource AddBindingGroup}" FontWeight="SemiBold" />
+            </HeaderedContentControl.Header>
+
+            <Grid ColumnDefinitions="Auto,*,Auto,*,Auto" Margin="0,5,0,0">
+                <TextBlock Grid.Column="0"
+                           Text="{DynamicResource UsernameLabel}"
+                           Classes="FieldLabel"
+                           Margin="0,0,6,0" />
+                <TextBox Grid.Column="1"
+                         Text="{Binding Username, Mode=TwoWay}"
+                         Watermark="{DynamicResource UsernameLabel}"
+                         MinWidth="120"
+                         Margin="0,0,10,0" />
+
+                <TextBlock Grid.Column="2"
+                           Text="{DynamicResource VoiceLabel}"
+                           Classes="FieldLabel"
+                           Margin="0,0,6,0" />
+                <ComboBox Grid.Column="3"
+                          ItemsSource="{Binding Voices}"
+                          SelectedIndex="{Binding SelectedVoiceIndex}"
+                          MinWidth="120"
+                          Margin="0,0,10,0" />
+
+                <Button Grid.Column="4"
+                        Content="{DynamicResource AddButton}"
+                        Command="{Binding AddBindingCommand}"
+                        IsEnabled="{Binding !IsLoading}"
+                        MinWidth="60" />
+            </Grid>
+        </HeaderedContentControl>
+
+        <!-- Close button -->
+        <Button Grid.Row="2"
+                Content="{DynamicResource CloseButton}"
+                Command="{Binding CloseCommand}"
+                HorizontalAlignment="Right"
+                MinWidth="80" />
+        </Grid>
+
+    </Grid>
+
+</Window>

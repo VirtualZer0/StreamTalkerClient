@@ -1,0 +1,168 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:StreamTalkerClient.ViewModels"
+        xmlns:components="using:StreamTalkerClient.Components"
+        mc:Ignorable="d"
+        d:DesignWidth="700" d:DesignHeight="500"
+        x:Class="StreamTalkerClient.Views.VoiceManagementWindow"
+        x:DataType="vm:VoiceManagementViewModel"
+        x:CompileBindings="True"
+        Title="{DynamicResource VoiceManagementTitle}"
+        Icon="avares://StreamTalkerClient/Assets/icon.ico"
+        Width="800" Height="500"
+        MinWidth="650"
+        WindowStartupLocation="CenterOwner"
+        CanResize="True"
+        ShowInTaskbar="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="36"
+        SystemDecorations="BorderOnly">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Row 0: Custom title bar -->
+        <components:CustomTitleBar Grid.Row="0" />
+
+        <!-- Row 1: Main content -->
+        <Grid Grid.Row="1" Margin="10" RowDefinitions="*,Auto,Auto">
+
+        <!-- Available Voices DataGrid -->
+        <DataGrid Grid.Row="0"
+                  ItemsSource="{Binding Voices}"
+                  SelectedItem="{Binding SelectedVoice}"
+                  SelectedIndex="{Binding SelectedVoiceIndex}"
+                  AutoGenerateColumns="False"
+                  CanUserReorderColumns="False"
+                  CanUserResizeColumns="True"
+                  CanUserSortColumns="True"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  RowHeight="36"
+                  GridLinesVisibility="Horizontal"
+                  BorderThickness="1"
+                  BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                  Margin="0,0,0,8">
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="DataGridRowPointeroverBackground">Transparent</SolidColorBrush>
+                <SolidColorBrush x:Key="DataGridRowSelectedBackground">Transparent</SolidColorBrush>
+                <SolidColorBrush x:Key="DataGridRowSelectedPointeroverBackground">Transparent</SolidColorBrush>
+                <SolidColorBrush x:Key="DataGridCellFocusBorderBrush">Transparent</SolidColorBrush>
+                <SolidColorBrush x:Key="DataGridCellCurrentBorderBrush">Transparent</SolidColorBrush>
+            </DataGrid.Resources>
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="{DynamicResource NameColumn}"
+                                    Binding="{Binding Name}"
+                                    Width="100" />
+                <DataGridTemplateColumn Header="{DynamicResource TranscriptionColumn}"
+                                        Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Transcription}"
+                                       TextTrimming="CharacterEllipsis"
+                                       TextWrapping="NoWrap"
+                                       MaxLines="1"
+                                       VerticalAlignment="Center"
+                                       Margin="4,0" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="{DynamicResource CreatedAtColumn}"
+                                    Binding="{Binding CreatedAt}"
+                                    Width="90" />
+                <DataGridTextColumn Header="{DynamicResource VolumeColumn}"
+                                    Binding="{Binding VolumeText}"
+                                    Width="80" />
+                <DataGridTemplateColumn Header="{DynamicResource CachedLabel}" Width="100">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" Spacing="4"
+                                        VerticalAlignment="Center" Margin="4,0">
+                                <Label Theme="{StaticResource TagLabel}"
+                                       Content="0.6B" Classes="Ghost Green"
+                                       IsVisible="{Binding HasCached06B}" />
+                                <Label Theme="{StaticResource TagLabel}"
+                                       Content="1.7B" Classes="Ghost Blue"
+                                       IsVisible="{Binding HasCached17B}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <!-- Action buttons column -->
+                <DataGridTemplateColumn Header="{DynamicResource ActionsColumn}" Width="130">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate x:DataType="vm:VoiceDisplayItem">
+                            <StackPanel Orientation="Horizontal" Spacing="4"
+                                        VerticalAlignment="Center" Margin="4,0"
+                                        x:CompileBindings="False">
+                                <Button Command="{Binding DataContext.EditVoiceCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}"
+                                        Classes="Tertiary"
+                                        Width="28" Height="28" Padding="4"
+                                        ToolTip.Tip="{DynamicResource EditButton}">
+                                    <PathIcon Data="{StaticResource SemiIconEdit}"
+                                              Width="14" Height="14" />
+                                </Button>
+                                <Button Command="{Binding DataContext.ClearVoiceCacheCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}"
+                                        Classes="Tertiary"
+                                        Width="28" Height="28" Padding="4"
+                                        ToolTip.Tip="{DynamicResource ClearCacheButton}">
+                                    <PathIcon Data="{StaticResource SemiIconRefresh}"
+                                              Width="14" Height="14"
+                                              Foreground="#F59E0B" />
+                                </Button>
+                                <Button Command="{Binding DataContext.DeleteVoiceCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}"
+                                        Classes="Tertiary"
+                                        Width="28" Height="28" Padding="4"
+                                        ToolTip.Tip="{DynamicResource DeleteButton}">
+                                    <PathIcon Data="{StaticResource SemiIconDelete}"
+                                              Width="14" Height="14"
+                                              Foreground="#EF4444" />
+                                </Button>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Loading indicator -->
+        <ProgressBar Grid.Row="1"
+                     IsIndeterminate="True"
+                     IsVisible="{Binding IsLoading}"
+                     Height="3"
+                     Margin="0,0,0,8" />
+
+        <!-- Action buttons -->
+        <StackPanel Grid.Row="2"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Spacing="8">
+            <Button Command="{Binding ClearAllVoiceCacheCommand}"
+                    MinWidth="120"
+                    Classes="Tertiary">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <PathIcon Data="{StaticResource SemiIconRefresh}" Width="14" Height="14" />
+                    <TextBlock Text="{DynamicResource ClearAllCacheButton}" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding AddNewVoiceCommand}" MinWidth="80">
+                <StackPanel Orientation="Horizontal" Spacing="6">
+                    <PathIcon Data="{StaticResource SemiIconPlus}" Width="14" Height="14" />
+                    <TextBlock Text="{DynamicResource AddButton}" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        </Grid>
+
+    </Grid>
+
+</Window>

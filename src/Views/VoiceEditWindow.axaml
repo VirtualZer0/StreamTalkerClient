@@ -1,0 +1,140 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:StreamTalkerClient.ViewModels"
+        xmlns:components="using:StreamTalkerClient.Components"
+        x:Class="StreamTalkerClient.Views.VoiceEditWindow"
+        x:DataType="vm:VoiceEditViewModel"
+        x:CompileBindings="True"
+        Title="{DynamicResource VoiceManagementTitle}"
+        Icon="avares://StreamTalkerClient/Assets/icon.ico"
+        Width="450" SizeToContent="Height"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False"
+        ShowInTaskbar="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="36"
+        SystemDecorations="None">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Row 0: Custom title bar -->
+        <components:CustomTitleBar Grid.Row="0" />
+
+        <!-- Row 1: Main content -->
+        <StackPanel Grid.Row="1" Margin="16" Spacing="12">
+
+        <!-- Voice name -->
+        <Grid ColumnDefinitions="Auto,8,*">
+            <TextBlock Grid.Column="0"
+                       Text="{DynamicResource VoiceNameLabel}"
+                       Classes="FieldLabel"
+                       MinWidth="120" />
+            <TextBox Grid.Column="2"
+                     Text="{Binding VoiceName, Mode=TwoWay}"
+                     Watermark="{DynamicResource VoiceNameLabel}" />
+        </Grid>
+
+        <!-- Audio file (hidden in edit mode) -->
+        <Grid ColumnDefinitions="Auto,8,*,8,Auto"
+              IsVisible="{Binding IsCreateMode}">
+            <TextBlock Grid.Column="0"
+                       Text="{DynamicResource AudioFileLabel}"
+                       Classes="FieldLabel"
+                       MinWidth="120" />
+            <TextBlock Grid.Column="2"
+                       Text="{Binding FilePathText}"
+                       VerticalAlignment="Center"
+                       Foreground="{DynamicResource SystemControlForegroundBaseMediumBrush}"
+                       TextTrimming="CharacterEllipsis" />
+            <Button Grid.Column="4"
+                    Content="{DynamicResource BrowseButton}"
+                    Click="OnBrowseClick"
+                    MinWidth="80" />
+        </Grid>
+
+        <!-- Transcription label + Copy -->
+        <StackPanel Orientation="Horizontal" Spacing="8">
+            <TextBlock Text="{DynamicResource TranscriptionLabel}"
+                       VerticalAlignment="Center" />
+            <Button Command="{Binding CopyTranscriptionCommand}"
+                    Classes="Tertiary"
+                    Width="28" Height="28" Padding="4">
+                <PathIcon Data="{StaticResource SemiIconCopy}"
+                          Width="14" Height="14" />
+            </Button>
+            <TextBlock Text="{DynamicResource CopiedText}"
+                       IsVisible="{Binding CopiedVisible}"
+                       VerticalAlignment="Center"
+                       Foreground="LimeGreen"
+                       FontSize="11" />
+        </StackPanel>
+
+        <!-- Transcription input -->
+        <TextBox Text="{Binding Transcription, Mode=TwoWay}"
+                 Watermark="{DynamicResource TranscriptionLabel}"
+                 AcceptsReturn="True"
+                 TextWrapping="Wrap"
+                 MinHeight="80"
+                 MaxHeight="120"
+                 VerticalContentAlignment="Top" />
+
+        <!-- Overwrite toggle (hidden in edit mode) -->
+        <ToggleSwitch IsChecked="{Binding OverwriteVoice}"
+                      IsVisible="{Binding IsCreateMode}"
+                      OnContent="{DynamicResource OverwriteVoiceLabel}"
+                      OffContent="{DynamicResource OverwriteVoiceLabel}" />
+
+        <!-- Disable Transcription toggle -->
+        <ToggleSwitch IsChecked="{Binding DisableTranscription}"
+                      IsVisible="{Binding IsCreateMode}"
+                      OnContent="{DynamicResource DisableTranscriptionLabel}"
+                      OffContent="{DynamicResource DisableTranscriptionLabel}" />
+
+        <!-- Volume slider -->
+        <Grid ColumnDefinitions="Auto,8,*,8,Auto">
+            <TextBlock Grid.Column="0"
+                       Text="{DynamicResource VolumeLabel}"
+                       Classes="FieldLabel"
+                       MinWidth="120" />
+            <Slider Grid.Column="2"
+                    Minimum="0" Maximum="100"
+                    Value="{Binding VoiceVolume}"
+                    TickFrequency="1"
+                    IsSnapToTickEnabled="True"
+                    VerticalAlignment="Center" />
+            <TextBlock Grid.Column="4"
+                       Text="{Binding VolumeText}"
+                       VerticalAlignment="Center"
+                       MinWidth="40" />
+        </Grid>
+
+        <!-- Save/Create + Cancel buttons -->
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Spacing="8"
+                    Margin="0,8,0,0">
+            <Panel>
+                <Button Content="{DynamicResource SaveButton}"
+                        Command="{Binding SaveCommand}"
+                        IsVisible="{Binding IsEditMode}"
+                        MinWidth="80" />
+                <Button Content="{DynamicResource AddButton}"
+                        Command="{Binding SaveCommand}"
+                        IsVisible="{Binding !IsEditMode}"
+                        MinWidth="80" />
+            </Panel>
+            <Button Content="{DynamicResource CancelButton}"
+                    Command="{Binding CancelCommand}"
+                    MinWidth="80" />
+        </StackPanel>
+
+        </StackPanel>
+
+    </Grid>
+
+</Window>

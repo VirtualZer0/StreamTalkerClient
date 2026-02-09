@@ -1,0 +1,243 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:StreamTalkerClient.ViewModels"
+             x:Class="StreamTalkerClient.Views.ModelControlPanel"
+             x:DataType="vm:MainWindowViewModel"
+             x:CompileBindings="True">
+
+    <StackPanel Spacing="8">
+
+        <!-- Attention / Quantization -->
+        <Grid ColumnDefinitions="Auto,8,*,12,Auto,8,*">
+            <TextBlock Grid.Column="0"
+                       Text="{DynamicResource AttentionLabel}"
+                       Classes="FieldLabel" />
+            <ComboBox Grid.Column="2"
+                      ItemsSource="{x:Static vm:MainWindowViewModel.AttentionOptions}"
+                      SelectedItem="{Binding SelectedAttention}"
+                      FontSize="{StaticResource FontSizeBody}"
+                      MinWidth="80" />
+            <TextBlock Grid.Column="4"
+                       Text="{DynamicResource QuantLabel}"
+                       Classes="FieldLabel" />
+            <ComboBox Grid.Column="6"
+                      ItemsSource="{x:Static vm:MainWindowViewModel.QuantizationOptions}"
+                      SelectedItem="{Binding SelectedQuantization}"
+                      FontSize="{StaticResource FontSizeBody}"
+                      MinWidth="80" />
+        </Grid>
+
+        <!-- Warmup subtitle -->
+        <TextBlock Text="{DynamicResource WarmupLabel}"
+                   FontWeight="SemiBold"
+                   FontSize="{StaticResource FontSizeBodyLarge}"
+                   Margin="0,8,0,4" />
+
+        <Grid ColumnDefinitions="Auto,8,*" RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       Text="{DynamicResource WarmupLabel}"
+                       Classes="FieldLabel" />
+            <ComboBox Grid.Row="0" Grid.Column="2"
+                      ItemsSource="{x:Static vm:MainWindowViewModel.WarmupOptions}"
+                      SelectedItem="{Binding SelectedWarmup}"
+                      FontSize="{StaticResource FontSizeBody}"
+                      MinWidth="120" />
+
+            <TextBlock Grid.Row="2" Grid.Column="0"
+                       Text="{DynamicResource WarmupLangLabel}"
+                       Classes="FieldLabel" />
+            <ComboBox Grid.Row="2" Grid.Column="2"
+                      ItemsSource="{x:Static vm:MainWindowViewModel.TtsLanguageOptions}"
+                      SelectedItem="{Binding WarmupLang}"
+                      FontSize="{StaticResource FontSizeBody}"
+                      MinWidth="120" />
+
+            <TextBlock Grid.Row="4" Grid.Column="0"
+                       Text="{DynamicResource WarmupVoiceLabel}"
+                       Classes="FieldLabel" />
+            <ComboBox Grid.Row="4" Grid.Column="2"
+                      ItemsSource="{Binding AvailableVoices}"
+                      SelectedItem="{Binding SelectedWarmupVoice}"
+                      DisplayMemberBinding="{Binding Name}"
+                      FontSize="{StaticResource FontSizeBody}"
+                      HorizontalAlignment="Stretch" />
+
+            <TextBlock Grid.Row="6" Grid.Column="0"
+                       Text="{DynamicResource WarmupTimeoutLabel}"
+                       Classes="FieldLabel" />
+            <StackPanel Grid.Row="6" Grid.Column="2" Orientation="Horizontal" Spacing="8">
+                <NumericUpDown Value="{Binding WarmupTimeout}"
+                               Minimum="10" Maximum="600"
+                               Increment="10" FormatString="0"
+                               FontSize="{StaticResource FontSizeBody}"
+                               Width="90" />
+                <TextBlock Text="{DynamicResource SecondsLabel}"
+                           VerticalAlignment="Center"
+                           FontSize="{StaticResource FontSizeBody}" />
+            </StackPanel>
+        </Grid>
+
+        <!-- Tweaks subtitle -->
+        <TextBlock Text="{DynamicResource TweaksGroup}"
+                   FontWeight="SemiBold"
+                   FontSize="{StaticResource FontSizeBodyLarge}"
+                   Margin="0,8,0,4" />
+
+        <StackPanel Spacing="4">
+            <ToggleSwitch IsChecked="{Binding DoSample}"
+                          OnContent="{DynamicResource SamplingLabel}"
+                          OffContent="{DynamicResource SamplingLabel}" />
+            <ToggleSwitch IsChecked="{Binding EnableOptimizations}"
+                          OnContent="{DynamicResource EnableOptimizationsLabel}"
+                          OffContent="{DynamicResource EnableOptimizationsLabel}" />
+            <ToggleSwitch IsChecked="{Binding TorchCompile}"
+                          OnContent="{DynamicResource TorchCompileLabel}"
+                          OffContent="{DynamicResource TorchCompileLabel}" />
+            <ToggleSwitch IsChecked="{Binding CudaGraphs}"
+                          OnContent="{DynamicResource CudaGraphsLabel}"
+                          OffContent="{DynamicResource CudaGraphsLabel}" />
+            <ToggleSwitch IsChecked="{Binding CompileCodebook}"
+                          OnContent="{DynamicResource CompileCodebookLabel}"
+                          OffContent="{DynamicResource CompileCodebookLabel}" />
+            <ToggleSwitch IsChecked="{Binding FastCodebook}"
+                          OnContent="{DynamicResource FastCodebookLabel}"
+                          OffContent="{DynamicResource FastCodebookLabel}" />
+            <ToggleSwitch IsChecked="{Binding ForceCpu}"
+                          OnContent="{DynamicResource ForceCpuLabel}"
+                          OffContent="{DynamicResource ForceCpuLabel}" />
+        </StackPanel>
+
+        <!-- Inference Parameters subtitle -->
+        <TextBlock Text="{DynamicResource InferenceGroup}"
+                   FontWeight="SemiBold"
+                   FontSize="{StaticResource FontSizeBodyLarge}"
+                   Margin="0,8,0,4" />
+
+        <Grid ColumnDefinitions="Auto,8,*,8,Auto"
+              RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+            <!-- Speed -->
+            <TextBlock Grid.Row="0" Grid.Column="0"
+                       Text="{DynamicResource SpeedLabel}"
+                       Classes="FieldLabel" />
+            <Slider Grid.Row="0" Grid.Column="2"
+                    Minimum="0.5" Maximum="2.0"
+                    Value="{Binding Speed}"
+                    TickFrequency="0.1"
+                    IsSnapToTickEnabled="True"
+                    VerticalAlignment="Center" />
+            <TextBlock Grid.Row="0" Grid.Column="4"
+                       Text="{Binding Speed, StringFormat={}{0:F1}}"
+                       VerticalAlignment="Center"
+                       FontSize="{StaticResource FontSizeBody}"
+                       MinWidth="35"
+                       TextAlignment="Right" />
+
+            <!-- Temperature -->
+            <TextBlock Grid.Row="2" Grid.Column="0"
+                       Text="{DynamicResource TemperatureLabel}"
+                       Classes="FieldLabel" />
+            <Slider Grid.Row="2" Grid.Column="2"
+                    Minimum="0.1" Maximum="2.0"
+                    Value="{Binding Temperature}"
+                    TickFrequency="0.05"
+                    IsSnapToTickEnabled="True"
+                    VerticalAlignment="Center" />
+            <TextBlock Grid.Row="2" Grid.Column="4"
+                       Text="{Binding Temperature, StringFormat={}{0:F2}}"
+                       VerticalAlignment="Center"
+                       FontSize="{StaticResource FontSizeBody}"
+                       MinWidth="35"
+                       TextAlignment="Right" />
+
+            <!-- Max Tokens -->
+            <TextBlock Grid.Row="4" Grid.Column="0"
+                       Text="{DynamicResource MaxTokensLabel}"
+                       Classes="FieldLabel" />
+            <NumericUpDown Grid.Row="4" Grid.Column="2"
+                           Value="{Binding MaxNewTokens}"
+                           Minimum="256" Maximum="8192"
+                           Increment="256" FormatString="0"
+                           Width="120"
+                           FontSize="{StaticResource FontSizeBody}"
+                           HorizontalAlignment="Left" />
+
+            <!-- Repetition Penalty -->
+            <TextBlock Grid.Row="6" Grid.Column="0"
+                       Text="{DynamicResource RepPenaltyLabel}"
+                       Classes="FieldLabel" />
+            <Slider Grid.Row="6" Grid.Column="2"
+                    Minimum="1.0" Maximum="2.0"
+                    Value="{Binding RepetitionPenalty}"
+                    TickFrequency="0.05"
+                    IsSnapToTickEnabled="True"
+                    VerticalAlignment="Center" />
+            <TextBlock Grid.Row="6" Grid.Column="4"
+                       Text="{Binding RepetitionPenalty, StringFormat={}{0:F2}}"
+                       VerticalAlignment="Center"
+                       FontSize="{StaticResource FontSizeBody}"
+                       MinWidth="35"
+                       TextAlignment="Right" />
+        </Grid>
+
+        <!-- Inference Timeout -->
+        <Grid ColumnDefinitions="Auto,8,Auto,8,Auto,*,Auto">
+            <TextBlock Grid.Column="0"
+                       Text="{DynamicResource TimeoutLabel}"
+                       Classes="FieldLabel" />
+            <NumericUpDown Grid.Column="2"
+                           Value="{Binding Timeout}"
+                           Minimum="5" Maximum="600"
+                           Increment="5" FormatString="0"
+                           Width="90"
+                           FontSize="{StaticResource FontSizeBody}"
+                           VerticalAlignment="Center" />
+            <TextBlock Grid.Column="4"
+                       Text="{DynamicResource SecondsLabel}"
+                       VerticalAlignment="Center"
+                       FontSize="{StaticResource FontSizeBody}" />
+            <Button Grid.Column="6"
+                    Content="{DynamicResource ApplyButton}"
+                    Command="{Binding ApplyTimeoutCommand}"
+                    FontSize="{StaticResource FontSizeBody}"
+                    MinWidth="70" />
+        </Grid>
+
+        <!-- GPU Usage -->
+        <Grid ColumnDefinitions="Auto,8,*,8,Auto">
+            <TextBlock Grid.Column="0"
+                       Text="{DynamicResource GpuLabel}"
+                       Classes="FieldLabel" />
+            <ProgressBar Grid.Column="2"
+                         Minimum="0" Maximum="100"
+                         Value="{Binding GpuUsagePercent}"
+                         Height="18" />
+            <TextBlock Grid.Column="4"
+                       Text="{Binding GpuUsageText}"
+                       VerticalAlignment="Center"
+                       FontSize="{StaticResource FontSizeBody}"
+                       MinWidth="140"
+                       TextAlignment="Right" />
+        </Grid>
+
+        <!-- VRAM Limit -->
+        <Grid ColumnDefinitions="Auto,8,*,8,Auto">
+            <TextBlock Grid.Column="0"
+                       Text="{DynamicResource VramLimitLabel}"
+                       Classes="FieldLabel" />
+            <Slider Grid.Column="2"
+                    Minimum="0" Maximum="{Binding MaxVramSliderMax}"
+                    Value="{Binding MaxVramSliderValue}"
+                    TickFrequency="100"
+                    IsSnapToTickEnabled="True"
+                    VerticalAlignment="Center" />
+            <TextBlock Grid.Column="4"
+                       Text="{Binding MaxVramText}"
+                       VerticalAlignment="Center"
+                       FontSize="{StaticResource FontSizeBody}"
+                       MinWidth="140"
+                       TextAlignment="Right" />
+        </Grid>
+
+    </StackPanel>
+
+</UserControl>

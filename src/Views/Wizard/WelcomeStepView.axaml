@@ -1,0 +1,45 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:StreamTalkerClient.ViewModels.Wizard"
+             xmlns:models="using:StreamTalkerClient.Models"
+             x:Class="StreamTalkerClient.Views.Wizard.WelcomeStepView"
+             x:DataType="vm:FirstLaunchWizardViewModel">
+    <StackPanel Spacing="32" MaxWidth="500" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40">
+        <!-- Icon -->
+        <PathIcon Data="{StaticResource SemiIconServer}"
+                  Width="80" Height="80"
+                  HorizontalAlignment="Center"
+                  Foreground="{DynamicResource SemiPrimaryBrush}" />
+
+        <!-- Welcome Message -->
+        <TextBlock Text="{DynamicResource WizardWelcomeMessage}"
+                   TextWrapping="Wrap"
+                   FontSize="15"
+                   TextAlignment="Center"
+                   LineHeight="22" />
+
+        <!-- Buttons -->
+        <StackPanel Spacing="12">
+            <Button HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding GoToStepCommand}"
+                    CommandParameter="{x:Static models:WizardStep.ExistingServerChoice}"
+                    Height="44">
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <PathIcon Data="{StaticResource SemiIconCheckCircleStroked}" Width="20" Height="20" />
+                    <TextBlock Text="{DynamicResource WizardAlreadyInstalled}" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+
+            <Button HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding CheckWslRequirementCommand}"
+                    Height="44">
+                <StackPanel Orientation="Horizontal" Spacing="12">
+                    <PathIcon Data="{StaticResource SemiIconDownload}" Width="20" Height="20" />
+                    <TextBlock Text="{DynamicResource WizardInstallNow}" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

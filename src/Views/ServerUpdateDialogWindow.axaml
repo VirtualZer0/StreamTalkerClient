@@ -1,0 +1,164 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:StreamTalkerClient.ViewModels"
+        xmlns:components="using:StreamTalkerClient.Components"
+        x:Class="StreamTalkerClient.Views.ServerUpdateDialogWindow"
+        x:DataType="vm:ServerUpdateDialogViewModel"
+        x:CompileBindings="True"
+        Title="{DynamicResource ServerUpdateAvailableTitle}"
+        Icon="avares://StreamTalkerClient/Assets/icon.ico"
+        Width="520" Height="480"
+        MinWidth="420" MinHeight="400"
+        CanResize="True"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="36"
+        SystemDecorations="BorderOnly">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Row 0: Custom title bar -->
+        <components:CustomTitleBar Grid.Row="0" />
+
+        <!-- Row 1: Content -->
+        <Grid Grid.Row="1" Margin="12" RowDefinitions="Auto,*,Auto,Auto,Auto,Auto,Auto,Auto">
+
+            <!-- Version info -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal" Spacing="8"
+                        HorizontalAlignment="Center" Margin="0,0,0,12">
+                <TextBlock Text="{DynamicResource ServerVersionLabel}"
+                           FontSize="14" Opacity="0.6"
+                           VerticalAlignment="Center" />
+                <TextBlock Text="{Binding CurrentVersion}"
+                           FontSize="16" Opacity="0.6" />
+                <TextBlock Text="→" FontSize="16"
+                           VerticalAlignment="Center" />
+                <TextBlock Text="{Binding NewVersion}"
+                           FontSize="16" FontWeight="Bold"
+                           Foreground="#10B981" />
+            </StackPanel>
+
+            <!-- Changelog -->
+            <Border Grid.Row="1"
+                    BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                    BorderThickness="1"
+                    CornerRadius="4"
+                    Margin="0,0,0,12">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled">
+                    <TextBlock Text="{Binding Changelog}"
+                               TextWrapping="Wrap"
+                               Margin="12,8"
+                               FontSize="13" />
+                </ScrollViewer>
+            </Border>
+
+            <!-- Docker instruction text -->
+            <TextBlock Grid.Row="2"
+                       Text="{DynamicResource ServerUpdateDockerHint}"
+                       TextWrapping="Wrap"
+                       FontSize="13"
+                       Margin="0,0,0,4" />
+
+            <!-- Command box -->
+            <Border Grid.Row="3"
+                    Background="#1A1A2E"
+                    BorderBrush="{StaticResource BrushBorderSubtle}"
+                    BorderThickness="1"
+                    CornerRadius="6" Padding="10,8" Margin="0,4,0,12">
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <TextBlock Grid.Column="0"
+                               Text="$"
+                               FontFamily="Cascadia Mono,Consolas,monospace"
+                               FontSize="13"
+                               Foreground="#10B981"
+                               Opacity="0.7"
+                               VerticalAlignment="Center"
+                               Margin="0,0,8,0" />
+                    <SelectableTextBlock Grid.Column="1"
+                                         Text="{Binding DockerCommand}"
+                                         FontFamily="Cascadia Mono,Consolas,monospace"
+                                         FontSize="13"
+                                         Foreground="#E0E0E0"
+                                         VerticalAlignment="Center" />
+                    <Button Grid.Column="2"
+                            Command="{Binding CopyCommandCommand}"
+                            Classes="Tertiary"
+                            Padding="4" Margin="8,0,0,0"
+                            ToolTip.Tip="{DynamicResource CopyButton}">
+                        <PathIcon Data="{StaticResource SemiIconCopy}" Width="14" Height="14"
+                                  Foreground="#808080" />
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Update output / status -->
+            <TextBlock Grid.Row="4"
+                       Text="{Binding UpdateOutputText}"
+                       TextWrapping="Wrap"
+                       FontSize="12"
+                       FontFamily="Cascadia Mono,Consolas,monospace"
+                       MaxHeight="80"
+                       IsVisible="{Binding UpdateOutputText, Converter={x:Static StringConverters.IsNotNullOrEmpty}}"
+                       Margin="0,0,0,8" />
+
+            <!-- Success message -->
+            <TextBlock Grid.Row="5"
+                       Text="{DynamicResource ServerUpdateComplete}"
+                       Foreground="#10B981"
+                       TextWrapping="Wrap"
+                       IsVisible="{Binding UpdateComplete}"
+                       Margin="0,0,0,8"
+                       FontSize="12" />
+
+            <!-- Error message -->
+            <TextBlock Grid.Row="6"
+                       Text="{Binding ErrorMessage}"
+                       Foreground="#EF4444"
+                       TextWrapping="Wrap"
+                       IsVisible="{Binding HasError}"
+                       Margin="0,0,0,8"
+                       FontSize="12" />
+
+            <!-- Buttons -->
+            <StackPanel Grid.Row="7" Orientation="Horizontal"
+                        HorizontalAlignment="Center" Spacing="8">
+                <!-- Update Now (only for local server) -->
+                <Button Command="{Binding UpdateNowCommand}"
+                        MinWidth="120"
+                        IsVisible="{Binding IsLocalServer}"
+                        IsEnabled="{Binding !IsUpdating}"
+                        Content="{DynamicResource ServerUpdateNowButton}" />
+
+                <!-- Skip This Version -->
+                <Button Command="{Binding SkipThisVersionCommand}"
+                        MinWidth="100"
+                        Classes="Tertiary"
+                        IsVisible="{Binding !IsUpdating}"
+                        Content="{DynamicResource SkipThisVersionButton}" />
+
+                <!-- Release Page -->
+                <Button Command="{Binding OpenReleasePageCommand}"
+                        MinWidth="100"
+                        Classes="Tertiary"
+                        IsVisible="{Binding !IsUpdating}"
+                        Content="{DynamicResource UpdateReleasePageButton}" />
+
+                <!-- Later -->
+                <Button Command="{Binding CancelCommand}"
+                        MinWidth="80"
+                        Classes="Tertiary"
+                        IsVisible="{Binding !IsUpdating}"
+                        Content="{DynamicResource UpdateLaterButton}" />
+            </StackPanel>
+
+        </Grid>
+    </Grid>
+
+</Window>

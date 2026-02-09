@@ -1,0 +1,139 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:components="using:StreamTalkerClient.Components"
+             x:Class="StreamTalkerClient.Components.NeuralIndicator"
+             HorizontalAlignment="Center">
+
+    <!-- Colors and static opacities are driven by pseudoclass Styles + Transitions (smooth).
+         Rotation, scale pulse, and opacity pulses are driven by code-behind timer (continuous). -->
+
+    <UserControl.Styles>
+        <!-- State-based color themes are in a separate style resource for maintainability -->
+        <StyleInclude Source="avares://StreamTalkerClient/Styles/NeuralIndicatorStyles.axaml" />
+    </UserControl.Styles>
+
+    <StackPanel HorizontalAlignment="Center" Spacing="8" Margin="0,12,0,8">
+        <Grid x:Name="RootGrid" HorizontalAlignment="Center">
+
+            <Ellipse x:Name="Glow" Classes="glow"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center">
+                <Ellipse.Transitions>
+                    <Transitions>
+                        <BrushTransition Property="Fill" Duration="0:0:0.5" />
+                    </Transitions>
+                </Ellipse.Transitions>
+            </Ellipse>
+
+            <components:VramArcIndicator x:Name="VramArc"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+
+            <Ellipse x:Name="OuterRing" Classes="outer-ring"
+                     Fill="Transparent"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center">
+                <Ellipse.Transitions>
+                    <Transitions>
+                        <BrushTransition Property="Stroke" Duration="0:0:0.5" />
+                    </Transitions>
+                </Ellipse.Transitions>
+            </Ellipse>
+
+            <!-- 3 independent orbit layers — each rotates at its own speed -->
+            <Canvas x:Name="Orbit1" Classes="orbit1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    RenderTransformOrigin="50%,50%"
+                    ClipToBounds="False">
+                <Canvas.Transitions>
+                    <Transitions>
+                        <DoubleTransition Property="Opacity" Duration="0:0:0.4" />
+                    </Transitions>
+                </Canvas.Transitions>
+                <Ellipse x:Name="Dot1" Classes="dot1">
+                    <Ellipse.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Fill" Duration="0:0:0.5" />
+                        </Transitions>
+                    </Ellipse.Transitions>
+                </Ellipse>
+            </Canvas>
+
+            <Canvas x:Name="Orbit2" Classes="orbit2"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    RenderTransformOrigin="50%,50%"
+                    ClipToBounds="False">
+                <Canvas.Transitions>
+                    <Transitions>
+                        <DoubleTransition Property="Opacity" Duration="0:0:0.4" />
+                    </Transitions>
+                </Canvas.Transitions>
+                <Ellipse x:Name="Dot2" Classes="dot2">
+                    <Ellipse.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Fill" Duration="0:0:0.5" />
+                        </Transitions>
+                    </Ellipse.Transitions>
+                </Ellipse>
+            </Canvas>
+
+            <Canvas x:Name="Orbit3" Classes="orbit3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    RenderTransformOrigin="50%,50%"
+                    ClipToBounds="False">
+                <Canvas.Transitions>
+                    <Transitions>
+                        <DoubleTransition Property="Opacity" Duration="0:0:0.4" />
+                    </Transitions>
+                </Canvas.Transitions>
+                <Ellipse x:Name="Dot3" Classes="dot3">
+                    <Ellipse.Transitions>
+                        <Transitions>
+                            <BrushTransition Property="Fill" Duration="0:0:0.5" />
+                        </Transitions>
+                    </Ellipse.Transitions>
+                </Ellipse>
+            </Canvas>
+
+            <Ellipse x:Name="InnerRing" Classes="inner-ring"
+                     Fill="Transparent"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center">
+                <Ellipse.Transitions>
+                    <Transitions>
+                        <BrushTransition Property="Stroke" Duration="0:0:0.5" />
+                        <DoubleTransition Property="Opacity" Duration="0:0:0.4" />
+                    </Transitions>
+                </Ellipse.Transitions>
+            </Ellipse>
+
+            <Ellipse x:Name="Core" Classes="core"
+                     HorizontalAlignment="Center"
+                     VerticalAlignment="Center"
+                     RenderTransformOrigin="50%,50%">
+                <Ellipse.Transitions>
+                    <Transitions>
+                        <BrushTransition Property="Fill" Duration="0:0:0.5" />
+                    </Transitions>
+                </Ellipse.Transitions>
+            </Ellipse>
+
+        </Grid>
+
+        <TextBlock x:Name="StatusTextBlock"
+                   HorizontalAlignment="Center"
+                   FontSize="15"
+                   FontWeight="Medium"
+                   Opacity="0.85">
+            <TextBlock.Transitions>
+                <Transitions>
+                    <BrushTransition Property="Foreground" Duration="0:0:0.5" />
+                </Transitions>
+            </TextBlock.Transitions>
+        </TextBlock>
+    </StackPanel>
+
+</UserControl>

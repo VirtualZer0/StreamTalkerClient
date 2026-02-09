@@ -1,0 +1,73 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:StreamTalkerClient.ViewModels"
+             x:Class="StreamTalkerClient.Views.VoiceSettingsPanel"
+             x:DataType="vm:MainWindowViewModel"
+             x:CompileBindings="True">
+
+    <StackPanel Spacing="8">
+
+        <!-- Default Voice + Refresh -->
+        <Grid ColumnDefinitions="Auto,8,*,8,Auto">
+            <TextBlock Grid.Column="0"
+                       Text="{DynamicResource DefaultVoiceLabel}"
+                       Classes="FieldLabel"
+                       MinWidth="120" />
+            <ComboBox Grid.Column="2"
+                      ItemsSource="{Binding AvailableVoices}"
+                      SelectedItem="{Binding SelectedVoice}"
+                      HorizontalAlignment="Stretch">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" Spacing="6">
+                            <TextBlock Text="{Binding Name}" VerticalAlignment="Center" />
+                            <Label Theme="{StaticResource TagLabel}"
+                                   Content="0.6B" Classes="Ghost Green"
+                                   IsVisible="{Binding HasCached06B}"
+                                   VerticalAlignment="Center" />
+                            <Label Theme="{StaticResource TagLabel}"
+                                   Content="1.7B" Classes="Ghost Blue"
+                                   IsVisible="{Binding HasCached17B}"
+                                   VerticalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <Button Grid.Column="4"
+                    Content="{DynamicResource RefreshButton}"
+                    Command="{Binding RefreshVoicesCommand}" />
+        </Grid>
+
+        <!-- Syntax (Extraction Mode) + Voice Bindings -->
+        <Grid ColumnDefinitions="Auto,8,*,8,Auto">
+            <TextBlock Grid.Column="0"
+                       Text="{DynamicResource SyntaxLabel}"
+                       Classes="FieldLabel"
+                       MinWidth="120" />
+            <ComboBox Grid.Column="2"
+                      SelectedIndex="{Binding SelectedExtractionModeIndex}"
+                      HorizontalAlignment="Stretch">
+                <ComboBoxItem Content="{DynamicResource SyntaxBracket}" />
+                <ComboBoxItem Content="{DynamicResource SyntaxFirstWord}" />
+            </ComboBox>
+            <Button Grid.Column="4"
+                    Content="{DynamicResource VoiceBindingsButton}"
+                    Command="{Binding OpenVoiceBindingsCommand}"
+                    Click="OnVoiceBindingsClick" />
+        </Grid>
+
+        <!-- TTS Language (moved from SettingsPanel) -->
+        <Grid ColumnDefinitions="Auto,8,*">
+            <TextBlock Grid.Column="0"
+                       Text="{DynamicResource TtsLanguageLabel}"
+                       Classes="FieldLabel"
+                       MinWidth="120" />
+            <ComboBox Grid.Column="2"
+                      ItemsSource="{x:Static vm:MainWindowViewModel.TtsLanguageOptions}"
+                      SelectedItem="{Binding SelectedTtsLanguage}"
+                      Width="160" />
+        </Grid>
+
+    </StackPanel>
+
+</UserControl>

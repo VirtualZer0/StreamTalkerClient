@@ -1,0 +1,128 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:StreamTalkerClient.ViewModels"
+             xmlns:models="using:StreamTalkerClient.Models"
+             xmlns:components="using:StreamTalkerClient.Components"
+             x:Class="StreamTalkerClient.Views.QueuePanel">
+
+    <DockPanel Margin="8">
+
+        <!-- Bottom controls -->
+        <StackPanel DockPanel.Dock="Bottom" Spacing="6" Margin="0,8,0,0">
+
+            <!-- Skip + Clear buttons -->
+            <StackPanel Orientation="Horizontal" Spacing="8"
+                        HorizontalAlignment="Center">
+                <Button Content="{DynamicResource SkipButton}"
+                        Command="{Binding SkipMessageCommand}"
+                        MinWidth="70" />
+                <Button Content="{DynamicResource ClearButton}"
+                        Command="{Binding ClearQueueCommand}"
+                        MinWidth="70" />
+            </StackPanel>
+
+            <!-- Volume -->
+            <Grid ColumnDefinitions="Auto,8,*,4,Auto">
+                <PathIcon Grid.Column="0"
+                          Data="{StaticResource SemiIconVolume2}"
+                          Width="16" Height="16"
+                          VerticalAlignment="Center" />
+                <Slider Grid.Column="2"
+                        Minimum="0" Maximum="100"
+                        Value="{Binding Volume}"
+                        MinWidth="80"
+                        VerticalAlignment="Center" />
+                <TextBlock Grid.Column="4"
+                           Text="{Binding VolumeText}"
+                           VerticalAlignment="Center"
+                           MinWidth="35" />
+            </Grid>
+
+            <!-- Playback Delay -->
+            <Grid ColumnDefinitions="Auto,8,Auto,8,Auto">
+                <TextBlock Grid.Column="0"
+                           Text="{DynamicResource DelayLabel}"
+                           Classes="FieldLabel" />
+                <NumericUpDown Grid.Column="2"
+                               Value="{Binding PlaybackDelay}"
+                               Minimum="0" Maximum="300"
+                               Increment="1" FormatString="0"
+                               Width="80"
+                               VerticalAlignment="Center" />
+                <TextBlock Grid.Column="4"
+                           Text="{DynamicResource SecondsLabel}"
+                           VerticalAlignment="Center" />
+            </Grid>
+
+            <!-- Hotkeys hint -->
+            <TextBlock Text="{Binding HotkeysText}"
+                       FontSize="11"
+                       Foreground="Gray"
+                       Opacity="0.8"
+                       HorizontalAlignment="Center" />
+
+        </StackPanel>
+
+        <!-- Queue content (fill remaining space) -->
+        <Panel>
+            <!-- Empty state placeholder -->
+            <components:Placeholder Icon="{StaticResource SemiIconCustomize}"
+                                    Text="{DynamicResource QueueEmpty}"
+                                    IsVisible="{Binding !QueueItems.Count}" />
+
+            <!-- Queue items list -->
+            <ListBox ItemsSource="{Binding QueueItems}"
+                     IsVisible="{Binding QueueItems.Count}"
+                     FontSize="12"
+                     x:CompileBindings="False">
+                <ListBox.Styles>
+                    <Style Selector="ListBoxItem">
+                        <Setter Property="Padding" Value="4,2" />
+                    </Style>
+                </ListBox.Styles>
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="models:QueueDisplayItem">
+                        <Panel>
+                            <!-- Normal queue item -->
+                            <StackPanel Orientation="Horizontal"
+                                        Spacing="6"
+                                        IsVisible="{Binding !IsOverflowIndicator}">
+                                <!-- State emoji in border -->
+                                <Border Background="#20808080"
+                                        CornerRadius="4"
+                                        Padding="4,2"
+                                        Width="32"
+                                        VerticalAlignment="Center"
+                                        ToolTip.Tip="{Binding StateName}">
+                                    <TextBlock Text="{Binding StateEmoji}"
+                                               FontSize="12"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                </Border>
+                                <!-- Voice name tag -->
+                                <Label Theme="{StaticResource TagLabel}"
+                                       Content="{Binding VoiceName}"
+                                       Classes="Solid Blue"
+                                       VerticalAlignment="Center" />
+                                <!-- Username: text -->
+                                <TextBlock VerticalAlignment="Center">
+                                    <Run Text="{Binding Username}" FontWeight="Bold" />
+                                    <Run Text=": " />
+                                    <Run Text="{Binding TextContent}" />
+                                </TextBlock>
+                            </StackPanel>
+                            <!-- Overflow indicator -->
+                            <TextBlock Text="{Binding TextContent}"
+                                       IsVisible="{Binding IsOverflowIndicator}"
+                                       Foreground="Gray"
+                                       FontStyle="Italic"
+                                       Margin="4,2" />
+                        </Panel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </Panel>
+
+    </DockPanel>
+
+</UserControl>

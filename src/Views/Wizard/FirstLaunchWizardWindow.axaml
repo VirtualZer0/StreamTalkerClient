@@ -1,0 +1,82 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:StreamTalkerClient.ViewModels.Wizard"
+        xmlns:views="using:StreamTalkerClient.Views.Wizard"
+        xmlns:models="using:StreamTalkerClient.Models"
+        xmlns:components="using:StreamTalkerClient.Components"
+        x:Class="StreamTalkerClient.Views.Wizard.FirstLaunchWizardWindow"
+        x:DataType="vm:FirstLaunchWizardViewModel"
+        Title="{DynamicResource WizardTitle}"
+        Icon="avares://StreamTalkerClient/Assets/icon.ico"
+        Width="700"
+        SizeToContent="Height"
+        MinWidth="600"
+        MinHeight="450"
+        MaxHeight="900"
+        CanResize="false"
+        WindowStartupLocation="CenterScreen"
+        ExtendClientAreaToDecorationsHint="True"
+        ExtendClientAreaChromeHints="NoChrome"
+        ExtendClientAreaTitleBarHeightHint="36"
+        SystemDecorations="None">
+
+    <Window.DataContext>
+        <vm:FirstLaunchWizardViewModel />
+    </Window.DataContext>
+
+    <Window.Styles>
+        <!-- Loading spinner rotation animation -->
+        <Style Selector="PathIcon.spinning">
+            <Style.Animations>
+                <Animation Duration="0:0:1" IterationCount="INFINITE">
+                    <KeyFrame Cue="0%">
+                        <Setter Property="RotateTransform.Angle" Value="0" />
+                    </KeyFrame>
+                    <KeyFrame Cue="100%">
+                        <Setter Property="RotateTransform.Angle" Value="360" />
+                    </KeyFrame>
+                </Animation>
+            </Style.Animations>
+        </Style>
+    </Window.Styles>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Row 0: Custom title bar -->
+        <components:CustomTitleBar Grid.Row="0" />
+
+        <!-- Row 1: Main content area with step-based navigation -->
+        <Panel Grid.Row="1">
+            <!-- Welcome Step -->
+            <views:WelcomeStepView IsVisible="{Binding CurrentStep, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static models:WizardStep.Welcome}}" />
+
+            <!-- Existing Server Choice Step -->
+            <views:ExistingServerChoiceView IsVisible="{Binding CurrentStep, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static models:WizardStep.ExistingServerChoice}}" />
+
+            <!-- Local Check Step -->
+            <views:LocalCheckView IsVisible="{Binding CurrentStep, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static models:WizardStep.LocalCheck}}" />
+
+            <!-- Remote Server Input Step -->
+            <views:RemoteServerInputView IsVisible="{Binding CurrentStep, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static models:WizardStep.RemoteServerInput}}" />
+
+            <!-- WSL Install Step -->
+            <views:WslInstallView IsVisible="{Binding CurrentStep, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static models:WizardStep.WslInstall}}" />
+
+            <!-- Docker Install Step -->
+            <views:DockerInstallView IsVisible="{Binding CurrentStep, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static models:WizardStep.DockerInstall}}" />
+
+            <!-- Resource Config Step -->
+            <views:ResourceConfigView IsVisible="{Binding CurrentStep, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static models:WizardStep.ResourceConfig}}" />
+
+            <!-- Server Launch Step -->
+            <views:ServerLaunchView IsVisible="{Binding CurrentStep, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static models:WizardStep.ServerLaunch}}" />
+
+            <!-- Completed Step -->
+            <views:CompletedView IsVisible="{Binding CurrentStep, Converter={x:Static ObjectConverters.Equal}, ConverterParameter={x:Static models:WizardStep.Completed}}" />
+        </Panel>
+    </Grid>
+</Window>

@@ -1,0 +1,377 @@
+<ResourceDictionary xmlns="https://github.com/avaloniaui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="using:System">
+
+    <!-- App -->
+    <sys:String x:Key="AppTitle">Stream Talker Client</sys:String>
+
+    <!-- Platform Tabs -->
+    <sys:String x:Key="TwitchTab">Twitch</sys:String>
+    <sys:String x:Key="VKPlayTab">VK Play</sys:String>
+    <sys:String x:Key="TwitchConnectionGroup">Подключение к Twitch</sys:String>
+    <sys:String x:Key="VKPlayConnectionGroup">Подключение к VK Play Live</sys:String>
+
+    <!-- Connection Controls -->
+    <sys:String x:Key="ChannelLabel">Канал:</sys:String>
+    <sys:String x:Key="ConnectButton">Подключиться</sys:String>
+    <sys:String x:Key="DisconnectButton">Отключиться</sys:String>
+    <sys:String x:Key="StatusLabel">Статус:</sys:String>
+    <sys:String x:Key="DisconnectedStatus">Отключен</sys:String>
+    <sys:String x:Key="ConnectingStatus">Подключение...</sys:String>
+    <sys:String x:Key="ConnectedStatus">Подключен</sys:String>
+    <sys:String x:Key="JoinedStatus">В канале</sys:String>
+    <sys:String x:Key="ErrorStatus">Ошибка</sys:String>
+    <sys:String x:Key="JoiningChannelStatus">Подключен, вход в канал...</sys:String>
+    <sys:String x:Key="SubscribingStatus">Подключен, подписка...</sys:String>
+    <sys:String x:Key="ReconnectButton">Переподключиться</sys:String>
+    <sys:String x:Key="JoinedFormat">В канале: {0}</sys:String>
+    <sys:String x:Key="ConnectionError">Ошибка подключения</sys:String>
+    <sys:String x:Key="ServerUnavailable">Недоступен</sys:String>
+    <sys:String x:Key="RewardLabel">Награда:</sys:String>
+    <sys:String x:Key="NoneReward">(Нет)</sys:String>
+    <sys:String x:Key="RefreshButton">Обновить</sys:String>
+    <sys:String x:Key="ReadAllMessages">Читать все сообщения</sys:String>
+    <sys:String x:Key="RequireVoice">Требовать наличие голоса</sys:String>
+
+    <!-- Voice Settings -->
+    <sys:String x:Key="VoiceSettingsGroup">Настройки голоса</sys:String>
+    <sys:String x:Key="DefaultVoiceLabel">Голос по умолч.:</sys:String>
+    <sys:String x:Key="ManageButton">Управление</sys:String>
+    <sys:String x:Key="SyntaxLabel">Синтаксис:</sys:String>
+    <sys:String x:Key="SyntaxBracket">[голос] текст</sys:String>
+    <sys:String x:Key="SyntaxFirstWord">голос текст (первое слово)</sys:String>
+    <sys:String x:Key="VoiceBindingsButton">Привязка голоса</sys:String>
+
+    <!-- Model Control -->
+    <sys:String x:Key="ModelControlGroup">Управление моделью</sys:String>
+    <sys:String x:Key="ModelLabel">Модель:</sys:String>
+    <sys:String x:Key="AttentionLabel">Attention:</sys:String>
+    <sys:String x:Key="QuantLabel">Quantization:</sys:String>
+    <sys:String x:Key="WarmupLabel">Прогрев:</sys:String>
+    <sys:String x:Key="ForceCpuLabel">Только CPU</sys:String>
+    <sys:String x:Key="SamplingLabel">Sampling</sys:String>
+    <sys:String x:Key="ModelStatusLabel">Статус:</sys:String>
+    <sys:String x:Key="ModelUnloaded">Выгружена</sys:String>
+    <sys:String x:Key="ModelLoading">Загрузка...</sys:String>
+    <sys:String x:Key="ModelLoaded">Загружена</sys:String>
+    <sys:String x:Key="ModelLoadError">Ошибка загрузки</sys:String>
+    <sys:String x:Key="ModelWarmingUp">Прогрев...</sys:String>
+    <sys:String x:Key="ModelSynthesizing">Синтезирование...</sys:String>
+    <sys:String x:Key="ModelUnknown">Неизвестно</sys:String>
+    <sys:String x:Key="ModelNotFound">Не найдена</sys:String>
+    <sys:String x:Key="AutoUnloadFormat">Загружена (авто-выгрузка: {0}м)</sys:String>
+    <sys:String x:Key="UnknownStatus">Неизвестно</sys:String>
+    <sys:String x:Key="ConnectAction">Подключиться</sys:String>
+    <sys:String x:Key="LoadButton">Загрузить</sys:String>
+    <sys:String x:Key="UnloadButton">Выгрузить</sys:String>
+    <sys:String x:Key="AutoUnloadLabel">Авто-выгрузка</sys:String>
+    <sys:String x:Key="MinutesLabel">мин</sys:String>
+    <sys:String x:Key="GpuLabel">GPU:</sys:String>
+    <sys:String x:Key="VramLimitLabel">Лимит:</sys:String>
+    <sys:String x:Key="GpuPlaceholder">-- / -- Gb</sys:String>
+    <sys:String x:Key="VramPlaceholder">-- Gb</sys:String>
+    <sys:String x:Key="GpuUsageFormat">GPU: {0:F0} / {1:F0} МБ ({2}%)</sys:String>
+    <sys:String x:Key="MaxVramFormat">Макс. VRAM: {0:F0} МБ</sys:String>
+    <sys:String x:Key="MaxVramDetailFormat">Макс. VRAM: {0:F0} / {1:F0} МБ</sys:String>
+
+    <!-- Queue -->
+    <sys:String x:Key="QueueGroup">Очередь</sys:String>
+    <sys:String x:Key="QueueItemsFormat">Очередь ({0} элементов)</sys:String>
+    <sys:String x:Key="SkipButton">Пропустить</sys:String>
+    <sys:String x:Key="ClearButton">Очистить</sys:String>
+    <sys:String x:Key="VolumeLabel">Громкость:</sys:String>
+    <sys:String x:Key="HotkeysFormat">Горячие клавиши: {0} - пропустить, {1} - очистить всё</sys:String>
+    <sys:String x:Key="TimeoutLabel">Таймаут:</sys:String>
+    <sys:String x:Key="SecondsLabel">сек</sys:String>
+    <sys:String x:Key="ApplyButton">Применить</sys:String>
+
+    <!-- Cache -->
+    <sys:String x:Key="CacheGroup">Кэш</sys:String>
+    <sys:String x:Key="CacheSizeFormat">Размер: {0:F1} МБ / {1:F0} МБ   Элементов: {2}</sys:String>
+    <sys:String x:Key="CacheSizeDetailFormat">{0:F1} / {1:F0} МБ ({2} элементов)</sys:String>
+    <sys:String x:Key="CompressButton">Сжать</sys:String>
+
+    <!-- Services -->
+    <sys:String x:Key="ServicesGroup">Сервисы</sys:String>
+
+    <!-- Server -->
+    <sys:String x:Key="ServerGroup">Сервер</sys:String>
+    <sys:String x:Key="TtsServerLabel">TTS сервер:</sys:String>
+    <sys:String x:Key="DelayLabel">Задержка:</sys:String>
+    <sys:String x:Key="CacheLimitLabel">Лимит кэша:</sys:String>
+    <sys:String x:Key="MBLabel">МБ</sys:String>
+    <sys:String x:Key="TtsLanguageLabel">Язык TTS:</sys:String>
+    <sys:String x:Key="LanguageLabel">Язык:</sys:String>
+
+    <!-- Status -->
+    <sys:String x:Key="ReadyStatus">Готов</sys:String>
+    <sys:String x:Key="ErrorPrefix">Ошибка: </sys:String>
+    <sys:String x:Key="InvalidServerUrl">Неверный URL сервера</sys:String>
+    <sys:String x:Key="ServerUrlUpdated">URL сервера обновлён</sys:String>
+
+    <!-- Tray -->
+    <sys:String x:Key="ShowButton">Показать</sys:String>
+    <sys:String x:Key="ExitButton">Выход</sys:String>
+    <sys:String x:Key="TrayMinimized">Свернуто в системный трей</sys:String>
+
+    <!-- Voice Binding Dialog -->
+    <sys:String x:Key="VoiceBindingTitle">Привязка голосов</sys:String>
+    <sys:String x:Key="BindingsGroup">Привязки</sys:String>
+    <sys:String x:Key="BindingsCountFormat">Привязки ({0} элементов)</sys:String>
+    <sys:String x:Key="UsernameColumn">Пользователь</sys:String>
+    <sys:String x:Key="VoiceColumn">Голос</sys:String>
+    <sys:String x:Key="StatusColumn">Статус</sys:String>
+    <sys:String x:Key="EnabledStatus">Включен</sys:String>
+    <sys:String x:Key="DisabledStatus">Отключен</sys:String>
+    <sys:String x:Key="ChangeVoiceButton">Изменить голос</sys:String>
+    <sys:String x:Key="DeleteButton">Удалить</sys:String>
+    <sys:String x:Key="AddBindingGroup">Добавить привязку</sys:String>
+    <sys:String x:Key="UsernameLabel">Пользователь:</sys:String>
+    <sys:String x:Key="VoiceLabel">Голос:</sys:String>
+    <sys:String x:Key="AddButton">Добавить</sys:String>
+    <sys:String x:Key="CloseButton">Закрыть</sys:String>
+
+    <!-- Voice Management Dialog -->
+    <sys:String x:Key="VoiceManagementTitle">Управление голосами</sys:String>
+    <sys:String x:Key="AvailableVoicesGroup">Доступные голоса</sys:String>
+    <sys:String x:Key="NameColumn">Имя</sys:String>
+    <sys:String x:Key="TranscriptionColumn">Транскрипция</sys:String>
+    <sys:String x:Key="CreatedAtColumn">Создан</sys:String>
+    <sys:String x:Key="VolumeColumn">Громкость</sys:String>
+    <sys:String x:Key="RenameButton">Переименовать</sys:String>
+    <sys:String x:Key="AddVoiceGroup">Добавить новый голос</sys:String>
+    <sys:String x:Key="VoiceNameLabel">Имя голоса:</sys:String>
+    <sys:String x:Key="AudioFileLabel">Аудио файл:</sys:String>
+    <sys:String x:Key="FileNotSelected">(не выбран)</sys:String>
+    <sys:String x:Key="BrowseButton">Обзор...</sys:String>
+    <sys:String x:Key="FileHint">(wav, mp3, flac, ogg)</sys:String>
+    <sys:String x:Key="TranscriptionLabel">Транскрипция (опционально):</sys:String>
+    <sys:String x:Key="OverwriteVoiceLabel">Перезаписать</sys:String>
+    <sys:String x:Key="DisableTranscriptionLabel">Без транскрипции</sys:String>
+    <sys:String x:Key="CachedLabel">Кэш</sys:String>
+    <sys:String x:Key="CreatingButton">Создание...</sys:String>
+
+    <!-- Dialogs -->
+    <sys:String x:Key="ConfirmTitle">Подтверждение</sys:String>
+    <sys:String x:Key="ErrorTitle">Ошибка</sys:String>
+    <sys:String x:Key="SuccessTitle">Успех</sys:String>
+    <sys:String x:Key="ConfirmDeleteBinding">Удалить привязку для пользователя "{0}"?</sys:String>
+    <sys:String x:Key="ConfirmReplaceBinding">Привязка для пользователя "{0}" уже существует.\nЗаменить голос на "{1}"?</sys:String>
+    <sys:String x:Key="EnterUsername">Введите имя пользователя</sys:String>
+    <sys:String x:Key="SelectVoice">Выберите голос</sys:String>
+    <sys:String x:Key="ChangeVoiceTitle">Изменить голос</sys:String>
+    <sys:String x:Key="SelectVoiceLabel">Выберите голос:</sys:String>
+    <sys:String x:Key="OkButton">OK</sys:String>
+    <sys:String x:Key="CancelButton">Отмена</sys:String>
+    <sys:String x:Key="ConfirmDeleteVoice">Вы уверены, что хотите удалить голос "{0}"?</sys:String>
+    <sys:String x:Key="ConfirmDeleteTitle">Подтверждение удаления</sys:String>
+    <sys:String x:Key="ConfirmClearVoiceCache">Очистить кэш промптов для голоса "{0}"? Это удалит закэшированные промпты модели.</sys:String>
+    <sys:String x:Key="ConfirmClearAllVoiceCache">Очистить кэш промптов для всех голосов? Это удалит все закэшированные промпты модели.</sys:String>
+    <sys:String x:Key="ClearCacheButton">Очистить кэш</sys:String>
+    <sys:String x:Key="ClearAllCacheButton">Очистить весь кэш</sys:String>
+    <sys:String x:Key="EnterVoiceName">Введите имя голоса</sys:String>
+    <sys:String x:Key="SelectAudioFile">Выберите аудио файл</sys:String>
+    <sys:String x:Key="InvalidVoiceName">Имя голоса содержит недопустимые символы</sys:String>
+    <sys:String x:Key="RenameVoiceTitle">Переименовать голос</sys:String>
+    <sys:String x:Key="NewNameLabel">Новое имя:</sys:String>
+    <sys:String x:Key="InvalidName">Имя содержит недопустимые символы</sys:String>
+    <sys:String x:Key="FailedToLoadData">Не удалось загрузить данные</sys:String>
+    <sys:String x:Key="FailedToLoadVoices">Не удалось загрузить список голосов</sys:String>
+    <sys:String x:Key="TtsServerUnavailable">TTS сервер недоступен</sys:String>
+    <sys:String x:Key="EnterChannelName">Введите имя канала</sys:String>
+    <sys:String x:Key="EnterVKChannelName">Введите имя канала VK Play</sys:String>
+    <sys:String x:Key="ConfirmClearCache">Вы уверены, что хотите очистить кэш аудио?</sys:String>
+    <sys:String x:Key="ClearCacheTitle">Очистка кэша</sys:String>
+    <sys:String x:Key="CompressCacheTitle">Сжатие кэша</sys:String>
+    <sys:String x:Key="NoUnusedItems">Нет элементов для сжатия.\nВсе элементы кэша были использованы.</sys:String>
+    <sys:String x:Key="CompressConfirmFormat">Будет удалено {0} элементов ({1:F1} МБ),\nкоторые ни разу не использовались.\n\nПродолжить?</sys:String>
+    <sys:String x:Key="TtsServerRestored">TTS сервер восстановлен, загрузка данных...</sys:String>
+    <sys:String x:Key="TtsServerLost">TTS сервер недоступен</sys:String>
+    <sys:String x:Key="TimeoutSetFormat">Таймаут генерации установлен: {0} сек</sys:String>
+    <sys:String x:Key="TimeoutSetError">Ошибка установки таймаута</sys:String>
+    <sys:String x:Key="VramLimitSetFormat">Лимит VRAM установлен: {0:F2} Gb</sys:String>
+    <sys:String x:Key="VramLimitSetError">Ошибка установки лимита VRAM</sys:String>
+    <sys:String x:Key="VoiceNotFoundFormat">Голос '{0}' не найден (от {1})</sys:String>
+    <sys:String x:Key="MessageRemovedFormat">Сообщение удалено после ошибок: {0}</sys:String>
+    <sys:String x:Key="YesButton">Да</sys:String>
+    <sys:String x:Key="NoButton">Нет</sys:String>
+
+    <!-- Status Bar Messages -->
+    <sys:String x:Key="TwitchDisconnected">Twitch отключен</sys:String>
+    <sys:String x:Key="VKPlayDisconnected">VK Play отключен</sys:String>
+    <sys:String x:Key="ConnectingToFormat">Подключение к каналу {0}: {1}...</sys:String>
+    <sys:String x:Key="ConnectionErrorFormat">Ошибка подключения {0}: {1}</sys:String>
+    <sys:String x:Key="LoadingRewardsFormat">Загрузка наград {0}...</sys:String>
+    <sys:String x:Key="ReadAllMessagesOption">(Читать все сообщения)</sys:String>
+    <sys:String x:Key="UnnamedReward">(без названия)</sys:String>
+    <sys:String x:Key="LoadedRewardsFormat">Загружено {0} наград {1}</sys:String>
+    <sys:String x:Key="FailedLoadRewardsFormat">Не удалось загрузить награды: {0}</sys:String>
+    <sys:String x:Key="RefreshingVoices">Обновление голосов...</sys:String>
+    <sys:String x:Key="LoadedVoicesFormat">Загружено {0} голосов</sys:String>
+    <sys:String x:Key="FailedRefreshVoicesFormat">Не удалось обновить голоса: {0}</sys:String>
+    <sys:String x:Key="SkippedMessage">Сообщение пропущено</sys:String>
+    <sys:String x:Key="QueueCleared">Очередь очищена</sys:String>
+    <sys:String x:Key="QueueCountFormat">Очередь ({0})</sys:String>
+    <sys:String x:Key="CacheCompressedFormat">Кэш сжат: удалено {0} элементов, освобождено {1:F1} МБ</sys:String>
+    <sys:String x:Key="CacheCleared">Кэш очищен</sys:String>
+    <sys:String x:Key="ErrorWithMessageFormat">Ошибка: {0}</sys:String>
+    <sys:String x:Key="InvalidVoiceFormat">Недопустимый голос '{0}' от {1}</sys:String>
+    <sys:String x:Key="QueueMoreFormat">... и ещё {0}</sys:String>
+    <sys:String x:Key="RewardPointsFormat">{0} ({1} баллов)</sys:String>
+
+    <!-- Settings Window -->
+    <sys:String x:Key="SettingsWindowTitle">Настройки</sys:String>
+    <sys:String x:Key="OptimizationsGroup">Оптимизации</sys:String>
+    <sys:String x:Key="TweaksGroup">Твики</sys:String>
+    <sys:String x:Key="ActionsColumn">Действия</sys:String>
+    <sys:String x:Key="EnableOptimizationsLabel">Включить оптимизации</sys:String>
+    <sys:String x:Key="TorchCompileLabel">Torch Compile</sys:String>
+    <sys:String x:Key="CudaGraphsLabel">CUDA Graphs</sys:String>
+    <sys:String x:Key="CompileCodebookLabel">Компиляция кодбука</sys:String>
+    <sys:String x:Key="FastCodebookLabel">Быстрый кодбук</sys:String>
+    <sys:String x:Key="WarmupLangLabel">Язык прогрева:</sys:String>
+    <sys:String x:Key="WarmupVoiceLabel">Голос прогрева:</sys:String>
+    <sys:String x:Key="WarmupTimeoutLabel">Таймаут прогрева:</sys:String>
+    <sys:String x:Key="InferenceGroup">Параметры генерации</sys:String>
+    <sys:String x:Key="SpeedLabel">Скорость:</sys:String>
+    <sys:String x:Key="TemperatureLabel">Температура:</sys:String>
+    <sys:String x:Key="MaxTokensLabel">Макс. токенов:</sys:String>
+    <sys:String x:Key="RepPenaltyLabel">Штраф повторов:</sys:String>
+    <sys:String x:Key="PowerLoadTooltip">Загрузить модель</sys:String>
+    <sys:String x:Key="PowerUnloadTooltip">Выгрузить модель</sys:String>
+    <sys:String x:Key="QueueTabLabel">Очередь</sys:String>
+    <sys:String x:Key="QueueEmpty">Очередь пуста</sys:String>
+
+    <!-- Application Section -->
+    <sys:String x:Key="ApplicationGroup">Приложение</sys:String>
+    <sys:String x:Key="ExportSettingsButton">Экспорт настроек</sys:String>
+    <sys:String x:Key="ImportSettingsButton">Импорт настроек</sys:String>
+    <sys:String x:Key="ExportSuccessNotification">Настройки экспортированы</sys:String>
+    <sys:String x:Key="ExportFailedNotification">Ошибка экспорта: {0}</sys:String>
+    <sys:String x:Key="ImportSuccessNotification">Настройки импортированы</sys:String>
+    <sys:String x:Key="ImportFailedNotification">Ошибка импорта: {0}</sys:String>
+    <sys:String x:Key="InvalidSettingsFile">Неверный файл настроек</sys:String>
+
+    <!-- Voice Edit Dialog -->
+    <sys:String x:Key="SaveButton">Сохранить</sys:String>
+    <sys:String x:Key="CopyButton">Копировать</sys:String>
+    <sys:String x:Key="CopiedText">Скопировано!</sys:String>
+    <sys:String x:Key="EditButton">Редактировать</sys:String>
+
+    <!-- Notifications -->
+    <sys:String x:Key="VramLimitExceededNotification">Использование VRAM превышает установленный лимит! Результаты генерации могут быть обрезаны.</sys:String>
+    <sys:String x:Key="VramHighUsageNotification">Использование VRAM превышает 70% от общей ёмкости!</sys:String>
+
+    <!-- First-Launch Wizard -->
+    <sys:String x:Key="WizardTitle">Настройка Stream Talker</sys:String>
+    <sys:String x:Key="WizardNextButton">Далее</sys:String>
+    <sys:String x:Key="WizardBackButton">Назад</sys:String>
+    <sys:String x:Key="WizardRetryButton">Попробовать снова</sys:String>
+    <sys:String x:Key="WizardStartButton">Запустить</sys:String>
+    <sys:String x:Key="WizardCancelButton">Отмена</sys:String>
+
+    <!-- Step 1: Welcome -->
+    <sys:String x:Key="WizardWelcomeMessage">Для работы этому приложению требуется Stream Talker Server — речевой движок, который превращает текст в голос. Вы можете настроить его сейчас или подключиться к уже запущенному серверу.</sys:String>
+    <sys:String x:Key="WizardAlreadyInstalled">Уже установлен</sys:String>
+    <sys:String x:Key="WizardInstallNow">Установить сейчас</sys:String>
+
+    <!-- Step 2: Existing Server Choice -->
+    <sys:String x:Key="WizardExistingServerTitle">Где запущен Stream Talker Server?</sys:String>
+    <sys:String x:Key="WizardOnThisComputer">На этом компьютере</sys:String>
+    <sys:String x:Key="WizardOnThisComputerHint">Сервер запущен прямо здесь, на том же компьютере.</sys:String>
+    <sys:String x:Key="WizardOnAnotherComputer">На другом компьютере</sys:String>
+    <sys:String x:Key="WizardOnAnotherComputerHint">Сервер запущен на другом компьютере в моей сети.</sys:String>
+
+    <!-- Step 2.1: Local Check -->
+    <sys:String x:Key="WizardLocalCheckPrompt">Проверяется, запущен ли Stream Talker Server на этом компьютере (localhost:7860)…</sys:String>
+    <sys:String x:Key="WizardCheckingConnection">Проверка соединения…</sys:String>
+    <sys:String x:Key="WizardLocalServerFound">Всё готово! Stream Talker Server запущен.</sys:String>
+    <sys:String x:Key="WizardLocalServerNotFound">Не удалось подключиться к серверу на этом компьютере. Пожалуйста, убедитесь, что Stream Talker Server запущен, и попробуйте снова.</sys:String>
+
+    <!-- Step 2.2: Remote Server -->
+    <sys:String x:Key="WizardRemoteServerPrompt">Введите адрес компьютера, на котором запущен Stream Talker Server (например: http://192.168.1.50:7860).</sys:String>
+    <sys:String x:Key="WizardConnectButton">Подключиться</sys:String>
+    <sys:String x:Key="WizardConnecting">Подключение…</sys:String>
+    <sys:String x:Key="WizardRemoteServerNotReachable">Не удалось подключиться к серверу по указанному адресу. Проверьте правильность адреса и убедитесь, что сервер запущен на удалённом компьютере.</sys:String>
+    <sys:String x:Key="WizardInvalidUrl">Неверный формат URL</sys:String>
+
+    <!-- Step 3.0: WSL Install (Windows) -->
+    <sys:String x:Key="WizardWslRequired">Прежде чем продолжить, вашему компьютеру нужен небольшой компонент под названием WSL (подсистема Windows для Linux). Он позволяет Windows запускать инструменты, необходимые для Stream Talker Server. Это одноразовая установка от Microsoft.</sys:String>
+    <sys:String x:Key="WizardInstallWsl">Установить WSL</sys:String>
+    <sys:String x:Key="WizardInstallingWsl">Установка WSL… Это может занять несколько минут. Компьютер может попросить вас перезагрузиться.</sys:String>
+    <sys:String x:Key="WizardWslInstalled">WSL установлен. Пожалуйста, перезагрузите компьютер и снова откройте это приложение, чтобы продолжить установку.</sys:String>
+    <sys:String x:Key="WizardWslAlreadyInstalled">WSL уже установлен на вашем компьютере.</sys:String>
+    <sys:String x:Key="WizardWslInstallFailed">Не удалось установить WSL</sys:String>
+
+    <!-- Step 3.1: Docker Install -->
+    <sys:String x:Key="WizardDockerRequired">Stream Talker Server работает внутри специального контейнера, которым управляет бесплатная программа Docker. Установите Docker Desktop, чтобы продолжить.</sys:String>
+    <sys:String x:Key="WizardGetDockerButton">Скачать Docker Desktop</sys:String>
+    <sys:String x:Key="WizardDockerInstruction">Скачайте и установите Docker Desktop со страницы, которая только что открылась. После завершения установки вернитесь сюда и нажмите кнопку ниже.</sys:String>
+    <sys:String x:Key="WizardDockerInstalledButton">Я установил Docker</sys:String>
+    <sys:String x:Key="WizardVerifyingDocker">Проверка установки Docker…</sys:String>
+    <sys:String x:Key="WizardDockerNotFound">Docker, похоже, ещё не установлен или не завершил настройку. Убедитесь, что Docker Desktop полностью установлен и запущен, затем попробуйте снова.</sys:String>
+
+    <!-- Step 4.1: Resource Config -->
+    <sys:String x:Key="WizardResourceConfigTitle">Почти готово! Выберите, сколько ресурсов вашего компьютера выделить речевому движку. Значения по умолчанию подходят для большинства компьютеров.</sys:String>
+    <sys:String x:Key="WizardMemoryLabel">Память (RAM)</sys:String>
+    <sys:String x:Key="WizardMemoryDescription">Сколько памяти может использовать сервер</sys:String>
+    <sys:String x:Key="WizardCpuLabel">Процессор (CPU)</sys:String>
+    <sys:String x:Key="WizardCpuDescription">Сколько мощности процессора может использовать сервер</sys:String>
+    <sys:String x:Key="WizardResourceTip">Совет: если во время работы Stream Talker другие приложения замедляются, попробуйте уменьшить эти значения.</sys:String>
+    <sys:String x:Key="WizardStartServerButton">Запустить сервер</sys:String>
+
+    <!-- Step 4.2: Server Launch -->
+    <sys:String x:Key="WizardLaunchingServer">Настройка сервера… При первом запуске это может занять несколько минут, так как загружается речевая модель.</sys:String>
+    <sys:String x:Key="WizardWaitingForServer">Ожидание запуска сервера…</sys:String>
+    <sys:String x:Key="WizardServerStarted">Stream Talker Server запущен и работает!</sys:String>
+    <sys:String x:Key="WizardServerStartTimeout">Сервер запускается дольше, чем ожидалось. Вы можете продолжить ожидание или проверить окно консоли для деталей.</sys:String>
+    <sys:String x:Key="WizardKeepWaitingButton">Продолжить ожидание</sys:String>
+    <sys:String x:Key="WizardDockerLaunchFailed">Не удалось запустить Docker Compose. Проверьте ошибку ниже:</sys:String>
+
+    <!-- Success -->
+    <sys:String x:Key="WizardCompletedTitle">Настройка завершена!</sys:String>
+    <sys:String x:Key="WizardCompletedMessage">Stream Talker Server подключён и готов. Нажмите «Запустить», чтобы начать использовать приложение.</sys:String>
+
+    <!-- Window Controls -->
+    <sys:String x:Key="WindowMinimizeTooltip">Свернуть</sys:String>
+    <sys:String x:Key="WindowMaximizeTooltip">Развернуть</sys:String>
+    <sys:String x:Key="WindowRestoreTooltip">Восстановить</sys:String>
+    <sys:String x:Key="WindowCloseTooltip">Закрыть</sys:String>
+
+    <!-- Manual Message Dialog -->
+    <sys:String x:Key="ManualMessageTitle">Добавить сообщение вручную</sys:String>
+    <sys:String x:Key="ManualMessageTextLabel">Текст сообщения:</sys:String>
+    <sys:String x:Key="ManualMessageTextWatermark">Введите текст для синтеза...</sys:String>
+    <sys:String x:Key="MaxNewTokensLabel">Макс. новых токенов:</sys:String>
+    <sys:String x:Key="RepetitionPenaltyLabel">Штраф за повторы:</sys:String>
+    <sys:String x:Key="DoSampleLabel">Сэмплирование</sys:String>
+    <sys:String x:Key="AddToQueueButton">Добавить в очередь</sys:String>
+    <sys:String x:Key="ResetToDefaultsButton">Сброс</sys:String>
+    <sys:String x:Key="AddManualMessageButton">Добавить сообщение вручную</sys:String>
+    <sys:String x:Key="AddManualMessageTooltip">Добавить сообщение</sys:String>
+
+    <!-- Updates -->
+    <sys:String x:Key="CheckForUpdatesButton">Проверить обновления</sys:String>
+    <sys:String x:Key="CheckingForUpdates">Проверка обновлений...</sys:String>
+    <sys:String x:Key="NoUpdatesAvailable">Установлена последняя версия</sys:String>
+    <sys:String x:Key="UpdateCheckFailed">Не удалось проверить обновления</sys:String>
+    <sys:String x:Key="UpdateAvailableTitle">Доступно обновление</sys:String>
+    <sys:String x:Key="UpdateButton">Обновить</sys:String>
+    <sys:String x:Key="UpdateLaterButton">Позже</sys:String>
+    <sys:String x:Key="UpdateReleasePageButton">Страница релиза</sys:String>
+    <sys:String x:Key="UpdateDownloading">Загрузка обновления...</sys:String>
+    <sys:String x:Key="UpdateInstalling">Установка обновления...</sys:String>
+    <sys:String x:Key="UpdateDownloadFailed">Загрузка не удалась или была отменена</sys:String>
+    <sys:String x:Key="UpdateNoAssetFound">Не найден подходящий файл обновления для вашей платформы</sys:String>
+    <sys:String x:Key="UpdateCancelButton">Отмена</sys:String>
+    <sys:String x:Key="VersionLabel">Версия</sys:String>
+    <sys:String x:Key="SkipThisVersionButton">Пропустить эту версию</sys:String>
+    <sys:String x:Key="ServerUpdateAvailableTitle">Доступно обновление сервера</sys:String>
+    <sys:String x:Key="ServerUpdateDockerHint">Выполните следующую команду для обновления сервера:</sys:String>
+    <sys:String x:Key="ServerUpdateNowButton">Обновить сейчас</sys:String>
+    <sys:String x:Key="ServerUpdating">Обновление сервера...</sys:String>
+    <sys:String x:Key="ServerUpdateComplete">Сервер успешно обновлён. Перезапуск может занять некоторое время.</sys:String>
+    <sys:String x:Key="ServerUpdateFailed">Ошибка обновления сервера</sys:String>
+    <sys:String x:Key="ServerVersionLabel">Сервер</sys:String>
+
+</ResourceDictionary>

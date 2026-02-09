@@ -1,0 +1,97 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:StreamTalkerClient.ViewModels.Wizard"
+             xmlns:models="using:StreamTalkerClient.Models"
+             x:Class="StreamTalkerClient.Views.Wizard.ResourceConfigView"
+             x:DataType="vm:FirstLaunchWizardViewModel">
+    <StackPanel Spacing="28" MaxWidth="540" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="40">
+        <!-- Icon -->
+        <PathIcon Data="{StaticResource SemiIconSetting}"
+                  Width="64" Height="64"
+                  HorizontalAlignment="Center"
+                  Foreground="{DynamicResource SemiPrimaryBrush}" />
+
+        <!-- Title -->
+        <TextBlock Text="{DynamicResource WizardResourceConfigTitle}"
+                   TextWrapping="Wrap"
+                   FontSize="15"
+                   TextAlignment="Center"
+                   LineHeight="22" />
+
+        <!-- Resource Configuration -->
+        <StackPanel Spacing="24">
+            <!-- Memory Slider -->
+            <StackPanel Spacing="12">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="{DynamicResource WizardMemoryLabel}" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding MemoryGb, StringFormat='{}{0} GB'}" Foreground="{DynamicResource SemiPrimaryBrush}" />
+                </StackPanel>
+                <TextBlock Text="{DynamicResource WizardMemoryDescription}"
+                           FontSize="14"
+                           Foreground="{DynamicResource SemiTextSecondaryBrush}" />
+                <Slider Minimum="2" Maximum="16" Value="{Binding MemoryGb}"
+                        TickFrequency="1"
+                        IsSnapToTickEnabled="True" />
+            </StackPanel>
+
+            <!-- CPU Slider -->
+            <StackPanel Spacing="12">
+                <StackPanel Orientation="Horizontal" Spacing="8">
+                    <TextBlock Text="{DynamicResource WizardCpuLabel}" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding CpuPercent, StringFormat='{}{0}%'}" Foreground="{DynamicResource SemiPrimaryBrush}" />
+                </StackPanel>
+                <TextBlock Text="{DynamicResource WizardCpuDescription}"
+                           FontSize="14"
+                           Foreground="{DynamicResource SemiTextSecondaryBrush}" />
+                <Slider Minimum="25" Maximum="100" Value="{Binding CpuPercent}"
+                        TickFrequency="5"
+                        IsSnapToTickEnabled="True" />
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Tip -->
+        <Border BorderBrush="#4080C0"
+                BorderThickness="2"
+                CornerRadius="8"
+                Padding="14"
+                Background="#1A3050">
+            <Grid ColumnDefinitions="Auto,*">
+                <PathIcon Grid.Column="0"
+                          Data="{StaticResource SemiIconInfoCircleStroked}"
+                          Width="18" Height="18"
+                          Foreground="#60A0E0"
+                          VerticalAlignment="Top"
+                          Margin="0,2,10,0" />
+                <TextBlock Grid.Column="1"
+                           Text="{DynamicResource WizardResourceTip}"
+                           TextWrapping="Wrap"
+                           FontSize="14"
+                           LineHeight="20" />
+            </Grid>
+        </Border>
+
+        <!-- Action Buttons -->
+        <StackPanel Spacing="12">
+            <Button HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding LaunchServerCommand}"
+                    Height="44">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <PathIcon Data="{StaticResource SemiIconPlay}" Width="20" Height="20" />
+                    <TextBlock Text="{DynamicResource WizardStartServerButton}" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+
+            <Button HorizontalAlignment="Stretch"
+                    HorizontalContentAlignment="Center"
+                    Command="{Binding GoToStepCommand}"
+                    CommandParameter="{x:Static models:WizardStep.DockerInstall}"
+                    Height="44">
+                <StackPanel Orientation="Horizontal" Spacing="10">
+                    <PathIcon Data="{StaticResource SemiIconArrowLeft}" Width="20" Height="20" />
+                    <TextBlock Text="{DynamicResource WizardBackButton}" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

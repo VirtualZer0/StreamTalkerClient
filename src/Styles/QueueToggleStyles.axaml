@@ -1,0 +1,55 @@
+<Styles xmlns="https://github.com/avaloniaui">
+
+    <!-- Style overrides for the queue panel toggle button (ToggleButton.queue-tab).
+         Provides transparent base, subtle hover/pressed effects, and a
+         blue-tinted checked state to indicate the queue panel is open. -->
+
+    <Style Selector="ToggleButton.queue-tab">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="ToggleButton.queue-tab:pointerover">
+        <Setter Property="Background" Value="#15FFFFFF" />
+    </Style>
+    <Style Selector="ToggleButton.queue-tab:pressed">
+        <Setter Property="Background" Value="#10FFFFFF" />
+    </Style>
+    <Style Selector="ToggleButton.queue-tab:checked">
+        <Setter Property="Background" Value="#20406090" />
+    </Style>
+    <Style Selector="ToggleButton.queue-tab:checked:pointerover">
+        <Setter Property="Background" Value="#2A406090" />
+    </Style>
+    <Style Selector="ToggleButton.queue-tab:checked:pressed">
+        <Setter Property="Background" Value="#18406090" />
+    </Style>
+
+    <!-- Override the inner ContentPresenter backgrounds set by the Fluent theme -->
+    <Style Selector="ToggleButton.queue-tab /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#10FFFFFF" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style Selector="ToggleButton.queue-tab:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#15FFFFFF" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="ToggleButton.queue-tab:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#10FFFFFF" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="ToggleButton.queue-tab:checked /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#20406090" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="ToggleButton.queue-tab:checked:pointerover /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#2A406090" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+    <Style Selector="ToggleButton.queue-tab:checked:pressed /template/ ContentPresenter#PART_ContentPresenter">
+        <Setter Property="Background" Value="#18406090" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+    </Style>
+
+</Styles>

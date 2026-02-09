@@ -1,0 +1,261 @@
+<Styles xmlns="https://github.com/avaloniaui"
+        xmlns:components="using:StreamTalkerClient.Components">
+
+    <!-- State-based color themes for the NeuralIndicator component.
+         Each state (unloaded, loading, warmingup, ready, active, error)
+         defines colors for glow, rings, core, orbit dots, and status text.
+         Smooth transitions between states are handled by Transitions on the elements. -->
+
+    <!-- ═══════════ UNLOADED — Gray ═══════════ -->
+
+    <Style Selector="components|NeuralIndicator:unloaded Ellipse.glow">
+        <Setter Property="Fill" Value="#30606060" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:unloaded Ellipse.outer-ring">
+        <Setter Property="Stroke" Value="{StaticResource BrushStateUnloaded}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:unloaded Ellipse.inner-ring">
+        <Setter Property="Stroke" Value="#505050" />
+        <Setter Property="Opacity" Value="{StaticResource OpacityDisabled}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:unloaded Ellipse.core">
+        <Setter Property="Fill">
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#808080" Offset="0.0" />
+                <GradientStop Color="#303030" Offset="1.0" />
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+    <Style Selector="components|NeuralIndicator:unloaded Ellipse.dot1">
+        <Setter Property="Fill" Value="#505050" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:unloaded Ellipse.dot2">
+        <Setter Property="Fill" Value="#484848" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:unloaded Ellipse.dot3">
+        <Setter Property="Fill" Value="#404040" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:unloaded Canvas.orbit1">
+        <Setter Property="Opacity" Value="{StaticResource OpacityDisabled}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:unloaded Canvas.orbit2">
+        <Setter Property="Opacity" Value="{StaticResource OpacityDisabled}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:unloaded Canvas.orbit3">
+        <Setter Property="Opacity" Value="{StaticResource OpacityDisabled}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:unloaded TextBlock#StatusTextBlock">
+        <Setter Property="Foreground" Value="#808080" />
+    </Style>
+
+    <!-- ═══════════ LOADING — Orange ═══════════ -->
+
+    <Style Selector="components|NeuralIndicator:loading Ellipse.glow">
+        <Setter Property="Fill" Value="#40FF8C00" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:loading Ellipse.outer-ring">
+        <Setter Property="Stroke" Value="{StaticResource BrushStateLoading}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:loading Ellipse.inner-ring">
+        <Setter Property="Stroke" Value="#FFA040" />
+        <Setter Property="Opacity" Value="{StaticResource OpacitySubtle}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:loading Ellipse.core">
+        <Setter Property="Fill">
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#FFB040" Offset="0.0" />
+                <GradientStop Color="#D06000" Offset="1.0" />
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+    <Style Selector="components|NeuralIndicator:loading Ellipse.dot1">
+        <Setter Property="Fill" Value="{StaticResource ColorStateLoading}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:loading Ellipse.dot2">
+        <Setter Property="Fill" Value="#FFA040" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:loading Ellipse.dot3">
+        <Setter Property="Fill" Value="#FFB060" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:loading Canvas.orbit1">
+        <Setter Property="Opacity" Value="{StaticResource OpacityFull}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:loading Canvas.orbit2">
+        <Setter Property="Opacity" Value="{StaticResource OpacityFull}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:loading Canvas.orbit3">
+        <Setter Property="Opacity" Value="{StaticResource OpacityFull}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:loading TextBlock#StatusTextBlock">
+        <Setter Property="Foreground" Value="{StaticResource BrushStateLoading}" />
+    </Style>
+
+    <!-- ═══════════ WARMING UP — Orange-Yellow ═══════════ -->
+
+    <Style Selector="components|NeuralIndicator:warmingup Ellipse.glow">
+        <Setter Property="Fill" Value="#40FFB020" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:warmingup Ellipse.outer-ring">
+        <Setter Property="Stroke" Value="#FFB020" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:warmingup Ellipse.inner-ring">
+        <Setter Property="Stroke" Value="#FFD060" />
+        <Setter Property="Opacity" Value="0.7" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:warmingup Ellipse.core">
+        <Setter Property="Fill">
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#FFE070" Offset="0.0" />
+                <GradientStop Color="#D09000" Offset="1.0" />
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+    <Style Selector="components|NeuralIndicator:warmingup Ellipse.dot1">
+        <Setter Property="Fill" Value="#FFB020" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:warmingup Ellipse.dot2">
+        <Setter Property="Fill" Value="#FFD060" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:warmingup Ellipse.dot3">
+        <Setter Property="Fill" Value="#FFE080" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:warmingup Canvas.orbit1">
+        <Setter Property="Opacity" Value="{StaticResource OpacityFull}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:warmingup Canvas.orbit2">
+        <Setter Property="Opacity" Value="{StaticResource OpacityFull}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:warmingup Canvas.orbit3">
+        <Setter Property="Opacity" Value="{StaticResource OpacityFull}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:warmingup TextBlock#StatusTextBlock">
+        <Setter Property="Foreground" Value="#FFB020" />
+    </Style>
+
+    <!-- ═══════════ READY — Blue ═══════════ -->
+
+    <Style Selector="components|NeuralIndicator:ready Ellipse.glow">
+        <Setter Property="Fill" Value="#404090FF" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:ready Ellipse.outer-ring">
+        <Setter Property="Stroke" Value="{StaticResource BrushStateReady}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:ready Ellipse.inner-ring">
+        <Setter Property="Stroke" Value="#60B0FF" />
+        <Setter Property="Opacity" Value="0.7" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:ready Ellipse.core">
+        <Setter Property="Fill">
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#70C0FF" Offset="0.0" />
+                <GradientStop Color="#2060D0" Offset="1.0" />
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+    <Style Selector="components|NeuralIndicator:ready Ellipse.dot1">
+        <Setter Property="Fill" Value="{StaticResource ColorStateReady}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:ready Ellipse.dot2">
+        <Setter Property="Fill" Value="#60B0FF" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:ready Ellipse.dot3">
+        <Setter Property="Fill" Value="#80C0FF" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:ready Canvas.orbit1">
+        <Setter Property="Opacity" Value="{StaticResource OpacityFull}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:ready Canvas.orbit2">
+        <Setter Property="Opacity" Value="{StaticResource OpacityFull}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:ready Canvas.orbit3">
+        <Setter Property="Opacity" Value="{StaticResource OpacityFull}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:ready TextBlock#StatusTextBlock">
+        <Setter Property="Foreground" Value="{StaticResource BrushStateReady}" />
+    </Style>
+
+    <!-- ═══════════ ACTIVE — Blue-Purple ═══════════ -->
+
+    <Style Selector="components|NeuralIndicator:active Ellipse.glow">
+        <Setter Property="Fill" Value="#507060FF" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:active Ellipse.outer-ring">
+        <Setter Property="Stroke" Value="{StaticResource BrushStateActive}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:active Ellipse.inner-ring">
+        <Setter Property="Stroke" Value="#9080FF" />
+        <Setter Property="Opacity" Value="0.8" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:active Ellipse.core">
+        <Setter Property="Fill">
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#B0A0FF" Offset="0.0" />
+                <GradientStop Color="#5040D0" Offset="1.0" />
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+    <Style Selector="components|NeuralIndicator:active Ellipse.dot1">
+        <Setter Property="Fill" Value="{StaticResource ColorStateActive}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:active Ellipse.dot2">
+        <Setter Property="Fill" Value="#9080FF" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:active Ellipse.dot3">
+        <Setter Property="Fill" Value="#A090FF" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:active Canvas.orbit1">
+        <Setter Property="Opacity" Value="{StaticResource OpacityFull}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:active Canvas.orbit2">
+        <Setter Property="Opacity" Value="{StaticResource OpacityFull}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:active Canvas.orbit3">
+        <Setter Property="Opacity" Value="{StaticResource OpacityFull}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:active TextBlock#StatusTextBlock">
+        <Setter Property="Foreground" Value="{StaticResource BrushStateActive}" />
+    </Style>
+
+    <!-- ═══════════ ERROR — Red ═══════════ -->
+
+    <Style Selector="components|NeuralIndicator:error Ellipse.glow">
+        <Setter Property="Fill" Value="#40FF4040" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:error Ellipse.outer-ring">
+        <Setter Property="Stroke" Value="{StaticResource BrushStateError}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:error Ellipse.inner-ring">
+        <Setter Property="Stroke" Value="#FF6060" />
+        <Setter Property="Opacity" Value="0.4" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:error Ellipse.core">
+        <Setter Property="Fill">
+            <LinearGradientBrush StartPoint="0%,0%" EndPoint="100%,100%">
+                <GradientStop Color="#FF7070" Offset="0.0" />
+                <GradientStop Color="#B02020" Offset="1.0" />
+            </LinearGradientBrush>
+        </Setter>
+    </Style>
+    <Style Selector="components|NeuralIndicator:error Ellipse.dot1">
+        <Setter Property="Fill" Value="{StaticResource ColorStateError}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:error Ellipse.dot2">
+        <Setter Property="Fill" Value="#FF6060" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:error Ellipse.dot3">
+        <Setter Property="Fill" Value="#FF7070" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:error Canvas.orbit1">
+        <Setter Property="Opacity" Value="{StaticResource OpacityDisabled}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:error Canvas.orbit2">
+        <Setter Property="Opacity" Value="{StaticResource OpacityDisabled}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:error Canvas.orbit3">
+        <Setter Property="Opacity" Value="{StaticResource OpacityDisabled}" />
+    </Style>
+    <Style Selector="components|NeuralIndicator:error TextBlock#StatusTextBlock">
+        <Setter Property="Foreground" Value="{StaticResource BrushStateError}" />
+    </Style>
+
+</Styles>

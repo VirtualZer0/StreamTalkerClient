@@ -1,0 +1,78 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>preview</LangVersion>
+    <Version>0.0.0-dev</Version>
+    <PublishSingleFile>true</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+
+    <!-- GC Optimization for Desktop App -->
+    <ServerGarbageCollection>false</ServerGarbageCollection>
+    <!-- DATAS (Dynamic Adaptation To Application Sizes) enabled by default -->
+    <!-- .NET 10 has improved escape analysis & memory efficiency -->
+  </PropertyGroup>
+
+  <!-- Define SELF_CONTAINED_BUILD for self-contained publish profiles -->
+  <PropertyGroup Condition="'$(SelfContained)' == 'true'">
+    <DefineConstants>$(DefineConstants);SELF_CONTAINED_BUILD</DefineConstants>
+  </PropertyGroup>
+
+  <!-- Size Optimization for Self-Contained Builds -->
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <!-- Trimming disabled - causes issues with ObservableCollection bindings -->
+    <PublishTrimmed>false</PublishTrimmed>
+    <!-- Compress embedded assemblies in single file -->
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <!-- Remove debug symbols from output -->
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+    <!-- Optimize for size -->
+    <Optimize>true</Optimize>
+    <!-- Enable ReadyToRun compilation for faster startup -->
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AvaloniaResource Include="Assets\Fonts\Roboto-Regular.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Roboto-Medium.ttf" />
+    <AvaloniaResource Include="Assets\Fonts\Roboto-Bold.ttf" />
+    <AvaloniaResource Include="Assets\icon.ico" />
+    <AvaloniaResource Include="Assets\Icons\icon-16.png" />
+    <AvaloniaResource Include="Assets\Icons\icon-32.png" />
+    <AvaloniaResource Include="Assets\Icons\icon-48.png" />
+    <AvaloniaResource Include="Assets\Icons\icon-64.png" />
+    <AvaloniaResource Include="Assets\Icons\icon-128.png" />
+    <AvaloniaResource Include="Assets\Icons\icon-256.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\docker-compose.yml" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="11.3.11" />
+    <PackageReference Include="Avalonia.Controls.DataGrid" Version="11.3.11" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.11" />
+    <PackageReference Include="Avalonia.Fonts.Inter" Version="11.3.11" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="Semi.Avalonia" Version="11.3.7.2" />
+    <PackageReference Include="Semi.Avalonia.DataGrid" Version="11.3.7.2" />
+    <PackageReference Include="TwitchLib.Client" Version="4.0.1" />
+    <PackageReference Include="Centrifugal.Centrifuge" Version="0.0.13" />
+    <PackageReference Include="NetCoreAudio" Version="2.0.0" />
+    <PackageReference Include="SharpHook" Version="7.1.0" />
+    <PackageReference Include="Serilog" Version="4.2.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="6.0.0" />
+    <PackageReference Include="Serilog.Sinks.Console" Version="6.0.0" />
+    <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.0" />
+  </ItemGroup>
+
+</Project>
