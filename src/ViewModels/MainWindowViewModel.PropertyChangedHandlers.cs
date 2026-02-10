@@ -26,7 +26,7 @@ public partial class MainWindowViewModel
 
         _settings.Voice.DefaultVoice = value.Name;
         _queueManager.DefaultVoice = value.Name;
-        // Settings saved by auto-save timer
+        SaveSettings();
     }
 
     /// <summary>
@@ -114,7 +114,7 @@ public partial class MainWindowViewModel
         var mode = value == 1 ? "firstword" : "bracket";
         _settings.Voice.VoiceExtractionMode = mode;
         _queueManager.VoiceExtractionMode = mode;
-        // Settings saved by auto-save timer
+        SaveSettings();
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -175,7 +175,7 @@ public partial class MainWindowViewModel
             });
         }
 
-        // Settings saved by auto-save timer
+        SaveSettings();
     }
 
     /// <summary>
@@ -200,7 +200,7 @@ public partial class MainWindowViewModel
 
         _settings.Model.Core.Quantization = value;
         _queueManager.Quantization = value;
-        // Settings saved by auto-save timer
+        SaveSettings();
     }
 
     /// <summary>
@@ -213,12 +213,19 @@ public partial class MainWindowViewModel
             return;
 
         _settings.Model.AutoUnload.Enabled = value;
-        // Settings saved by auto-save timer
+        SaveSettings();
 
-        // If we just enabled auto-unload and a model is loaded, set it
-        if (value && IsServerAvailable && !string.IsNullOrEmpty(SelectedModel) && AutoUnloadMinutes > 0)
+        if (!IsServerAvailable || string.IsNullOrEmpty(SelectedModel))
+            return;
+
+        if (value && AutoUnloadMinutes > 0)
         {
             _ = _ttsClient.SetAutoUnloadAsync(SelectedModel, AutoUnloadMinutes);
+        }
+        else if (!value)
+        {
+            // Disable = send 0 minutes to API
+            _ = _ttsClient.SetAutoUnloadAsync(SelectedModel, 0);
         }
     }
 
@@ -232,7 +239,7 @@ public partial class MainWindowViewModel
             return;
 
         _settings.Model.AutoUnload.Minutes = value;
-        // Settings saved by auto-save timer
+        SaveSettings();
 
         if (AutoUnload && IsServerAvailable && !string.IsNullOrEmpty(SelectedModel) && value > 0)
         {
@@ -320,7 +327,7 @@ public partial class MainWindowViewModel
         RefreshAllStatusDisplays();
 
         _settings.Metadata.LanguageUI = langCode;
-        // Settings saved by auto-save timer
+        SaveSettings();
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -491,7 +498,7 @@ public partial class MainWindowViewModel
         _settings.Server.Language = value;
         _queueManager.Language = value;
         _orchestrator.Language = value;
-        // Settings saved by auto-save timer
+        SaveSettings();
     }
 
     // ═══════════════════════════════════════════════════════════

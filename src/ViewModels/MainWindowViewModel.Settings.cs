@@ -172,6 +172,7 @@ public partial class MainWindowViewModel
 
             // Server
             _settings.Server.BaseUrl = TtsServerUrl;
+            _settings.Server.Language = SelectedTtsLanguage;
             _settings.Audio.PlaybackDelaySeconds = PlaybackDelay;
             _settings.Cache.LimitMB = CacheLimitMB;
 

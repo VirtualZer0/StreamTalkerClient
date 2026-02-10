@@ -380,6 +380,14 @@ public partial class MainWindowViewModel
         if (Math.Abs(GpuTotalMb - totalMb) > 0.1)
             GpuTotalMb = totalMb;
 
+        // Keep slider max in sync with actual GPU total
+        var totalMbInt = (int)totalMb;
+        if (totalMbInt > 0 && MaxVramSliderMax != totalMbInt)
+        {
+            MaxVramSliderMax = totalMbInt;
+            UpdateVramLimit();
+        }
+
         UpdateVramTooltip();
     }
 

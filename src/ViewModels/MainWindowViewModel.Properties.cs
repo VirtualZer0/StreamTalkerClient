@@ -152,7 +152,7 @@ public partial class MainWindowViewModel
     private int _maxVramSliderValue;
 
     [ObservableProperty]
-    private int _maxVramSliderMax = 24000;
+    private int _maxVramSliderMax;
 
     [ObservableProperty]
     private string _maxVramText = "";
