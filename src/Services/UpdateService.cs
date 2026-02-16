@@ -254,6 +254,9 @@ public class UpdateService : IDisposable
 
     public void ApplyUpdateAndRestart(string downloadedPath)
     {
+        // Resolve to absolute path — batch/shell scripts may have a different working directory
+        downloadedPath = Path.GetFullPath(downloadedPath);
+
         var appPath = Environment.ProcessPath
             ?? Process.GetCurrentProcess().MainModule?.FileName
             ?? throw new InvalidOperationException("Cannot determine current executable path");
@@ -286,30 +289,32 @@ public class UpdateService : IDisposable
     private void ApplyUpdateWindows(string downloadedPath, string appDir, string appFileName, int pid)
     {
         var scriptPath = Path.Combine(Path.GetTempPath(), $"stc_update_{pid}.bat");
+        var appFullPath = Path.Combine(appDir, appFileName);
         var ext = Path.GetExtension(downloadedPath).ToLowerInvariant();
 
         var script = $"""
             @echo off
             :wait
-            tasklist /fi "PID eq {pid}" | findstr {pid} >nul && (timeout /t 1 >nul & goto wait)
+            tasklist /fi "PID eq {pid}" 2>nul | findstr /b "{appFileName}" >nul && (timeout /t 1 >nul & goto wait)
             if /i "{ext}"==".zip" (
                 powershell -NoProfile -Command "Expand-Archive -Path '{downloadedPath}' -DestinationPath '{appDir}' -Force"
             ) else (
-                copy /y "{downloadedPath}" "{Path.Combine(appDir, appFileName)}"
+                copy /y "{downloadedPath}" "{appFullPath}"
             )
-            start "" "{Path.Combine(appDir, appFileName)}"
+            start "" "{appFullPath}"
             del /q "{downloadedPath}"
             del /q "{scriptPath}"
             """;
 
         File.WriteAllText(scriptPath, script);
 
+        // UseShellExecute = true ensures cmd.exe survives parent process exit
+        // (avoids being killed by Windows Job Objects in terminals/IDEs)
         Process.Start(new ProcessStartInfo
         {
             FileName = "cmd.exe",
             Arguments = $"/c \"{scriptPath}\"",
-            UseShellExecute = false,
-            CreateNoWindow = true,
+            UseShellExecute = true,
             WindowStyle = ProcessWindowStyle.Hidden
         });
 
@@ -319,6 +324,7 @@ public class UpdateService : IDisposable
     private void ApplyUpdateLinux(string downloadedPath, string appDir, string appFileName, int pid)
     {
         var scriptPath = Path.Combine(Path.GetTempPath(), $"stc_update_{pid}.sh");
+        var appFullPath = Path.Combine(appDir, appFileName);
 
         var script = $"""
             #!/bin/bash
@@ -326,10 +332,10 @@ public class UpdateService : IDisposable
             if [[ "{downloadedPath}" == *.tar.gz ]]; then
                 tar -xzf "{downloadedPath}" -C "{appDir}"
             else
-                cp "{downloadedPath}" "{Path.Combine(appDir, appFileName)}"
-                chmod +x "{Path.Combine(appDir, appFileName)}"
+                cp "{downloadedPath}" "{appFullPath}"
+                chmod +x "{appFullPath}"
             fi
-            nohup "{Path.Combine(appDir, appFileName)}" >/dev/null 2>&1 &
+            nohup "{appFullPath}" >/dev/null 2>&1 &
             rm -f "{downloadedPath}" "{scriptPath}"
             """;
 

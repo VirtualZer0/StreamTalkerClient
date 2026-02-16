@@ -136,6 +136,9 @@
                     <!-- Debug: Test update dialogs -->
                     <StackPanel Orientation="Horizontal" Spacing="8"
                                 IsVisible="{Binding IsDebugBuild}">
+                        <Button Command="{Binding ForceCheckUpdateCommand}"
+                                Content="Force Update"
+                                MinWidth="140" />
                         <Button Command="{Binding TestClientUpdateDialogCommand}"
                                 Content="Test Client Dialog"
                                 MinWidth="140" />

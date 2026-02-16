@@ -14,10 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Platform badges in DataGrid columns (purple for Twitch, blue for VK Play)
 - Batch Size slider (1-6) in Inference Parameters section
 
+### Fixed
+- Auto-update not working on Windows (app closed but update script failed silently due to relative download path and child process termination)
+
 ### Changed
 - "Voice Bindings" button renamed to "User Rules" (EN) / "Правила" (RU)
 - Default batch size changed from 1 to 2
 - Maximum batch size reduced from 50 to 6
+- Release asset naming: self-contained builds now use `-sc` suffix for clarity
 
 ## [1.0.0] - 2026-02-08
 

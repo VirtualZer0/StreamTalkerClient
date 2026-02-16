@@ -775,6 +775,31 @@ public partial class MainWindowViewModel
     }
 
     [RelayCommand]
+    private async Task ForceCheckUpdateAsync()
+    {
+        if (!IsDebugBuild) return;
+
+        try
+        {
+            var updateInfo = await _updateService.CheckForUpdateAsync();
+            if (updateInfo != null)
+            {
+                _logger.LogInformation("Force update check: {Current} → {New}",
+                    updateInfo.CurrentVersion, updateInfo.NewVersion);
+                Dispatcher.UIThread.Post(() => ShowUpdateRequested?.Invoke(updateInfo));
+            }
+            else
+            {
+                _logger.LogInformation("Force update check: no update available");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Force update check failed");
+        }
+    }
+
+    [RelayCommand]
     private void TestClientUpdateDialog()
     {
         if (!IsDebugBuild) return;
