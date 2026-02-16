@@ -381,27 +381,25 @@ public class UpdateService : IDisposable
         var platform = RuntimeInformation.IsOSPlatform(OSPlatform.Windows) ? "win-x64" : "linux-x64";
 
 #if SELF_CONTAINED_BUILD
-        // Self-contained: match asset with platform but without "-native"
+        // Self-contained: match asset with "-sc" suffix
+        var scPattern = $"{AppConstants.Update.AssetPrefix}{version}-{platform}-sc";
+        var scAsset = assets.FirstOrDefault(a =>
+            a.Name.StartsWith(scPattern, StringComparison.OrdinalIgnoreCase));
+
+        if (scAsset != null)
+            return scAsset;
+
+        // Fallback: match asset without any suffix (backward compat with older releases)
         var prefix = $"{AppConstants.Update.AssetPrefix}{version}-{platform}";
         return assets.FirstOrDefault(a =>
             a.Name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) &&
-            !a.Name.Contains("-native", StringComparison.OrdinalIgnoreCase));
+            !a.Name.Contains("-native", StringComparison.OrdinalIgnoreCase) &&
+            !a.Name.Contains("-sc", StringComparison.OrdinalIgnoreCase));
 #else
         // Framework-dependent (native): match asset with "-native"
         var nativePattern = $"{AppConstants.Update.AssetPrefix}{version}-{platform}-native";
-        var nativeAsset = assets.FirstOrDefault(a =>
-            a.Name.StartsWith(nativePattern, StringComparison.OrdinalIgnoreCase));
-
-        if (nativeAsset != null)
-            return nativeAsset;
-
-        // Fallback: try old "-sc" naming (backward compat with older releases)
-        // For non-self-contained, look for no-suffix asset
-        var prefix = $"{AppConstants.Update.AssetPrefix}{version}-{platform}";
         return assets.FirstOrDefault(a =>
-            a.Name.StartsWith(prefix, StringComparison.OrdinalIgnoreCase) &&
-            !a.Name.Contains("-sc", StringComparison.OrdinalIgnoreCase) &&
-            !a.Name.Contains("-native", StringComparison.OrdinalIgnoreCase));
+            a.Name.StartsWith(nativePattern, StringComparison.OrdinalIgnoreCase));
 #endif
     }
 

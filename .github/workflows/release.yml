@@ -103,31 +103,31 @@ jobs:
           chmod +x ./publish/linux-x64-sc/StreamTalkerClient
           chmod +x ./publish/linux-x64-native/StreamTalkerClient
 
-      # 10. Package Windows Self-Contained (default, no suffix)
+      # 10. Package Windows Self-Contained (-sc suffix)
       - name: Package Windows Self-Contained
         run: |
           cd ./publish/win-x64-sc
           FILE_COUNT=$(ls -1 | wc -l)
           if [ $FILE_COUNT -eq 1 ]; then
-            cp StreamTalkerClient.exe ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64.exe
-            echo "win_sc_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64.exe" >> $GITHUB_ENV
+            cp StreamTalkerClient.exe ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64-sc.exe
+            echo "win_sc_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64-sc.exe" >> $GITHUB_ENV
           else
-            zip -r ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64.zip .
-            echo "win_sc_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64.zip" >> $GITHUB_ENV
+            zip -r ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64-sc.zip .
+            echo "win_sc_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-win-x64-sc.zip" >> $GITHUB_ENV
           fi
 
-      # 11. Package Linux Self-Contained (default, no suffix)
+      # 11. Package Linux Self-Contained (-sc suffix)
       - name: Package Linux Self-Contained
         run: |
           cd ./publish/linux-x64-sc
           FILE_COUNT=$(ls -1 | wc -l)
           if [ $FILE_COUNT -eq 1 ]; then
-            cp StreamTalkerClient ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64
-            chmod +x ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64
-            echo "linux_sc_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64" >> $GITHUB_ENV
+            cp StreamTalkerClient ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64-sc
+            chmod +x ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64-sc
+            echo "linux_sc_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64-sc" >> $GITHUB_ENV
           else
-            tar -czf ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64.tar.gz .
-            echo "linux_sc_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64.tar.gz" >> $GITHUB_ENV
+            tar -czf ../../StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64-sc.tar.gz .
+            echo "linux_sc_asset=StreamTalkerClient-v${{ steps.extract_version.outputs.version }}-linux-x64-sc.tar.gz" >> $GITHUB_ENV
           fi
 
       # 12. Package Windows Native (-native suffix)
