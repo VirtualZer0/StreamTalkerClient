@@ -40,7 +40,7 @@
     <sys:String x:Key="SyntaxLabel">Syntax:</sys:String>
     <sys:String x:Key="SyntaxBracket">[voice] text</sys:String>
     <sys:String x:Key="SyntaxFirstWord">voice text (first word)</sys:String>
-    <sys:String x:Key="VoiceBindingsButton">Voice Bindings</sys:String>
+    <sys:String x:Key="VoiceBindingsButton">User Rules</sys:String>
 
     <!-- Model Control -->
     <sys:String x:Key="ModelControlGroup">Model Control</sys:String>
@@ -114,8 +114,18 @@
     <sys:String x:Key="ExitButton">Exit</sys:String>
     <sys:String x:Key="TrayMinimized">Minimized to system tray</sys:String>
 
-    <!-- Voice Binding Dialog -->
-    <sys:String x:Key="VoiceBindingTitle">Voice Bindings</sys:String>
+    <!-- User Rules Dialog -->
+    <sys:String x:Key="UserRulesTitle">User Rules</sys:String>
+    <sys:String x:Key="VoiceBindingsTab">Voice Bindings</sys:String>
+    <sys:String x:Key="BlacklistTab">Blacklist</sys:String>
+    <sys:String x:Key="PlatformColumn">Platform</sys:String>
+    <sys:String x:Key="PlatformLabel">Platform:</sys:String>
+    <sys:String x:Key="PlatformAny">Any</sys:String>
+    <sys:String x:Key="BlacklistCountFormat">Blacklist ({0} items)</sys:String>
+    <sys:String x:Key="AddBlacklistGroup">Add to Blacklist</sys:String>
+    <sys:String x:Key="ConfirmDeleteBlacklist">Remove "{0}" from blacklist?</sys:String>
+    <sys:String x:Key="BatchSizeLabel">Batch Size:</sys:String>
+    <sys:String x:Key="VoiceBindingTitle">User Rules</sys:String>
     <sys:String x:Key="BindingsGroup">Bindings</sys:String>
     <sys:String x:Key="BindingsCountFormat">Bindings ({0} items)</sys:String>
     <sys:String x:Key="UsernameColumn">Username</sys:String>

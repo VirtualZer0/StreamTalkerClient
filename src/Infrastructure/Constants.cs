@@ -37,9 +37,9 @@ public static class AppConstants
         public const int DefaultCacheLimitMB = 150;
         public const int MinCacheLimitMB = 10;
         public const int MaxCacheLimitMB = 10000;
-        public const int DefaultMaxBatchSize = 10;
+        public const int DefaultMaxBatchSize = 2;
         public const int MinBatchSize = 1;
-        public const int MaxBatchSize = 50;
+        public const int MaxBatchSize = 6;
         public const int DefaultPlaybackDelaySeconds = 5;
         public const int MaxPlaybackDelaySeconds = 300;
         public const int DefaultAutoUnloadMinutes = 15;

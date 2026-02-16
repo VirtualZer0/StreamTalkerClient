@@ -38,6 +38,11 @@ public static class SettingsRepository
         "Spanish", "Portuguese", "Russian", "Arabic", "Italian"
     };
 
+    private static readonly HashSet<string> ValidPlatformValues = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "Any", "Twitch", "VKPlay"
+    };
+
     // ═══════════════════════════════════════════════════════════
     //  LOAD / SAVE
     // ═══════════════════════════════════════════════════════════
@@ -151,7 +156,7 @@ public static class SettingsRepository
         // Clamp numeric values to reasonable ranges
         s.Cache.LimitMB = Math.Clamp(s.Cache.LimitMB, 10, 10000);
         s.Audio.PlaybackDelaySeconds = Math.Clamp(s.Audio.PlaybackDelaySeconds, 0, 300);
-        s.Inference.MaxBatchSize = Math.Clamp(s.Inference.MaxBatchSize, 1, 50);
+        s.Inference.MaxBatchSize = Math.Clamp(s.Inference.MaxBatchSize, 1, 6);
         s.Model.AutoUnload.Minutes = Math.Clamp(s.Model.AutoUnload.Minutes, 1, 1440);
         s.Audio.VolumePercent = Math.Clamp(s.Audio.VolumePercent, 0, 100);
         s.Model.Warmup.TimeoutSeconds = Math.Clamp(s.Model.Warmup.TimeoutSeconds, 10, 600);
@@ -188,7 +193,20 @@ public static class SettingsRepository
         foreach (var key in s.Audio.VoiceVolumes.Keys.ToList())
             s.Audio.VoiceVolumes[key] = Math.Clamp(s.Audio.VoiceVolumes[key], 0, 100);
 
-        // Remove voice bindings with missing data
+        // Remove voice bindings with missing data and validate platform values
         s.Voice.VoiceBindings.RemoveAll(b => string.IsNullOrWhiteSpace(b.Username) || string.IsNullOrWhiteSpace(b.VoiceName));
+        foreach (var binding in s.Voice.VoiceBindings)
+        {
+            if (!ValidPlatformValues.Contains(binding.Platform))
+                binding.Platform = "Any";
+        }
+
+        // Remove blacklist entries with missing data and validate platform values
+        s.Voice.Blacklist.RemoveAll(b => string.IsNullOrWhiteSpace(b.Username));
+        foreach (var entry in s.Voice.Blacklist)
+        {
+            if (!ValidPlatformValues.Contains(entry.Platform))
+                entry.Platform = "Any";
+        }
     }
 }

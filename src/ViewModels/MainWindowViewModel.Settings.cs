@@ -67,6 +67,9 @@ public partial class MainWindowViewModel
         // Note: Warmup voice selection will be restored after voices are loaded from server
         // (see LoadVoicesFromServerAsync)
 
+        // Batch size
+        MaxBatchSize = _settings.Inference.MaxBatchSize;
+
         // Voice synthesis parameters
         Speed = _settings.Voice.Speed;
         Temperature = _settings.Voice.Temperature;
@@ -181,6 +184,7 @@ public partial class MainWindowViewModel
             _settings.Model.Core.Attention = SelectedAttention ?? "auto";
             _settings.Model.Core.Quantization = SelectedQuantization ?? "none";
             _settings.Inference.DoSample = DoSample;
+            _settings.Inference.MaxBatchSize = MaxBatchSize;
             _settings.Model.AutoUnload.Enabled = AutoUnload;
             _settings.Model.AutoUnload.Minutes = AutoUnloadMinutes;
             _settings.Model.Warmup.Mode = SelectedWarmup ?? "none";
@@ -276,6 +280,8 @@ public partial class MainWindowViewModel
         _settings.Audio.VoiceVolumes = imported.Audio.VoiceVolumes;
         _settings.Voice.VoiceExtractionMode = imported.Voice.VoiceExtractionMode;
         _settings.Voice.VoiceBindings = imported.Voice.VoiceBindings;
+        _settings.Voice.Blacklist = imported.Voice.Blacklist;
+        _settings.Inference.MaxBatchSize = imported.Inference.MaxBatchSize;
         _settings.Services.VKPlay.Channel = imported.Services.VKPlay.Channel;
         _settings.Services.VKPlay.RewardId = imported.Services.VKPlay.RewardId;
         _settings.Services.VKPlay.ReadAllMessages = imported.Services.VKPlay.ReadAllMessages;

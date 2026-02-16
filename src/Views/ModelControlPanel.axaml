@@ -114,7 +114,7 @@
                    Margin="0,8,0,4" />
 
         <Grid ColumnDefinitions="Auto,8,*,8,Auto"
-              RowDefinitions="Auto,8,Auto,8,Auto,8,Auto">
+              RowDefinitions="Auto,8,Auto,8,Auto,8,Auto,8,Auto">
             <!-- Speed -->
             <TextBlock Grid.Row="0" Grid.Column="0"
                        Text="{DynamicResource SpeedLabel}"
@@ -173,6 +173,23 @@
                     VerticalAlignment="Center" />
             <TextBlock Grid.Row="6" Grid.Column="4"
                        Text="{Binding RepetitionPenalty, StringFormat={}{0:F2}}"
+                       VerticalAlignment="Center"
+                       FontSize="{StaticResource FontSizeBody}"
+                       MinWidth="35"
+                       TextAlignment="Right" />
+
+            <!-- Batch Size -->
+            <TextBlock Grid.Row="8" Grid.Column="0"
+                       Text="{DynamicResource BatchSizeLabel}"
+                       Classes="FieldLabel" />
+            <Slider Grid.Row="8" Grid.Column="2"
+                    Minimum="1" Maximum="6"
+                    Value="{Binding MaxBatchSize}"
+                    TickFrequency="1"
+                    IsSnapToTickEnabled="True"
+                    VerticalAlignment="Center" />
+            <TextBlock Grid.Row="8" Grid.Column="4"
+                       Text="{Binding MaxBatchSize}"
                        VerticalAlignment="Center"
                        FontSize="{StaticResource FontSizeBody}"
                        MinWidth="35"

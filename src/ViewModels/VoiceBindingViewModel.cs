@@ -24,6 +24,9 @@ public partial class BindingDisplayItem : ObservableObject
     private string _voiceName = "";
 
     [ObservableProperty]
+    private string _platform = "Any";
+
+    [ObservableProperty]
     private bool _isEnabled = true;
 
     /// <summary>
@@ -33,14 +36,45 @@ public partial class BindingDisplayItem : ObservableObject
 }
 
 /// <summary>
-/// ViewModel for the Voice Binding dialog.
-/// Manages voice-to-username bindings: add, delete, change voice, toggle enabled state.
+/// Display model for a blacklist entry row in the DataGrid.
+/// </summary>
+public partial class BlacklistDisplayItem : ObservableObject
+{
+    [ObservableProperty]
+    private string _username = "";
+
+    [ObservableProperty]
+    private string _platform = "Any";
+
+    [ObservableProperty]
+    private bool _isEnabled = true;
+
+    /// <summary>
+    /// Reference to the underlying BlacklistEntry model.
+    /// </summary>
+    public BlacklistEntry Source { get; set; } = new();
+}
+
+/// <summary>
+/// ViewModel for the User Rules dialog (formerly Voice Binding dialog).
+/// Manages voice-to-username bindings and blacklist entries with platform support.
 /// </summary>
 public partial class VoiceBindingViewModel : ViewModelBase
 {
     private readonly ILogger<VoiceBindingViewModel> _logger;
     private readonly QwenTtsClient _ttsClient;
     private readonly AppSettings _settings;
+
+    // ═══════════════════════════════════════════════════════════
+    //  TAB STATE
+    // ═══════════════════════════════════════════════════════════
+
+    [ObservableProperty]
+    private int _selectedTabIndex;
+
+    // ═══════════════════════════════════════════════════════════
+    //  VOICE BINDINGS
+    // ═══════════════════════════════════════════════════════════
 
     [ObservableProperty]
     private ObservableCollection<BindingDisplayItem> _bindings = new();
@@ -64,6 +98,9 @@ public partial class VoiceBindingViewModel : ViewModelBase
     private int _selectedBindingIndex = -1;
 
     [ObservableProperty]
+    private int _selectedBindingPlatformIndex; // 0=Any, 1=Twitch, 2=VK Play
+
+    [ObservableProperty]
     private bool _isLoading;
 
     [ObservableProperty]
@@ -74,6 +111,37 @@ public partial class VoiceBindingViewModel : ViewModelBase
 
     [ObservableProperty]
     private bool _bindingsModified;
+
+    // ═══════════════════════════════════════════════════════════
+    //  BLACKLIST
+    // ═══════════════════════════════════════════════════════════
+
+    [ObservableProperty]
+    private ObservableCollection<BlacklistDisplayItem> _blacklistEntries = new();
+
+    [ObservableProperty]
+    private string _blacklistGroupText = "";
+
+    [ObservableProperty]
+    private BlacklistDisplayItem? _selectedBlacklistEntry;
+
+    [ObservableProperty]
+    private int _selectedBlacklistIndex = -1;
+
+    [ObservableProperty]
+    private bool _canDeleteBlacklist;
+
+    [ObservableProperty]
+    private string _blacklistUsername = "";
+
+    [ObservableProperty]
+    private int _selectedBlacklistPlatformIndex; // 0=Any, 1=Twitch, 2=VK Play
+
+    // ═══════════════════════════════════════════════════════════
+    //  STATIC OPTIONS
+    // ═══════════════════════════════════════════════════════════
+
+    public static IReadOnlyList<string> PlatformOptions { get; } = new[] { "Any", "Twitch", "VK Play" };
 
     /// <summary>
     /// Event raised when the dialog should be closed.
@@ -87,10 +155,11 @@ public partial class VoiceBindingViewModel : ViewModelBase
         _settings = settings;
 
         UpdateBindingsGroupText();
+        UpdateBlacklistGroupText();
     }
 
     /// <summary>
-    /// Loads voices and bindings asynchronously. Call after construction.
+    /// Loads voices, bindings, and blacklist asynchronously. Call after construction.
     /// </summary>
     public async Task InitializeAsync()
     {
@@ -99,6 +168,7 @@ public partial class VoiceBindingViewModel : ViewModelBase
         {
             await LoadVoicesAsync();
             LoadBindingsFromSettings();
+            LoadBlacklistFromSettings();
         }
         catch (Exception ex)
         {
@@ -132,6 +202,10 @@ public partial class VoiceBindingViewModel : ViewModelBase
         }
     }
 
+    // ═══════════════════════════════════════════════════════════
+    //  BINDINGS CRUD
+    // ═══════════════════════════════════════════════════════════
+
     private void LoadBindingsFromSettings()
     {
         Bindings.Clear();
@@ -141,6 +215,7 @@ public partial class VoiceBindingViewModel : ViewModelBase
             {
                 Username = binding.Username,
                 VoiceName = binding.VoiceName,
+                Platform = binding.Platform,
                 IsEnabled = binding.IsEnabled,
                 Source = binding
             });
@@ -181,12 +256,42 @@ public partial class VoiceBindingViewModel : ViewModelBase
             {
                 Username = item.Username,
                 VoiceName = item.VoiceName,
+                Platform = item.Platform,
                 IsEnabled = item.IsEnabled
             });
         }
         _settings.Save();
         BindingsModified = true;
         _logger.LogInformation("Voice bindings saved ({Count} bindings)", Bindings.Count);
+    }
+
+    private static string PlatformIndexToValue(int index)
+    {
+        return index switch
+        {
+            1 => "Twitch",
+            2 => "VKPlay",
+            _ => "Any"
+        };
+    }
+
+    private static string PlatformValueToDisplay(string value)
+    {
+        return value switch
+        {
+            "VKPlay" => "VK Play",
+            _ => value
+        };
+    }
+
+    private static int PlatformValueToIndex(string value)
+    {
+        return value switch
+        {
+            "Twitch" => 1,
+            "VKPlay" => 2,
+            _ => 0
+        };
     }
 
     [RelayCommand]
@@ -206,12 +311,14 @@ public partial class VoiceBindingViewModel : ViewModelBase
         }
 
         var voiceName = Voices[SelectedVoiceIndex];
+        var platform = PlatformIndexToValue(SelectedBindingPlatformIndex);
 
-        // Check if binding already exists for this username
+        // Check if binding already exists for this username+platform
         var existingIndex = -1;
         for (int i = 0; i < Bindings.Count; i++)
         {
-            if (string.Equals(Bindings[i].Username, username, StringComparison.OrdinalIgnoreCase))
+            if (string.Equals(Bindings[i].Username, username, StringComparison.OrdinalIgnoreCase) &&
+                string.Equals(Bindings[i].Platform, platform, StringComparison.OrdinalIgnoreCase))
             {
                 existingIndex = i;
                 break;
@@ -238,6 +345,7 @@ public partial class VoiceBindingViewModel : ViewModelBase
             {
                 Username = username,
                 VoiceName = voiceName,
+                Platform = platform,
                 IsEnabled = true
             };
 
@@ -245,6 +353,7 @@ public partial class VoiceBindingViewModel : ViewModelBase
             {
                 Username = username,
                 VoiceName = voiceName,
+                Platform = platform,
                 IsEnabled = true,
                 Source = binding
             });
@@ -301,6 +410,133 @@ public partial class VoiceBindingViewModel : ViewModelBase
         item.Source.IsEnabled = item.IsEnabled;
         SaveBindingsToSettings();
     }
+
+    // ═══════════════════════════════════════════════════════════
+    //  BLACKLIST CRUD
+    // ═══════════════════════════════════════════════════════════
+
+    private void LoadBlacklistFromSettings()
+    {
+        BlacklistEntries.Clear();
+        foreach (var entry in _settings.Voice.Blacklist)
+        {
+            BlacklistEntries.Add(new BlacklistDisplayItem
+            {
+                Username = entry.Username,
+                Platform = entry.Platform,
+                IsEnabled = entry.IsEnabled,
+                Source = entry
+            });
+        }
+        UpdateBlacklistGroupText();
+    }
+
+    partial void OnSelectedBlacklistEntryChanged(BlacklistDisplayItem? value)
+    {
+        CanDeleteBlacklist = value != null;
+    }
+
+    partial void OnSelectedBlacklistIndexChanged(int value)
+    {
+        CanDeleteBlacklist = SelectedBlacklistEntry != null;
+    }
+
+    private void UpdateBlacklistGroupText()
+    {
+        BlacklistGroupText = string.Format(
+            DialogService.GetResource("BlacklistCountFormat") ?? "Blacklist ({0} items)",
+            BlacklistEntries.Count);
+    }
+
+    private void SaveBlacklistToSettings()
+    {
+        _settings.Voice.Blacklist.Clear();
+        foreach (var item in BlacklistEntries)
+        {
+            _settings.Voice.Blacklist.Add(new BlacklistEntry
+            {
+                Username = item.Username,
+                Platform = item.Platform,
+                IsEnabled = item.IsEnabled
+            });
+        }
+        _settings.Save();
+        BindingsModified = true;
+        _logger.LogInformation("Blacklist saved ({Count} entries)", BlacklistEntries.Count);
+    }
+
+    [RelayCommand]
+    private async Task AddBlacklistEntry()
+    {
+        var username = BlacklistUsername?.Trim();
+        if (string.IsNullOrWhiteSpace(username))
+        {
+            await DialogService.ShowMessageAsync(DialogService.GetResource("ErrorTitle"), DialogService.GetResource("EnterUsername"));
+            return;
+        }
+
+        var platform = PlatformIndexToValue(SelectedBlacklistPlatformIndex);
+
+        // Check duplicate (username+platform)
+        var exists = BlacklistEntries.Any(b =>
+            string.Equals(b.Username, username, StringComparison.OrdinalIgnoreCase) &&
+            string.Equals(b.Platform, platform, StringComparison.OrdinalIgnoreCase));
+
+        if (exists)
+        {
+            await DialogService.ShowMessageAsync(DialogService.GetResource("ErrorTitle"), DialogService.GetResource("EnterUsername"));
+            return;
+        }
+
+        var entry = new BlacklistEntry
+        {
+            Username = username,
+            Platform = platform,
+            IsEnabled = true
+        };
+
+        BlacklistEntries.Add(new BlacklistDisplayItem
+        {
+            Username = username,
+            Platform = platform,
+            IsEnabled = true,
+            Source = entry
+        });
+
+        BlacklistUsername = "";
+        SaveBlacklistToSettings();
+        UpdateBlacklistGroupText();
+    }
+
+    [RelayCommand]
+    private async Task DeleteBlacklistEntry()
+    {
+        if (SelectedBlacklistEntry == null) return;
+
+        var confirmMessage = string.Format(
+            DialogService.GetResource("ConfirmDeleteBlacklist") ?? "Remove \"{0}\" from blacklist?",
+            SelectedBlacklistEntry.Username);
+        var confirmed = await DialogService.ShowConfirmAsync(DialogService.GetResource("ConfirmTitle"), confirmMessage);
+        if (!confirmed) return;
+
+        BlacklistEntries.Remove(SelectedBlacklistEntry);
+        SaveBlacklistToSettings();
+        UpdateBlacklistGroupText();
+    }
+
+    [RelayCommand]
+    private void ToggleBlacklistEntry(BlacklistDisplayItem? item)
+    {
+        if (item == null) return;
+
+        item.IsEnabled = !item.IsEnabled;
+        item.Source.IsEnabled = item.IsEnabled;
+        SaveBlacklistToSettings();
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    //  COMMON
+    // ═══════════════════════════════════════════════════════════
 
     [RelayCommand]
     private void Close()

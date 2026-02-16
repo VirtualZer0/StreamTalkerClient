@@ -1,13 +1,11 @@
 namespace StreamTalkerClient.Models;
 
 /// <summary>
-/// Represents a binding between a Twitch username and a TTS voice.
-/// Messages from bound users bypass ReadAllMessages and RequireVoice settings.
+/// Represents a blacklisted user who should be ignored from TTS entirely.
 /// </summary>
-public class VoiceBinding
+public class BlacklistEntry
 {
     public string Username { get; set; } = "";
-    public string VoiceName { get; set; } = "";
     public string Platform { get; set; } = "Any"; // "Any", "Twitch", "VKPlay"
     public bool IsEnabled { get; set; } = true;
 }

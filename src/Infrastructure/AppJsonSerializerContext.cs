@@ -31,6 +31,8 @@ namespace StreamTalkerClient.Infrastructure;
 [JsonSerializable(typeof(List<GitHubAsset>))]
 [JsonSerializable(typeof(ServerInfoResponse))]
 // App data
+[JsonSerializable(typeof(BlacklistEntry))]
+[JsonSerializable(typeof(List<BlacklistEntry>))]
 [JsonSerializable(typeof(AppSettings))]
 [JsonSerializable(typeof(AppSettings.PlatformServicesSettings))]
 [JsonSerializable(typeof(AppSettings.PlatformSettings))]

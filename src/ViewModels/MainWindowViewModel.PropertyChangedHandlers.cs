@@ -483,6 +483,19 @@ public partial class MainWindowViewModel
         }
     }
 
+    /// <summary>
+    /// Persists the max batch size and updates the orchestrator.
+    /// </summary>
+    partial void OnMaxBatchSizeChanged(int value)
+    {
+        if (_isInitialized)
+        {
+            _settings.Inference.MaxBatchSize = value;
+            _orchestrator.MaxBatchSize = value;
+            SaveSettings();
+        }
+    }
+
     // ═══════════════════════════════════════════════════════════
     //  PROPERTY CHANGE HANDLERS - TTS Language
     // ═══════════════════════════════════════════════════════════

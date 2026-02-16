@@ -299,6 +299,9 @@ public partial class MainWindowViewModel
     [ObservableProperty]
     private double _repetitionPenalty = 1.05;
 
+    [ObservableProperty]
+    private int _maxBatchSize = 2;
+
     // ═══════════════════════════════════════════════════════════
     //  OBSERVABLE PROPERTIES - UI State
     // ═══════════════════════════════════════════════════════════

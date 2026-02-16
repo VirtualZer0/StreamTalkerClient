@@ -51,6 +51,10 @@ public class MessageFilterService
         int selectedRewardIndex,
         string? rewardId)
     {
+        // Blacklist check
+        if (_settings.Voice.IsBlacklisted(message.Username, platform))
+            return;
+
         // If a specific reward is selected (index > 0), only process reward messages
         if (selectedRewardIndex > 0)
             return;
@@ -59,7 +63,7 @@ public class MessageFilterService
         if (readAllMessages || selectedRewardIndex == 0)
         {
             // Check for voice binding first
-            var binding = _settings.Voice.GetActiveBinding(message.Username);
+            var binding = _settings.Voice.GetActiveBinding(message.Username, platform);
             if (binding != null)
             {
                 _queueManager.AddMessageWithBinding(message.Text, message.Username, binding.VoiceName);
@@ -90,8 +94,12 @@ public class MessageFilterService
         int selectedRewardIndex,
         IReadOnlyList<IStreamReward> rewards)
     {
+        // Blacklist check
+        if (_settings.Voice.IsBlacklisted(message.Username, platform))
+            return;
+
         // Check voice binding first (bypasses reward filter)
-        var binding = _settings.Voice.GetActiveBinding(message.Username);
+        var binding = _settings.Voice.GetActiveBinding(message.Username, platform);
         if (binding != null)
         {
             _queueManager.AddMessageWithBinding(message.Text, message.Username, binding.VoiceName);

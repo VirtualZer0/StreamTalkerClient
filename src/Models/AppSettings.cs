@@ -71,6 +71,7 @@ public class AppSettings
         public string DefaultVoice { get; set; } = "";
         public string VoiceExtractionMode { get; set; } = "bracket";
         public List<VoiceBinding> VoiceBindings { get; set; } = new();
+        public List<BlacklistEntry> Blacklist { get; set; } = new();
         public double Speed { get; set; } = AppConstants.Synthesis.DefaultSpeed;
         public double Temperature { get; set; } = AppConstants.Synthesis.DefaultTemperature;
         public int MaxNewTokens { get; set; } = AppConstants.Synthesis.DefaultMaxNewTokens;
@@ -78,13 +79,29 @@ public class AppSettings
 
         /// <summary>
         /// Gets the active voice binding for a specific username (case-insensitive).
+        /// When platform is provided, matches bindings with matching or "Any" platform.
         /// Returns null if no binding exists or if the binding is disabled.
         /// </summary>
-        public VoiceBinding? GetActiveBinding(string username)
+        public VoiceBinding? GetActiveBinding(string username, string? platform = null)
         {
             return VoiceBindings.FirstOrDefault(b =>
                 b.IsEnabled &&
-                string.Equals(b.Username, username, StringComparison.OrdinalIgnoreCase));
+                string.Equals(b.Username, username, StringComparison.OrdinalIgnoreCase) &&
+                (platform == null || b.Platform == "Any" ||
+                 string.Equals(b.Platform, platform, StringComparison.OrdinalIgnoreCase)));
+        }
+
+        /// <summary>
+        /// Checks whether a user is blacklisted for the given platform.
+        /// Matches entries with matching or "Any" platform.
+        /// </summary>
+        public bool IsBlacklisted(string username, string platform)
+        {
+            return Blacklist.Any(b =>
+                b.IsEnabled &&
+                string.Equals(b.Username, username, StringComparison.OrdinalIgnoreCase) &&
+                (b.Platform == "Any" ||
+                 string.Equals(b.Platform, platform, StringComparison.OrdinalIgnoreCase)));
         }
     }
 
@@ -203,7 +220,7 @@ public class AppSettings
     public class InferenceSettings
     {
         public bool DoSample { get; set; } = true;
-        public int MaxBatchSize { get; set; } = 1;
+        public int MaxBatchSize { get; set; } = 2;
     }
 
     public class CacheSettings

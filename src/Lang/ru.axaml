@@ -40,7 +40,7 @@
     <sys:String x:Key="SyntaxLabel">Синтаксис:</sys:String>
     <sys:String x:Key="SyntaxBracket">[голос] текст</sys:String>
     <sys:String x:Key="SyntaxFirstWord">голос текст (первое слово)</sys:String>
-    <sys:String x:Key="VoiceBindingsButton">Привязка голоса</sys:String>
+    <sys:String x:Key="VoiceBindingsButton">Правила</sys:String>
 
     <!-- Model Control -->
     <sys:String x:Key="ModelControlGroup">Управление моделью</sys:String>
@@ -114,8 +114,18 @@
     <sys:String x:Key="ExitButton">Выход</sys:String>
     <sys:String x:Key="TrayMinimized">Свернуто в системный трей</sys:String>
 
-    <!-- Voice Binding Dialog -->
-    <sys:String x:Key="VoiceBindingTitle">Привязка голосов</sys:String>
+    <!-- User Rules Dialog -->
+    <sys:String x:Key="UserRulesTitle">Правила</sys:String>
+    <sys:String x:Key="VoiceBindingsTab">Привязка голосов</sys:String>
+    <sys:String x:Key="BlacklistTab">Чёрный список</sys:String>
+    <sys:String x:Key="PlatformColumn">Платформа</sys:String>
+    <sys:String x:Key="PlatformLabel">Платформа:</sys:String>
+    <sys:String x:Key="PlatformAny">Любая</sys:String>
+    <sys:String x:Key="BlacklistCountFormat">Чёрный список ({0})</sys:String>
+    <sys:String x:Key="AddBlacklistGroup">Добавить в чёрный список</sys:String>
+    <sys:String x:Key="ConfirmDeleteBlacklist">Удалить "{0}" из чёрного списка?</sys:String>
+    <sys:String x:Key="BatchSizeLabel">Размер пакета:</sys:String>
+    <sys:String x:Key="VoiceBindingTitle">Правила</sys:String>
     <sys:String x:Key="BindingsGroup">Привязки</sys:String>
     <sys:String x:Key="BindingsCountFormat">Привязки ({0} элементов)</sys:String>
     <sys:String x:Key="UsernameColumn">Пользователь</sys:String>

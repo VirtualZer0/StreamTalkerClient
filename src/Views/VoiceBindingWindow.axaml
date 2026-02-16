@@ -5,13 +5,13 @@
         xmlns:vm="using:StreamTalkerClient.ViewModels"
         xmlns:components="using:StreamTalkerClient.Components"
         mc:Ignorable="d"
-        d:DesignWidth="584" d:DesignHeight="401"
+        d:DesignWidth="650" d:DesignHeight="520"
         x:Class="StreamTalkerClient.Views.VoiceBindingWindow"
         x:DataType="vm:VoiceBindingViewModel"
         x:CompileBindings="True"
-        Title="{DynamicResource VoiceBindingTitle}"
+        Title="{DynamicResource UserRulesTitle}"
         Icon="avares://StreamTalkerClient/Assets/icon.ico"
-        Width="584" Height="437"
+        Width="650" Height="520"
         WindowStartupLocation="CenterOwner"
         CanResize="False"
         ShowInTaskbar="False"
@@ -30,129 +30,297 @@
         <components:CustomTitleBar Grid.Row="0" />
 
         <!-- Row 1: Main content -->
-        <Grid Grid.Row="1" Margin="10" RowDefinitions="*,Auto,Auto">
+        <Grid Grid.Row="1" Margin="10">
 
-        <!-- Bindings GroupBox -->
-        <HeaderedContentControl Grid.Row="0" Margin="0,0,0,8">
-            <HeaderedContentControl.Header>
-                <TextBlock Text="{Binding BindingsGroupText}" FontWeight="SemiBold" />
-            </HeaderedContentControl.Header>
+            <!-- TabControl -->
+            <TabControl
+                        Theme="{StaticResource CardTabControl}"
+                        SelectedIndex="{Binding SelectedTabIndex}">
 
-            <Grid RowDefinitions="*,Auto" Margin="0,5,0,0">
-                <!-- DataGrid showing bindings -->
-                <DataGrid Grid.Row="0"
-                          ItemsSource="{Binding Bindings}"
-                          SelectedItem="{Binding SelectedBinding}"
-                          SelectedIndex="{Binding SelectedBindingIndex}"
-                          AutoGenerateColumns="False"
-                          CanUserReorderColumns="False"
-                          CanUserResizeColumns="True"
-                          CanUserSortColumns="True"
-                          IsReadOnly="True"
-                          SelectionMode="Single"
-                          GridLinesVisibility="Horizontal"
-                          BorderThickness="1"
-                          BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
-                          MinHeight="120">
-                    <DataGrid.Columns>
-                        <DataGridTemplateColumn Width="30">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate x:DataType="vm:BindingDisplayItem">
-                                    <CheckBox IsChecked="{Binding IsEnabled}"
-                                              HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"
-                                              Command="{Binding $parent[DataGrid].((vm:VoiceBindingViewModel)DataContext).ToggleBindingCommand}"
-                                              CommandParameter="{Binding}" />
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                        <DataGridTextColumn Header="{DynamicResource UsernameColumn}"
-                                            Binding="{Binding Username}"
-                                            Width="*" />
-                        <DataGridTextColumn Header="{DynamicResource VoiceColumn}"
-                                            Binding="{Binding VoiceName}"
-                                            Width="*" />
-                        <DataGridTemplateColumn Header="{DynamicResource StatusColumn}" Width="80">
-                            <DataGridTemplateColumn.CellTemplate>
-                                <DataTemplate x:DataType="vm:BindingDisplayItem">
-                                    <Panel>
-                                        <TextBlock Text="{DynamicResource EnabledStatus}"
-                                                   VerticalAlignment="Center"
-                                                   HorizontalAlignment="Center"
-                                                   Foreground="LimeGreen"
-                                                   IsVisible="{Binding IsEnabled}" />
-                                        <TextBlock Text="{DynamicResource DisabledStatus}"
-                                                   VerticalAlignment="Center"
-                                                   HorizontalAlignment="Center"
-                                                   Foreground="Gray"
-                                                   IsVisible="{Binding !IsEnabled}" />
-                                    </Panel>
-                                </DataTemplate>
-                            </DataGridTemplateColumn.CellTemplate>
-                        </DataGridTemplateColumn>
-                    </DataGrid.Columns>
-                </DataGrid>
+                <!-- ═══════════════════════════════════════════════ -->
+                <!--  TAB 1: Voice Bindings                         -->
+                <!-- ═══════════════════════════════════════════════ -->
+                <TabItem Header="{DynamicResource VoiceBindingsTab}">
+                    <Grid RowDefinitions="*,Auto" Margin="0,8,0,0">
 
-                <!-- Change Voice + Delete buttons -->
-                <StackPanel Grid.Row="1"
-                            Orientation="Horizontal"
-                            HorizontalAlignment="Right"
-                            Margin="0,6,0,0"
-                            Spacing="6">
-                    <Button Content="{DynamicResource ChangeVoiceButton}"
-                            Command="{Binding ChangeVoiceCommand}"
-                            IsEnabled="{Binding CanChangeVoice}"
-                            MinWidth="100" />
-                    <Button Content="{DynamicResource DeleteButton}"
-                            Command="{Binding DeleteBindingCommand}"
-                            IsEnabled="{Binding CanDelete}"
-                            MinWidth="80" />
-                </StackPanel>
+                        <!-- Bindings DataGrid -->
+                        <Grid Grid.Row="0" RowDefinitions="Auto,*,Auto">
+                            <TextBlock Grid.Row="0" Text="{Binding BindingsGroupText}" FontWeight="SemiBold" Margin="0,0,0,4" />
+
+                            <DataGrid Grid.Row="1"
+                                      ItemsSource="{Binding Bindings}"
+                                      SelectedItem="{Binding SelectedBinding}"
+                                      SelectedIndex="{Binding SelectedBindingIndex}"
+                                      AutoGenerateColumns="False"
+                                      CanUserReorderColumns="False"
+                                      CanUserResizeColumns="True"
+                                      CanUserSortColumns="True"
+                                      IsReadOnly="True"
+                                      SelectionMode="Single"
+                                      GridLinesVisibility="Horizontal"
+                                      BorderThickness="1"
+                                      BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                                      MinHeight="120">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="30">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate x:DataType="vm:BindingDisplayItem">
+                                                <CheckBox IsChecked="{Binding IsEnabled}"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"
+                                                          Command="{Binding $parent[DataGrid].((vm:VoiceBindingViewModel)DataContext).ToggleBindingCommand}"
+                                                          CommandParameter="{Binding}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="{DynamicResource UsernameColumn}"
+                                                        Binding="{Binding Username}"
+                                                        Width="*" />
+                                    <DataGridTextColumn Header="{DynamicResource VoiceColumn}"
+                                                        Binding="{Binding VoiceName}"
+                                                        Width="*" />
+                                    <!-- Platform badge column -->
+                                    <DataGridTemplateColumn Header="{DynamicResource PlatformColumn}" Width="80">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate x:DataType="vm:BindingDisplayItem">
+                                                <Panel>
+                                                    <Label Theme="{StaticResource TagLabel}"
+                                                           Classes="Ghost Violet"
+                                                           Content="Twitch"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Center"
+                                                           IsVisible="{Binding Platform, Converter={StaticResource PlatformEquals}, ConverterParameter=Twitch}" />
+                                                    <Label Theme="{StaticResource TagLabel}"
+                                                           Classes="Ghost Blue"
+                                                           Content="VK Play"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Center"
+                                                           IsVisible="{Binding Platform, Converter={StaticResource PlatformEquals}, ConverterParameter=VKPlay}" />
+                                                    <TextBlock Text="{DynamicResource PlatformAny}"
+                                                               VerticalAlignment="Center"
+                                                               HorizontalAlignment="Center"
+                                                               Foreground="Gray"
+                                                               IsVisible="{Binding Platform, Converter={StaticResource PlatformEquals}, ConverterParameter=Any}" />
+                                                </Panel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="{DynamicResource StatusColumn}" Width="80">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate x:DataType="vm:BindingDisplayItem">
+                                                <Panel>
+                                                    <TextBlock Text="{DynamicResource EnabledStatus}"
+                                                               VerticalAlignment="Center"
+                                                               HorizontalAlignment="Center"
+                                                               Foreground="LimeGreen"
+                                                               IsVisible="{Binding IsEnabled}" />
+                                                    <TextBlock Text="{DynamicResource DisabledStatus}"
+                                                               VerticalAlignment="Center"
+                                                               HorizontalAlignment="Center"
+                                                               Foreground="Gray"
+                                                               IsVisible="{Binding !IsEnabled}" />
+                                                </Panel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <!-- Change Voice + Delete buttons -->
+                            <StackPanel Grid.Row="2"
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Right"
+                                        Margin="0,6,0,0"
+                                        Spacing="6">
+                                <Button Content="{DynamicResource ChangeVoiceButton}"
+                                        Command="{Binding ChangeVoiceCommand}"
+                                        IsEnabled="{Binding CanChangeVoice}"
+                                        MinWidth="100" />
+                                <Button Content="{DynamicResource DeleteButton}"
+                                        Command="{Binding DeleteBindingCommand}"
+                                        IsEnabled="{Binding CanDelete}"
+                                        MinWidth="80" />
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Add Binding form -->
+                        <HeaderedContentControl Grid.Row="1" Margin="0,8,0,0">
+                            <HeaderedContentControl.Header>
+                                <TextBlock Text="{DynamicResource AddBindingGroup}" FontWeight="SemiBold" />
+                            </HeaderedContentControl.Header>
+
+                            <Grid ColumnDefinitions="Auto,*,Auto,*,Auto,Auto,Auto" Margin="0,5,0,0">
+                                <TextBlock Grid.Column="0"
+                                           Text="{DynamicResource UsernameLabel}"
+                                           Classes="FieldLabel"
+                                           Margin="0,0,6,0" />
+                                <TextBox Grid.Column="1"
+                                         Text="{Binding Username, Mode=TwoWay}"
+                                         Watermark="{DynamicResource UsernameColumn}"
+                                         MinWidth="100"
+                                         Margin="0,0,10,0" />
+
+                                <TextBlock Grid.Column="2"
+                                           Text="{DynamicResource VoiceLabel}"
+                                           Classes="FieldLabel"
+                                           Margin="0,0,6,0" />
+                                <ComboBox Grid.Column="3"
+                                          ItemsSource="{Binding Voices}"
+                                          SelectedIndex="{Binding SelectedVoiceIndex}"
+                                          MinWidth="100"
+                                          Margin="0,0,10,0" />
+
+                                <ComboBox Grid.Column="4"
+                                          ItemsSource="{x:Static vm:VoiceBindingViewModel.PlatformOptions}"
+                                          SelectedIndex="{Binding SelectedBindingPlatformIndex}"
+                                          MinWidth="75"
+                                          Margin="0,0,10,0" />
+
+                                <Button Grid.Column="5"
+                                        Content="{DynamicResource AddButton}"
+                                        Command="{Binding AddBindingCommand}"
+                                        IsEnabled="{Binding !IsLoading}"
+                                        MinWidth="60" />
+                            </Grid>
+                        </HeaderedContentControl>
+                    </Grid>
+                </TabItem>
+
+                <!-- ═══════════════════════════════════════════════ -->
+                <!--  TAB 2: Blacklist                              -->
+                <!-- ═══════════════════════════════════════════════ -->
+                <TabItem Header="{DynamicResource BlacklistTab}">
+                    <Grid RowDefinitions="*,Auto" Margin="0,8,0,0">
+
+                        <!-- Blacklist DataGrid -->
+                        <Grid Grid.Row="0" RowDefinitions="Auto,*,Auto">
+                            <TextBlock Grid.Row="0" Text="{Binding BlacklistGroupText}" FontWeight="SemiBold" Margin="0,0,0,4" />
+
+                            <DataGrid Grid.Row="1"
+                                      ItemsSource="{Binding BlacklistEntries}"
+                                      SelectedItem="{Binding SelectedBlacklistEntry}"
+                                      SelectedIndex="{Binding SelectedBlacklistIndex}"
+                                      AutoGenerateColumns="False"
+                                      CanUserReorderColumns="False"
+                                      CanUserResizeColumns="True"
+                                      CanUserSortColumns="True"
+                                      IsReadOnly="True"
+                                      SelectionMode="Single"
+                                      GridLinesVisibility="Horizontal"
+                                      BorderThickness="1"
+                                      BorderBrush="{DynamicResource SystemControlForegroundBaseMediumLowBrush}"
+                                      MinHeight="120">
+                                <DataGrid.Columns>
+                                    <DataGridTemplateColumn Width="30">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate x:DataType="vm:BlacklistDisplayItem">
+                                                <CheckBox IsChecked="{Binding IsEnabled}"
+                                                          HorizontalAlignment="Center"
+                                                          VerticalAlignment="Center"
+                                                          Command="{Binding $parent[DataGrid].((vm:VoiceBindingViewModel)DataContext).ToggleBlacklistEntryCommand}"
+                                                          CommandParameter="{Binding}" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTextColumn Header="{DynamicResource UsernameColumn}"
+                                                        Binding="{Binding Username}"
+                                                        Width="*" />
+                                    <!-- Platform badge column -->
+                                    <DataGridTemplateColumn Header="{DynamicResource PlatformColumn}" Width="80">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate x:DataType="vm:BlacklistDisplayItem">
+                                                <Panel>
+                                                    <Label Theme="{StaticResource TagLabel}"
+                                                           Classes="Ghost Violet"
+                                                           Content="Twitch"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Center"
+                                                           IsVisible="{Binding Platform, Converter={StaticResource PlatformEquals}, ConverterParameter=Twitch}" />
+                                                    <Label Theme="{StaticResource TagLabel}"
+                                                           Classes="Ghost Blue"
+                                                           Content="VK Play"
+                                                           VerticalAlignment="Center"
+                                                           HorizontalAlignment="Center"
+                                                           IsVisible="{Binding Platform, Converter={StaticResource PlatformEquals}, ConverterParameter=VKPlay}" />
+                                                    <TextBlock Text="{DynamicResource PlatformAny}"
+                                                               VerticalAlignment="Center"
+                                                               HorizontalAlignment="Center"
+                                                               Foreground="Gray"
+                                                               IsVisible="{Binding Platform, Converter={StaticResource PlatformEquals}, ConverterParameter=Any}" />
+                                                </Panel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                    <DataGridTemplateColumn Header="{DynamicResource StatusColumn}" Width="80">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate x:DataType="vm:BlacklistDisplayItem">
+                                                <Panel>
+                                                    <TextBlock Text="{DynamicResource EnabledStatus}"
+                                                               VerticalAlignment="Center"
+                                                               HorizontalAlignment="Center"
+                                                               Foreground="LimeGreen"
+                                                               IsVisible="{Binding IsEnabled}" />
+                                                    <TextBlock Text="{DynamicResource DisabledStatus}"
+                                                               VerticalAlignment="Center"
+                                                               HorizontalAlignment="Center"
+                                                               Foreground="Gray"
+                                                               IsVisible="{Binding !IsEnabled}" />
+                                                </Panel>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <!-- Delete button -->
+                            <StackPanel Grid.Row="2"
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Right"
+                                        Margin="0,6,0,0"
+                                        Spacing="6">
+                                <Button Content="{DynamicResource DeleteButton}"
+                                        Command="{Binding DeleteBlacklistEntryCommand}"
+                                        IsEnabled="{Binding CanDeleteBlacklist}"
+                                        MinWidth="80" />
+                            </StackPanel>
+                        </Grid>
+
+                        <!-- Add Blacklist form -->
+                        <HeaderedContentControl Grid.Row="1" Margin="0,8,0,0">
+                            <HeaderedContentControl.Header>
+                                <TextBlock Text="{DynamicResource AddBlacklistGroup}" FontWeight="SemiBold" />
+                            </HeaderedContentControl.Header>
+
+                            <Grid ColumnDefinitions="Auto,*,Auto,Auto" Margin="0,5,0,0">
+                                <TextBlock Grid.Column="0"
+                                           Text="{DynamicResource UsernameLabel}"
+                                           Classes="FieldLabel"
+                                           Margin="0,0,6,0" />
+                                <TextBox Grid.Column="1"
+                                         Text="{Binding BlacklistUsername, Mode=TwoWay}"
+                                         Watermark="{DynamicResource UsernameColumn}"
+                                         MinWidth="120"
+                                         Margin="0,0,10,0" />
+
+                                <ComboBox Grid.Column="2"
+                                          ItemsSource="{x:Static vm:VoiceBindingViewModel.PlatformOptions}"
+                                          SelectedIndex="{Binding SelectedBlacklistPlatformIndex}"
+                                          MinWidth="75"
+                                          Margin="0,0,10,0" />
+
+                                <Button Grid.Column="3"
+                                        Content="{DynamicResource AddButton}"
+                                        Command="{Binding AddBlacklistEntryCommand}"
+                                        IsEnabled="{Binding !IsLoading}"
+                                        MinWidth="60" />
+                            </Grid>
+                        </HeaderedContentControl>
+                    </Grid>
+                </TabItem>
+
+            </TabControl>
+
             </Grid>
-        </HeaderedContentControl>
-
-        <!-- Add Binding GroupBox -->
-        <HeaderedContentControl Grid.Row="1" Margin="0,0,0,8">
-            <HeaderedContentControl.Header>
-                <TextBlock Text="{DynamicResource AddBindingGroup}" FontWeight="SemiBold" />
-            </HeaderedContentControl.Header>
-
-            <Grid ColumnDefinitions="Auto,*,Auto,*,Auto" Margin="0,5,0,0">
-                <TextBlock Grid.Column="0"
-                           Text="{DynamicResource UsernameLabel}"
-                           Classes="FieldLabel"
-                           Margin="0,0,6,0" />
-                <TextBox Grid.Column="1"
-                         Text="{Binding Username, Mode=TwoWay}"
-                         Watermark="{DynamicResource UsernameLabel}"
-                         MinWidth="120"
-                         Margin="0,0,10,0" />
-
-                <TextBlock Grid.Column="2"
-                           Text="{DynamicResource VoiceLabel}"
-                           Classes="FieldLabel"
-                           Margin="0,0,6,0" />
-                <ComboBox Grid.Column="3"
-                          ItemsSource="{Binding Voices}"
-                          SelectedIndex="{Binding SelectedVoiceIndex}"
-                          MinWidth="120"
-                          Margin="0,0,10,0" />
-
-                <Button Grid.Column="4"
-                        Content="{DynamicResource AddButton}"
-                        Command="{Binding AddBindingCommand}"
-                        IsEnabled="{Binding !IsLoading}"
-                        MinWidth="60" />
-            </Grid>
-        </HeaderedContentControl>
-
-        <!-- Close button -->
-        <Button Grid.Row="2"
-                Content="{DynamicResource CloseButton}"
-                Command="{Binding CloseCommand}"
-                HorizontalAlignment="Right"
-                MinWidth="80" />
-        </Grid>
 
     </Grid>
 

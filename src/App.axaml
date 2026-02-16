@@ -31,6 +31,7 @@
             <conv:BoolToColorConverter x:Key="PowerButtonColorConverter"
                                        TrueBrush="Red" FalseBrush="LimeGreen" />
             <conv:BoolToStringConverter x:Key="BoolToStringConverter" />
+            <conv:PlatformEqualsConverter x:Key="PlatformEquals" />
             <conv:NotificationSeverityToBrushConverter x:Key="SeverityToAccentBrush" Mode="Accent" />
             <conv:NotificationSeverityToBrushConverter x:Key="SeverityToBgBrush" Mode="Background" />
 
