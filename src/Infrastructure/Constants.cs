@@ -202,5 +202,6 @@ public static class AppConstants
         public const int DownloadTimeoutMinutes = 10;
         public const int StartupCheckDelaySeconds = 5;
         public const int MinCheckIntervalMinutes = 60;
+        public const string ExecutableName = "StreamTalker";
     }
 }

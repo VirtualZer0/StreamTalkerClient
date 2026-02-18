@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - MaxBatchSize field initializer inconsistency (was 1, should be 2 to match AppSettings default)
 
 ### Changed
+- Auto-update now renames downloaded executable to "StreamTalker" (removes version/platform/suffix from filename)
 - Consolidated all duplicated option lists (TTS languages, attention modes, quantization, warmup, platforms, extraction modes) into single source of truth in AppConstants.Options
 - Deduplicated culture-to-language mapping in AppSettings (was identical in TtsServerSettings and WarmupSettings)
 

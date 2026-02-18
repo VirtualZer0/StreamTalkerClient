@@ -289,19 +289,23 @@ public class UpdateService : IDisposable
     private void ApplyUpdateWindows(string downloadedPath, string appDir, string appFileName, int pid)
     {
         var scriptPath = Path.Combine(Path.GetTempPath(), $"stc_update_{pid}.bat");
-        var appFullPath = Path.Combine(appDir, appFileName);
+        var targetExe = $"{AppConstants.Update.ExecutableName}.exe";
+        var targetFullPath = Path.Combine(appDir, targetExe);
+        var oldExeFullPath = Path.Combine(appDir, appFileName);
         var ext = Path.GetExtension(downloadedPath).ToLowerInvariant();
+        var tmpDir = Path.Combine(appDir, "_update_tmp");
 
         var script = $"""
             @echo off
             :wait
             tasklist /fi "PID eq {pid}" 2>nul | findstr /b "{appFileName}" >nul && (timeout /t 1 >nul & goto wait)
             if /i "{ext}"==".zip" (
-                powershell -NoProfile -Command "Expand-Archive -Path '{downloadedPath}' -DestinationPath '{appDir}' -Force"
+                powershell -NoProfile -Command "Remove-Item '{tmpDir}' -Recurse -Force -ErrorAction SilentlyContinue; Expand-Archive -Path '{downloadedPath}' -DestinationPath '{tmpDir}' -Force; $exe = (Get-ChildItem '{tmpDir}\*.exe' | Select-Object -First 1).FullName; Copy-Item $exe '{targetFullPath}' -Force; Remove-Item '{tmpDir}' -Recurse -Force"
             ) else (
-                copy /y "{downloadedPath}" "{appFullPath}"
+                copy /y "{downloadedPath}" "{targetFullPath}"
             )
-            start "" "{appFullPath}"
+            if /i not "{appFileName}"=="{targetExe}" if exist "{oldExeFullPath}" del /q "{oldExeFullPath}"
+            start "" "{targetFullPath}"
             del /q "{downloadedPath}"
             del /q "{scriptPath}"
             """;
@@ -324,18 +328,29 @@ public class UpdateService : IDisposable
     private void ApplyUpdateLinux(string downloadedPath, string appDir, string appFileName, int pid)
     {
         var scriptPath = Path.Combine(Path.GetTempPath(), $"stc_update_{pid}.sh");
-        var appFullPath = Path.Combine(appDir, appFileName);
+        var targetExe = AppConstants.Update.ExecutableName;
+        var targetFullPath = Path.Combine(appDir, targetExe);
+        var oldExeFullPath = Path.Combine(appDir, appFileName);
+        var tmpDir = Path.Combine(appDir, "_update_tmp");
 
         var script = $"""
             #!/bin/bash
             while kill -0 {pid} 2>/dev/null; do sleep 1; done
             if [[ "{downloadedPath}" == *.tar.gz ]]; then
-                tar -xzf "{downloadedPath}" -C "{appDir}"
+                rm -rf "{tmpDir}"
+                mkdir -p "{tmpDir}"
+                tar -xzf "{downloadedPath}" -C "{tmpDir}"
+                exe=$(find "{tmpDir}" -maxdepth 1 -type f -name "StreamTalkerClient*" ! -name "*.pdb" | head -1)
+                cp "$exe" "{targetFullPath}"
+                rm -rf "{tmpDir}"
             else
-                cp "{downloadedPath}" "{appFullPath}"
-                chmod +x "{appFullPath}"
+                cp "{downloadedPath}" "{targetFullPath}"
             fi
-            nohup "{appFullPath}" >/dev/null 2>&1 &
+            chmod +x "{targetFullPath}"
+            if [ "{appFileName}" != "{targetExe}" ] && [ -f "{oldExeFullPath}" ]; then
+                rm -f "{oldExeFullPath}"
+            fi
+            nohup "{targetFullPath}" >/dev/null 2>&1 &
             rm -f "{downloadedPath}" "{scriptPath}"
             """;
 
