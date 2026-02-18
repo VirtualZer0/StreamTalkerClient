@@ -17,31 +17,11 @@ public static class SettingsRepository
     //  VALIDATION CONSTANTS
     // ═══════════════════════════════════════════════════════════
 
-    private static readonly HashSet<string> ValidAttentionValues = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "auto", "sage_attn", "flex_attn", "flash2_attn", "sdpa", "eager"
-    };
-
-    private static readonly HashSet<string> ValidQuantizationValues = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "none", "int8", "float8"
-    };
-
-    private static readonly HashSet<string> ValidWarmupValues = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "none", "single", "batch"
-    };
-
-    private static readonly HashSet<string> ValidLanguageValues = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "Auto", "Chinese", "English", "Japanese", "Korean", "French", "German",
-        "Spanish", "Portuguese", "Russian", "Arabic", "Italian"
-    };
-
-    private static readonly HashSet<string> ValidPlatformValues = new(StringComparer.OrdinalIgnoreCase)
-    {
-        "Any", "Twitch", "VKPlay"
-    };
+    private static readonly HashSet<string> ValidAttentionValues = new(AppConstants.Options.AttentionModes, StringComparer.OrdinalIgnoreCase);
+    private static readonly HashSet<string> ValidQuantizationValues = new(AppConstants.Options.QuantizationModes, StringComparer.OrdinalIgnoreCase);
+    private static readonly HashSet<string> ValidWarmupValues = new(AppConstants.Options.WarmupModes, StringComparer.OrdinalIgnoreCase);
+    private static readonly HashSet<string> ValidLanguageValues = new(AppConstants.Options.TtsLanguages, StringComparer.OrdinalIgnoreCase);
+    private static readonly HashSet<string> ValidPlatformValues = new(AppConstants.Options.Platforms, StringComparer.OrdinalIgnoreCase);
 
     // ═══════════════════════════════════════════════════════════
     //  LOAD / SAVE
@@ -178,7 +158,7 @@ public static class SettingsRepository
         if (string.IsNullOrWhiteSpace(s.Model.Core.Attention) || !ValidAttentionValues.Contains(s.Model.Core.Attention)) s.Model.Core.Attention = "auto";
         if (string.IsNullOrWhiteSpace(s.Model.Core.Quantization) || !ValidQuantizationValues.Contains(s.Model.Core.Quantization)) s.Model.Core.Quantization = "none";
         if (string.IsNullOrWhiteSpace(s.Model.Warmup.Mode) || !ValidWarmupValues.Contains(s.Model.Warmup.Mode)) s.Model.Warmup.Mode = "none";
-        if (string.IsNullOrWhiteSpace(s.Server.Language) || !ValidLanguageValues.Contains(s.Server.Language)) s.Server.Language = "Russian";
+        if (string.IsNullOrWhiteSpace(s.Server.Language) || !ValidLanguageValues.Contains(s.Server.Language)) s.Server.Language = "Auto";
         if (string.IsNullOrWhiteSpace(s.Voice.VoiceExtractionMode)) s.Voice.VoiceExtractionMode = "bracket";
         if (string.IsNullOrWhiteSpace(s.Hotkeys.SkipCurrentKey)) s.Hotkeys.SkipCurrentKey = "VcNumPad5";
         if (string.IsNullOrWhiteSpace(s.Hotkeys.SkipAllKey)) s.Hotkeys.SkipAllKey = "VcNumPad4";

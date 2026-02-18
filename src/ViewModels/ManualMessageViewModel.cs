@@ -80,19 +80,9 @@ public partial class ManualMessageViewModel : ObservableObject
         _queueManager = queueManager;
         _logger = AppLoggerFactory.CreateLogger<ManualMessageViewModel>();
 
-        // Populate languages
-        AvailableLanguages.Add("Auto");
-        AvailableLanguages.Add("Chinese");
-        AvailableLanguages.Add("English");
-        AvailableLanguages.Add("Japanese");
-        AvailableLanguages.Add("Korean");
-        AvailableLanguages.Add("French");
-        AvailableLanguages.Add("German");
-        AvailableLanguages.Add("Spanish");
-        AvailableLanguages.Add("Portuguese");
-        AvailableLanguages.Add("Russian");
-        AvailableLanguages.Add("Arabic");
-        AvailableLanguages.Add("Italian");
+        // Populate languages from single source of truth
+        foreach (var lang in Infrastructure.AppConstants.Options.TtsLanguages)
+            AvailableLanguages.Add(lang);
 
         // Populate voices
         foreach (var voice in availableVoices)

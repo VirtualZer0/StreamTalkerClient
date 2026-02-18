@@ -5,6 +5,20 @@ All notable changes to StreamTalkerClient will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.2] - 2026-02-18
+
+### Fixed
+- Server reconnection not reloading inference timeout and MaxVram settings (stale values after server restart)
+- Warmup voice selection lost after server reconnection (AvailableVoices.Clear() wiped it without restoration)
+- Default voice not falling back to first available voice when saved voice no longer exists on server after reconnection
+- Language validation falling back to "Russian" instead of "Auto" for invalid/blank settings values
+- "Arabic" listed as TTS language option despite server not supporting it (caused 400 errors)
+- MaxBatchSize field initializer inconsistency (was 1, should be 2 to match AppSettings default)
+
+### Changed
+- Consolidated all duplicated option lists (TTS languages, attention modes, quantization, warmup, platforms, extraction modes) into single source of truth in AppConstants.Options
+- Deduplicated culture-to-language mapping in AppSettings (was identical in TtsServerSettings and WarmupSettings)
+
 ## [1.0.1] - 2026-02-16
 
 ### Added
@@ -46,5 +60,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Serilog logging with daily rotation (7-day retention)
 - Persistent settings with auto-save every 30 seconds
 
+[1.0.2]: https://github.com/VirtualZer0/StreamTalkerClient/releases/tag/v1.0.2
 [1.0.1]: https://github.com/VirtualZer0/StreamTalkerClient/releases/tag/v1.0.1
 [1.0.0]: https://github.com/VirtualZer0/StreamTalkerClient/releases/tag/v1.0.0

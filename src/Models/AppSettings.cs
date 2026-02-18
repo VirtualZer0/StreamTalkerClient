@@ -46,6 +46,31 @@ public class AppSettings
     /// </summary>
     public void Save() => SettingsRepository.Save(this);
 
+    /// <summary>
+    /// Maps the current UI culture to a TTS language name.
+    /// Used as the default for both TTS language and warmup language.
+    /// </summary>
+    internal static string GetLanguageFromCulture()
+    {
+        try
+        {
+            var langCode = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName.ToLowerInvariant();
+            return langCode switch
+            {
+                "ru" => "Russian",
+                "en" => "English",
+                "zh" => "Chinese",
+                "ja" => "Japanese",
+                "ko" => "Korean",
+                _ => "Auto"
+            };
+        }
+        catch
+        {
+            return "Auto";
+        }
+    }
+
     // ═══════════════════════════════════════════════════════════
     //  NESTED CLASS DEFINITIONS
     // ═══════════════════════════════════════════════════════════
@@ -131,29 +156,7 @@ public class AppSettings
     public class TtsServerSettings
     {
         public string BaseUrl { get; set; } = "http://localhost:7860";
-        public string Language { get; set; } = GetDefaultLanguage();
-
-        private static string GetDefaultLanguage()
-        {
-            try
-            {
-                var culture = CultureInfo.CurrentUICulture;
-                var langCode = culture.TwoLetterISOLanguageName.ToLowerInvariant();
-                return langCode switch
-                {
-                    "ru" => "Russian",
-                    "en" => "English",
-                    "zh" => "Chinese",
-                    "ja" => "Japanese",
-                    "ko" => "Korean",
-                    _ => "Auto"
-                };
-            }
-            catch
-            {
-                return "Auto";
-            }
-        }
+        public string Language { get; set; } = GetLanguageFromCulture();
     }
 
     public class ModelSettings
@@ -190,31 +193,9 @@ public class AppSettings
     public class WarmupSettings
     {
         public string Mode { get; set; } = "none";
-        public string Language { get; set; } = GetDefaultWarmupLanguage();
+        public string Language { get; set; } = GetLanguageFromCulture();
         public string Voice { get; set; } = "";
         public int TimeoutSeconds { get; set; } = 240;
-
-        private static string GetDefaultWarmupLanguage()
-        {
-            try
-            {
-                var culture = CultureInfo.CurrentUICulture;
-                var langCode = culture.TwoLetterISOLanguageName.ToLowerInvariant();
-                return langCode switch
-                {
-                    "ru" => "Russian",
-                    "en" => "English",
-                    "zh" => "Chinese",
-                    "ja" => "Japanese",
-                    "ko" => "Korean",
-                    _ => "Auto"
-                };
-            }
-            catch
-            {
-                return "Auto";
-            }
-        }
     }
 
     public class InferenceSettings

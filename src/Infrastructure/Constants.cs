@@ -80,6 +80,51 @@ public static class AppConstants
     }
 
     /// <summary>
+    /// Canonical option lists — single source of truth for all valid values.
+    /// Used by UI dropdowns, settings validation, and manual message dialog.
+    /// </summary>
+    public static class Options
+    {
+        public static readonly IReadOnlyList<string> TtsLanguages = new[]
+        {
+            "Auto", "Chinese", "English", "Japanese", "Korean", "French", "German",
+            "Spanish", "Portuguese", "Russian", "Italian"
+        };
+
+        public static readonly IReadOnlyList<string> AttentionModes = new[]
+        {
+            "auto", "sage_attn", "flex_attn", "flash2_attn", "sdpa", "eager"
+        };
+
+        public static readonly IReadOnlyList<string> QuantizationModes = new[]
+        {
+            "none", "int8", "float8"
+        };
+
+        public static readonly IReadOnlyList<string> WarmupModes = new[]
+        {
+            "none", "single", "batch"
+        };
+
+        public static readonly IReadOnlyList<string> ExtractionModes = new[]
+        {
+            "bracket", "firstword"
+        };
+
+        /// <summary>Platform values as stored in settings (storage format).</summary>
+        public static readonly IReadOnlyList<string> Platforms = new[]
+        {
+            "Any", "Twitch", "VKPlay"
+        };
+
+        /// <summary>Platform display names for UI dropdowns.</summary>
+        public static readonly IReadOnlyList<string> PlatformDisplayNames = new[]
+        {
+            "Any", "Twitch", "VK Play"
+        };
+    }
+
+    /// <summary>
     /// File and folder paths.
     /// </summary>
     public static class Paths

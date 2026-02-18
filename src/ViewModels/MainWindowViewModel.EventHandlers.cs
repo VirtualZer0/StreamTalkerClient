@@ -106,6 +106,19 @@ public partial class MainWindowViewModel
                         SelectedVoice = match;
                     }
                 }
+                if (SelectedVoice == null && AvailableVoices.Count > 0)
+                    SelectedVoice = AvailableVoices[0];
+
+                // Restore warmup voice selection
+                if (!string.IsNullOrEmpty(_settings.Model.Warmup.Voice))
+                {
+                    var warmupMatch = AvailableVoices.FirstOrDefault(v =>
+                        string.Equals(v.Name, _settings.Model.Warmup.Voice, StringComparison.OrdinalIgnoreCase));
+                    if (warmupMatch != null)
+                        SelectedWarmupVoice = warmupMatch;
+                }
+                if (SelectedWarmupVoice == null && AvailableVoices.Count > 0)
+                    SelectedWarmupVoice = AvailableVoices[0];
 
                 _logger.LogInformation("Voices reloaded: {Count} voices", voices.Count);
             });
@@ -125,6 +138,13 @@ public partial class MainWindowViewModel
             {
                 UpdateGpuDisplay(gpuUsage);
             });
+        };
+
+        _ttsConnectionManager.ServerReconnected += async (_, _) =>
+        {
+            // Reload settings that aren't covered by the existing VoicesReloaded/ModelsReloaded events
+            await LoadGpuInfoAsync();
+            await LoadInferenceTimeoutAsync();
         };
     }
 

@@ -370,34 +370,18 @@ public partial class MainWindowViewModel
     //  STATIC OPTION LISTS
     // ═══════════════════════════════════════════════════════════
 
-    public static IReadOnlyList<string> AttentionOptions { get; } = new[]
-    {
-        "auto", "sage_attn", "flex_attn", "flash2_attn", "sdpa", "eager"
-    };
+    public static IReadOnlyList<string> AttentionOptions => Infrastructure.AppConstants.Options.AttentionModes;
 
-    public static IReadOnlyList<string> QuantizationOptions { get; } = new[]
-    {
-        "none", "int8", "float8"
-    };
+    public static IReadOnlyList<string> QuantizationOptions => Infrastructure.AppConstants.Options.QuantizationModes;
 
     public static IReadOnlyList<string> LanguageOptions { get; } = new[]
     {
         "English", "Russian"
     };
 
-    public static IReadOnlyList<string> TtsLanguageOptions { get; } = new[]
-    {
-        "Auto", "Chinese", "English", "Japanese", "Korean", "French", "German",
-        "Spanish", "Portuguese", "Russian", "Arabic", "Italian"
-    };
+    public static IReadOnlyList<string> TtsLanguageOptions => Infrastructure.AppConstants.Options.TtsLanguages;
 
-    public static IReadOnlyList<string> WarmupOptions { get; } = new[]
-    {
-        "none", "single", "batch"
-    };
+    public static IReadOnlyList<string> WarmupOptions => Infrastructure.AppConstants.Options.WarmupModes;
 
-    public static IReadOnlyList<string> ExtractionModeOptions { get; } = new[]
-    {
-        "bracket", "firstword"
-    };
+    public static IReadOnlyList<string> ExtractionModeOptions => Infrastructure.AppConstants.Options.ExtractionModes;
 }

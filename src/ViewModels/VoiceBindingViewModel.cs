@@ -141,7 +141,7 @@ public partial class VoiceBindingViewModel : ViewModelBase
     //  STATIC OPTIONS
     // ═══════════════════════════════════════════════════════════
 
-    public static IReadOnlyList<string> PlatformOptions { get; } = new[] { "Any", "Twitch", "VK Play" };
+    public static IReadOnlyList<string> PlatformOptions => AppConstants.Options.PlatformDisplayNames;
 
     /// <summary>
     /// Event raised when the dialog should be closed.

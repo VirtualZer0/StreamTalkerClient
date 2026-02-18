@@ -36,7 +36,7 @@ public class SynthesisOrchestrator : IDisposable
     public string Model { get; set; } = "1.7B";
     public string Language { get; set; } = "Russian";
     public bool DoSample { get; set; } = true;
-    public int MaxBatchSize { get; set; } = 1;
+    public int MaxBatchSize { get; set; } = 2;
     public double Speed { get; set; } = Infrastructure.AppConstants.Synthesis.DefaultSpeed;
     public double Temperature { get; set; } = Infrastructure.AppConstants.Synthesis.DefaultTemperature;
     public int MaxNewTokens { get; set; } = Infrastructure.AppConstants.Synthesis.DefaultMaxNewTokens;
